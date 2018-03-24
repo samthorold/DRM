@@ -1,0 +1,1115 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage[top=1in, bottom=1in, left=1in, right=1in]{geometry}
+\usepackage{graphicx}
+
+\graphicspath{ {figures/} }
+
+\begin{document}
+
+\title{NHH - Spring 2017 - ECO423}
+\author{Sam Thorold}
+\date{\today}
+\maketitle
+
+\tableofcontents
+\pagebreak
+
+\section{Binomial Intuition}
+
+Option pricing is discounting future cash flows to find the present value of an
+asset. Instead of modifying the discount rate, think corporate finance, we
+modify the expected cash flows using risk adjusted probabilities and discount
+at the risk free rate. The economics behind this comes from the
+\textbf{replicating portfolio}.
+
+By replicating an asset we can find its price through the law
+of one price. Two assets with the same cash flows should have the same
+price, otherwise there is arbitrage and there will be much wailing and gnashing
+of teeth. If markets are complete, as many independent assets as there
+are states of the world, we can always replicate an asset.
+
+Let's say we have some cash flow, X, a stock, S, and a bank account paying R
+for sure. We want to combine a postion in the stock and the bank account such
+that the payoff from the combined stock and bank account matches the cash flow
+in all states of the world.
+$$\Delta S+\theta R=X$$
+$$uS_0+\theta R=X_u$$
+$$dS_0+\theta R=X_d$$
+$$P_0=\frac{1}{R}[qX_u+(1-q)X_d]$$ where $$ q=\frac{R-d}{u-d}$$
+
+We can make trees from many of these two state possibilities and account for
+more than two possible outcomes using the same simple ideas of a replicating
+portfolio and the law of one price. No matter how fine we make our trees we
+will always have some imprecision. Taking the number of nodes in the tree to
+the extreme is a probability distribution. This leads us to the first building
+block in an asset price process.
+
+\pagebreak
+
+\section{Asset Price Model}
+
+\subsection{Standard Wiener Process, $W$}
+
+The standard Wiener process, W, is the whole stochastic process or law of
+motion. Also referred to as Brownian motion after the biologist who first came
+up with the informal idea while trying to describe the movements of pollen in
+liquid. Wiener formalized the idea.
+\begin{itemize}
+    \item $W_t$: value at time t, unknown before t, often random variable
+    \item $W_{\omega}$: particular path given state $\omega$
+    \item $W_{t,\omega}$: value at time t, given state $\omega$
+\end{itemize}
+$W$ has the following properties;
+\begin{enumerate}
+\item $W_0=0$: Normalized to 0
+\item $W_t-W_s \sim N(0, t-s)$: variance is equal to the time increment
+\item Non-overlapping time increments of W are independent
+\item W has continuous sample paths, $W_{t, \omega}$ is continuous in t. This
+    is possible because, while the normal distribution can jump to an infinite
+    number of values, as the increments between jumps become smaller the
+    variance converges to 0.
+\end{enumerate}
+
+Given the above properties, $W_{t,\omega}$ is not differentiable in t. This is
+important because if we could find the derivative we would know which way the
+process would move next and trade based on this knowledge. Not consistent with
+no arbitrage. This opportunity would be traded away anyway.
+
+We are not finished because W can be negative. This does not fit well with a
+stock price process due to limited liability. Someone owning a stock can lose a
+maximum of the amount they invested and no more. For a physical asset or
+interest rate the possibility of a negative value is not a complete no go, but
+we will focus on stocks.
+
+\subsection{Generalized Wiener Process, $X$}
+The standard Wiener process is just a series of numbers drawn from a
+distribution (white noise from ECO403). We can generalize this somewhat by
+adding a deterministic drift component and a deterministic uncertainty scaling
+to the source of uncertainty provided by $W$. In differential form this looks
+like:
+\begin{equation} \label{dGenW}
+dX_t=\mu_X(t)dt+\sigma_X(t)dW_t
+\end{equation}
+where $\mu_X(t)dt$ is the drift, $\sigma_X(t)$ is the uncertainty scaling and
+$dW_t$ is the source of uncertainty (our increments of W from above
+$\sim N(0, t-s)$).
+In descrete time this looks like:
+\begin{equation}
+X_{t+\Delta t}-X_t=\Delta X_t=\mu_X(t)\Delta t+\sigma_X(t)\Delta W_t
+\end{equation}
+Since $E[\Delta W_t]=0$, Expected value of $\Delta X_t$ is
+\begin{equation} \label{ExpDesGenW}
+E[\Delta X_t]=\mu_X(t)\Delta t
+\end{equation}
+Since variance of a constant is 0 and the variance of the standard Wiener
+process, W, is $t-s=\Delta t$ AND the two terms are independent of each other,
+we can ignore the covariance (and remembering that constants taken outside of
+$Var(...)$ must be squared)
+\begin{equation} \label{VarDesGenW}
+Var(\Delta X_t)=\sigma^2_X(t)\Delta t
+\end{equation}
+Linear combinations of normal random variables are normal. Therefore,
+\begin{equation}
+\Delta X_t \sim N(\mu_X(t)\Delta t, \sigma^2_X(t)\Delta t)
+\end{equation}
+\begin{equation}
+dX_t \sim N(\mu_X(t)dt, \sigma^2_X(t)dt)
+\end{equation}
+
+If we wanted to solve X we could devide through by dt. Problem is
+$\frac{dW_t}{dt}$ does not exist because otherwise we could trade based on the
+derivative and then there would be arbitrage and wailing and gnashing of teeth.
+We can write $dX_t$ in integral form
+\begin{equation} \label{GenW}
+X_t=x+\int_0^t\mu_X(u)du+\int_0^t\sigma_X(u)dW_u
+\end{equation}
+The funny $dW_u$ means this is an It\^o integral. In fancy language, ``The time
+period is transformed by the stochastic process." I do not know what this
+means. Basically, the point here is that we cannot use regular integration to
+find $X_t$. But, someone clever called It\^o has got our backs here as we'll
+see later. Nevertheless, we can say something about the expected value and
+variance of $X_t$ using descrete time intuition as we did for $dX_t$.
+
+The expected value of $X_t$ is the expected value of $x$, which we just set
+ourselves, plus all the drift terms multiplied by the time interval. We can
+ignore the dispersion term because $W_t$ comes from a distribution with mean 0.
+We are summing up the expectation of $\Delta X_t$ we came up with in equation
+\ref{ExpDesGenW}.
+\begin{equation}
+E[X_t]=E[x]+E \left[ \sum \mu_X(u)\Delta u\right] +0
+\end{equation}
+
+The deterministic terms have no variance so we can ignore them. The increments
+of $W$ are independent so we do not need to think about covariances here. The
+variance of a sum is the sum of the variances. We can sum up the descrete time
+variances of $\Delta X_t$ we came up with above (remembering the $\sigma_X^2$
+was introduced when the deterministic uncertainty scaling component
+$\sigma_X(t)$ was taken outside of the $Var(...)$ term and so had to be
+squared in equation \ref{VarDesGenW}. $\Delta t=t-s$, $\Delta u$ takes the
+place of $\Delta t$ here.)
+\begin{equation}
+Var(X_t)=\sum \sigma^2(u)\Delta u
+\end{equation}
+
+Linear combinations of normal random numbers are normal. Putting this back
+into continuous time gives us:
+\begin{equation}
+X_t \sim N \left( x+ \int_0^t \mu_X(u)du, \int_0^t \sigma_X^2(u)du \right)
+\end{equation}
+
+X has inherited; independent increments and continuous, non-differentiable
+sample paths. We have not finished. X can still be negative which is not
+consistent with limited liability of stocks. Furthermore, we still cannot solve
+the funny It\^o integral $\frac{dW_u}{du}$. We need to use a process for which
+a solution to the It\^o integral has already been found that has the properties
+that we have just described above; drift, uncertainty scaling, a source of
+uncertainty and independent increments.
+
+\subsection{Diffusion, $Y$}
+Diffusions have been well studied by physicists so we can borrow their hard
+work in solving the equations we also borrow from them. In differential form:
+$$dY_t=\mu_Y(t, Y_t)dt+\sigma_Y(t, Y_t)dW_t$$
+In integral form:
+$$Y_t=y+\int_0^t\mu_Y(u, Y_u)du+\int_0^t\sigma_Y(u,Y_u)dW_u$$
+$dY_t$ is locally normal because linear combination of normals. The whole
+process is not normal. $\mu$ (drift) and $\sigma$ (uncertainty scaling -
+dispursion) are known functions of $t$ and $Y_t$.
+
+It can be shown, not by me, that $Y$ is Markovian. That is to say, it has no
+memory (only depends on $t$ and $Y_t$). The economic interpretation of this is
+that all information about the asset is reflected in the price - market
+efficiency. This is an important theoretical property even if we dispute the
+efficient market hypothesis.
+
+BUT we still have not solved our $\frac{dW_t}{dt}$ problem. Mr. It\^o will save
+us.
+
+\subsection{Stock Price Model, $S$}
+We will use a particular case of a diffusion as our stock price model, $S$. This
+allows us to combine the properties of the generalized wiener process, $X$, and
+a diffusion, $Y$.
+\begin{itemize}
+\item deterministic drift, $\mu$
+\item deterministic uncertainty scaling, $\sigma$
+\item random (stochastic?) source of uncertainty, $dW_t$
+\item particular path non-differentiable in t
+\item independent increments
+\item no memory
+\end{itemize}
+
+$$dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t$$
+Here we have already said something about the drift and volatility scaling
+terms. In a vanilla diffusion, $Y$, the drift, $\mu_Y(t, Y_t)$, depends on both
+the time and level of the diffusion. Our stock model has assumed the drift only
+depends on the time and is multiplied by the stock level.
+$$\frac{dS_t}{S_t}=\mu_S(t)dt+\sigma_S(t)dW_t$$
+$\frac{\Delta S_t}{S_t}=R_t$ so now we have an expression for the period by
+period gross return of our stock. $\mu_S(t)dt$ represents the systemic risk. As
+usual we want to know the expected value and variance of $\frac{dS_t}{S_t}$.
+Since $dW_t \sim N(0,t-s)$:
+$$E \left[ \frac{dS_t}{S_t} \right] = \mu_S(t)dt$$
+and
+$$Var \left( \frac{dS_t}{S_t} \right) = \sigma_S^2(t)Var(dW_t)$$
+$$Var \left( \frac{dS_t}{S_t} \right) = \sigma_S^2(t)dt$$
+This model addresses the limited liability problem from earlier. $S_t>0$ for
+all $t$. We will show later:
+\begin{equation} \label{S}
+S_t=S_0e^{\int_0^t\mu_S(u)-\frac{1}{2}\sigma_S^2(u)du+
+\int_0^t\sigma_S(u)dW_u}
+\end{equation}
+or, with constant coefficients
+\begin{equation} \label{SConsCoef}
+S_t=S_0e^{(\mu_S-\frac{1}{2}\sigma_S^2)t+\sigma_SW_t}
+\end{equation}
+$e^{whatever} > 0$ so we are golden on limited liability. BUT strictly
+speaking this does not allow for default, $S_t=0$.
+
+Furthermore, $R_t=ln(S_t)$ means returns are normal since
+$$R_t=ln(S_t)+\int_0^t \left[ \mu_S(u)-\sigma_S^2(u) \right] du +
+\int_0^t \sigma_S(u)dW_u$$
+Recognizing everything after $ln(S_t)$ is a general Wiener process (equation
+\ref{GenW}) we remember that linear combinations of normal numbers are normal.
+This is important because
+\textbf{if $R$ is normal than future returns are independent of past returns
+  as well as past AND current current stock price(s)}.
+
+\pagebreak
+
+\section{Gains from Trade, $G$}
+
+\subsection{Dividends}
+
+$\phi$ is the number of stocks. So $\phi_t S_t$ is the value of the stock
+position at date t. The value of the position from time $0$ to $t$ =
+$\int_0^t \phi_u dS_u$. We have a model for $dS_u$.
+
+Unfortunately, we are forgetting about one common aspect of stocks, dividends.
+Since we work in continuous time we will have to model dividends as a
+constant drip of income, at a deterministic rate $\delta_S(t)$,  rather than
+discrete lumps of cash. While this is not all that realistic for individual
+stocks, the model does make sense for a security such as an index fund which
+would pay out in something of a drip. There will be a stock in the index
+paying some small amount of dividend compared to the value of the index. This
+means $S_t$ is an ex-dividend price, we have not taken into account the gains
+(or foregone gains) from dividends.
+$$G_t=S_t+D_t$$
+where
+$$D_t=\int_0^t \delta_S(u)S_udu$$
+and
+$$dG_t=dS_t+dD_t$$
+which is a mix of present and accounting values. Over small time interval
+$dt$ we don't mind.
+$$dG_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t+\delta_S(t)S_tdt$$
+$$dG_t=\left[ \mu_S(t)+\delta_S(t) \right] S_tdt+\sigma_S(t)dW_t$$
+$G_t$ does not assume optimal use of dividends, i.e. reinvestment. Since we
+work with $dG_u$ this is fine.
+
+\subsection{Buy/Hold Strategy}
+
+Assume we invest in a bank account and a stock. Buy and hold so the quantities
+of the bank account and the stock are fixed from time $0$ to $t$. We invest
+$\theta$ quantity of \$1 bank accounts and $\phi$ quantity of $S$. The bank
+account process is
+$$A_t=e^{\int_0^t r(u)du}$$
+$$dA_t=e^{\int_0^t r(u)du} \int_0^t r(u)du$$
+$$dA_t=A_tr_tdt$$
+So the portfolio value from $0$ to $t$ is
+$$\int_0^t \phi_u dG_u + \int_0^t \theta_udA_u$$
+
+\subsection{Self-financing Portfolio}
+
+Remembering the binomial intuition, we need a self-financing portfolio to
+replicate the option payoff.
+\begin{equation} \label{replport}
+\phi_tS_t+\theta_tA_t=\phi_0S_0+\theta_0A_0+ \int_0^t \phi_u dG_u +
+\int_0^t \theta_udA_u
+\end{equation}
+We don't know how to solve integrals that don't have regular $dt$ or $du$
+terms.
+
+\pagebreak
+
+\section{It\^o's Lemma, IL}
+
+\subsection{Intuition}
+
+We want to find the present value of derivative payoffs. E.g. an EU call
+$g(T, S_T)$. It can be shown that $PV_t=f(t, S_t)$. If we can solve $f$ we are
+golden. It\^o's Lemma gives us the stochastic differential equation for the
+unknown function, $f$. Theoretically, we can solve the SDE. Put another way,
+IL gives us the change in the PV of an option given time and the stock price.
+It is the total derivative of the unknown function, $f$, that gives us the PV
+of the option.
+$$df(t,x)=f_1(t,x)dt+f_2(t,x)dx$$
+The total derivative is: $\Delta f$ given the $\Delta t$ with constant $x$ +
+$\Delta f$ given the $\Delta x$ with constant $t$.
+
+\subsection{Result}
+
+Given diffusion $Y$;
+\begin{equation} \label{IL}
+df(t, Y_t) = \left[ f_1(t,Y_t)+f_2(t,Y_t) \mu_Y (t,Y_t)+ \frac{1}{2} f_{22}
+(t,Y_t) \sigma_Y^2 (t,Y_t) \right] dt+f_2(t,Y_t)\sigma_Y (t,Y_t)dW_t
+\end{equation}
+where
+$$f_1(t, Y_t)=\frac{df(t,Y_t)}{dt}$$
+$$f_2(t, Y_t)=\frac{df(t,Y_t)}{dY_t}$$
+$$f_{22}(t, Y_t)=\frac{d^2f(t,Y_t)}{dY_t^2}$$
+
+\subsection{Example: Stock Price Process}
+We define returns as the log of the price, $R_t=ln(S_t)$. We can use IL to
+prove that $S$, from equation \ref{S}, has the solution:
+$$S_t=S_0e^{\int_0^t\mu_S(u)-\frac{1}{2}\sigma_S^2(u)du+
+\int_0^t\sigma_S(u)dW_u}$$
+Identification
+$$f(t,Y_t)=R_t=ln(S_t)$$
+$$Y_t=S_t$$
+Calculation
+$$f_1(t,S_t)=0$$
+$$f_2(t, S_t)=\frac{1}{S_t}$$
+$$f_{22}(t,S_t)=-\frac{1}{S_t^2}$$
+Substitution
+$$dR_t=\left[ 0+\frac{1}{S_t}\mu_S(t)S_t+\frac{1}{2}\frac{-1}{S_t^2}
+\left[ \sigma_S(t)S_t \right] ^2 \right] dt+ \frac{1}{S_t}\sigma_SS_tdW_t$$
+Simplification
+$$dR_t= \left[ \mu_S(u)-\frac{1}{2}\sigma_S^2(t) \right] dt +
+\sigma_S(t)dW_t$$
+$dR_t$ is a generalized Wiener process, equation \ref{dGenW}.
+
+\subsection{Example: Buy and Hold}
+
+We claimed
+$$\phi_tS_t + \phi_0S_0=\int_0^t\phi_udG_u$$
+where $\phi_t=e^{\int_0^t\delta_S(u)du}$ and $\delta_S(t, S_t)=\delta_S(t)S_t$
+because we reinvest dividends.
+IL can give us the dynamics of the position.
+$$Z_t=\phi_tS_t=e^{\int_0^t\delta_S(u)du}S_t$$
+Remembering that
+$$\frac{d}{dt}f(x)g(x)=f'(x)g(x)+f(x)g'(x)$$
+Identification
+$$f(t, Y_t)=e^{\int_0^t\delta_S(u)du}S_t$$
+$$Y_t=S_t$$
+Calculation
+$$f_1=S_te^{\int_0^t\delta_S(u)du}\frac{d}{dt}\int_0^t\delta_S(u)du$$
+When differentiating w.r.t. the limits of an integral we can evalutate at the
+upper limit if the lower limit does not depend on, in our case, $t$.
+$$f_1=S_te^{\int_0^t\delta_S(u)du}\delta_S(t)=\phi_tS_t\delta_S(t)$$
+$$f_2=e^{\int_0^t\delta_S(u)du}1=\phi_t$$
+$$f_2=0$$
+Substitution
+$$dZ_t=\left[ \phi_tS_t\delta_S(t) + \phi_t\mu_S(t)S_t +\frac{1}{2}0  \right]
+dt + \phi_t\sigma_S^2(t)S_tdW_t$$
+Simplification (where does the squared term go?)
+$$Z_t=\phi_tS_t=z_0+\int_0^t\phi_tS_t\delta(u)+
+\phi_u\mu_S(u)S_udu+\int_0^t\phi_u\sigma_S(u)S_udW_u$$
+$$z_0+\int_0^t\phi_u\mu_S(u)S_udu+
+\int_0^t\phi_u\sigma_S(u)S_udW_u+\int_0^t\phi_tS_t\delta(u)du$$
+$$z_0+\int_0^t\phi_udS_u+\int_0^t\phi_udD_u$$
+$$z_0+\int_0^t\phi_ud(S_u+D_u)$$
+
+\section{Black and Scholes PDE}
+
+If $c_t=PV_t(g(t, S_t))=f(t, S_t)$ then IL gives us the SDE/diffusion for
+$c_t$. SDEs are hard to solve. We will use IL to find an SDE that $c_t$ must
+satisfy. Using the replicating portfolio intuition, the replicateing portfolio
+must match the dynamics of $c_t$ from IL.
+\begin{equation}
+  dc_t=\left[ c_1+c_2\mu_S(t)S_t+\frac{1}{2}c_{22} \left[ \sigma_S(t)S_t
+  \right] ^2 \right] dt + c_2\sigma_S(t)S_tdW_t
+\end{equation}
+The self-financing replicating portfolio is given by equation \ref{replport}.
+The dynamics of the present value of the option must equal the dynamics of the
+replicating portfolio.
+\begin{equation}
+  dc_t=d(\phi_t S_t+\theta_t A_t)=\phi_t dG_t + \theta_t dA_t
+\end{equation}
+There is no need for IL here we just write the formula in differential form.
+\begin{equation}
+  dc_t=\phi_t \left[ \mu_S(t)S_tdt + \sigma_S(t)S_tdW_t + \delta_S(t)S_tdt
+  \right] + \theta_tr_tA_tdt
+\end{equation}
+
+\begin{equation}
+  dc_t= \left[ \left[ \mu_S(t) + \delta_S(t) \right] \phi_t S_t + \theta_t r_t
+  A_t \right] dt + \phi_t \sigma_S(t)S_tdW_t
+\end{equation}
+Two diffusions $X$ and $Y$ are equal for all $t$ iff $\mu_X(t, X_t)=\mu_Y(t,
+Y_t)$ and $\sigma_X(t, X_t)=\sigma_Y(t, Y_t)$. Collect drift and dispersion
+terms for the option and the replicating portfolio:
+\begin{equation}
+  c_1+c_2\mu_S(t)S_t+\frac{1}{2}c_{22} \left[ \sigma_S(t)S_t \right] ^2 =
+  \left[ \mu_S(t) + \delta_S(t) \right] \phi_t S_t + \theta_t r_t A_t
+\end{equation}
+\begin{equation}
+  c_2\sigma_S(t)S_t=\phi_t\sigma_S(t)S_t
+\end{equation}
+Now we have two equations and two unknowns, $\theta_t$ and $\phi_t$.
+\begin{equation}
+\phi_t=c_2
+\end{equation}
+Which means
+$$c_1+c_2\mu_S(t)S_t+\frac{1}{2}c_{22} \left[ \sigma_S(t)S_t \right] ^2 =
+c_2\mu_S(t)S_t + c_2\delta_S(t)S_t + \theta_t r_t A_t$$
+Interestingly, this means the required rate of return, $\mu_S$,
+disappears. This does \textbf{not} mean the option price is independent from
+the required rate of return. \textbf{$\mu_S$ is implicit in the stock price.}
+\begin{equation}
+  \theta_t=\frac{1}{r_t A_t} \left[ c_1 - c_2\delta_S(t)S_t + \frac{1}{2}
+  c_{22} \left[ \sigma_S(t)S_t \right] ^2 \right]
+\end{equation}
+Now we can throw $\phi_t$ and $\theta_t$ back into the replicating portfolio.
+$$c_t=\phi_tS_t+\theta_tA_t$$
+\begin{equation}
+  c_t=c_2S_t+\frac{1}{r_tA_t}A_t \left[ c_1-c_2\delta_S(t)S_t + \frac{1}{2}
+  c_{22} \left[ \sigma_S(t)S_t \right] ^ 2 \right]
+\end{equation}
+Simplifying and dropping the $t$ subscripts
+$$rc=rc_2S+c_1-c_2\delta_SS+\frac{1}{2}c_{22}\sigma_S^2S^2$$
+Rearranging gives us the fundamental PDE (no required rate of return!)
+\begin{equation} \label{fundPDE}
+  rc=c_1+c_2 \left( r-\delta_S \right) +\frac{1}{2}c_{22}\sigma_S^2S^2
+\end{equation}
+The fundamental PDE is contract independent. We have not specified any
+boundary conditions such as $c(T, S_T)=g(T, S_T)=max(S_T-K, 0)$. All
+derivatives satisfy equation \ref{fundPDE}. Whatever drift we throw in we will
+end up with $c_2(r-\delta_S)$. It is important to note that while
+the solution to $c(t, S_t)$ does not depend on the required rate of return,
+the value of the option is not independent of $\mu_S$. The required rate of
+return is implicit in the stock price. BUT, how do we solve the fundamental
+PDE?
+
+\subsection{Feynman-Kac}
+
+Feynman-Kac helps us solve the fundamental PDE. Equation \ref{fundPDE} is an
+instance of a more general PDE:
+$$c_1(t,x)+c_2(t,x)a(t,x)+\frac{1}{2}c_{22}(t,x)\sigma^2(t,x)=c(t,x)b(t,x)$$
+with the boundary condition: $C(T,x)=g(x)$.
+The economics of the replicating portfolio can tell us the structure of these
+more general formulas.
+FK says the solution to $c(t,x)$ is:
+\begin{equation} \label{feynkacGen}
+  c(t,x)=E\left[ e^{-\int_t^Tb(u,Z_u)du}g(Z_T) \right]
+\end{equation}
+and the dynamics is:
+$$dZ_u=a(u,Z_u)du+\sigma(u,Z_u)dW_u$$
+
+As an example we can consider an EU call in the Black-Scholes world ($S$). We
+know the particular PDE, equation \ref{fundPDE}. Identification:
+\begin{itemize}
+\item $t\sim t$
+\item $x\sim S$
+\item $a(t,S)\sim (r-\delta_S(t))S$
+\item $b(t,S)\sim r_t$
+\item $\sigma(t,S)\sim \sigma_S(t)S$
+\item $g(S)\sim max(S_T-K,0)$
+\end{itemize}
+Substitution:
+\begin{equation} \label{feynkacPar}
+  c(t,S)=E\left[ e^{-\int_t^Tr(u)du}max(S_T-K,0) \right]
+\end{equation}
+The value of the option is the expected value of the discounted value at
+expiration where the dynamics, $Z=S$, is given by:
+\begin{equation} \label{feynkacParDyn}
+dZu=(r(u)-\delta_S(u))Z_udu+\sigma_S(u)Z_udW_u
+\end{equation}
+
+\subsection{Black-Scholes Derivation} \label{sec:BS}
+
+Recognizing the dynamics (equation \ref{feynkacParDyn}) is a geometric Wiener
+process we can write the solution to the PDE as
+\begin{equation} \label{BSPDE}
+  Z_T=Z_te^{\int_t^T\left[ r(u)-\delta(u) \right]
+  -\frac{1}{2}\sigma_S^2(u)du
+  + \int_t^T\sigma_S(u)dW_u}
+\end{equation}
+This is messy but we can simplify notation.
+$$\mu=\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du$$
+$$\sigma=\sqrt{\int_t^T\sigma_S^2(u)du}$$
+$$Z_T=Z_te^{\mu+\sigma\varepsilon}$$
+where
+$$\varepsilon \sim N(0,1)$$
+This is a simpler way of writing $Z_T$ but means the same thing. It is the risk
+adjusted stock price process discounted at the risk-free rate.
+We are still left trying to solve \ref{feynkacPar}. Remembering that our
+risk-free rate is deterministic we can take it outside the expectation.
+$$e^{-\int_t^Tr(u)du}E[max(Z_T-K,0)]$$
+The remaining $max(Z_T-K,0)$ has a kink. Writing with indicator
+functions solves this problem. We can take the expected value of the indicator
+functions separately.
+$$E\left[ (Z_T-K)1_{Z_T\geq K} \right] $$
+$$E\left[ Z_T1_{Z_T\geq K} - K1_{Z_T\geq K} \right] $$
+\begin{equation} \label{BSind}
+  E\left[ Z_T1_{Z_T\geq K} \right] - KE\left[ 1_{Z_T\geq K} \right]
+\end{equation}
+The expected value of an indicator function is the probability the event
+will happen. Tackling the second part of \ref{BSind} first:
+$$E\left[ 1_{Z_T\geq K}\right] =Pr(Z_T\geq K) =
+Pr(Z_te^{\mu +\sigma\varepsilon}\geq K)$$
+Working with normals is much nicer than working with lognormals. We can solve
+for $\varepsilon$ in the inequality. It is also important to note
+that \textbf{by substituting $Z_T$ for $Z_te^{\mu+\sigma\varepsilon}$ we
+observe $Z_t$ at time $t$.}
+This means is it a constant rather than a stochastic variable.
+$$Z_te^{\mu +\sigma\varepsilon}\geq K$$
+$$e^{\mu +\sigma\varepsilon}\geq\frac{K}{Z_t}$$
+$$\mu +\sigma\varepsilon\geq ln\left( \frac{K}{Z_t} \right)$$
+$$\varepsilon\geq\frac{ln\left( \frac{K}{Z_t} \right)
+-\mu}{\sigma}$$
+To use the cumulative normal density function we want to get the probability
+that $\varepsilon$ is below a value not above.
+This follows from:
+$$E\left[ 1_{\varepsilon\leq K} \right] =
+\int_{-\infty}^{\infty} 1_{\varepsilon\leq K} n(\varepsilon)d\varepsilon$$
+where $n(\varepsilon)$ is the normal probability density function.
+We end up here because if $X$ is continuous,
+it is not but we make it so with an indicator function,
+then the expectation of $g(X)$ is defined as
+$$E[g(X)]=\int_{-\infty}^{\infty}g(x)f(x)dx$$
+where $f$ is the probability density function of $X$.
+We can now flip the inequality and put a minus sign on the RHS.
+$$Pr\left( \varepsilon\leq -\frac{ln\left(\frac{K}{Z_t}\right)
+-\mu}{\sigma}\right) $$
+Minus sign means we flip the $K$ and $Z_T$ because
+$$-ln\left(\frac{a}{b}\right) =-(ln(a)-ln(b))=ln(b)-ln(a)=
+ln\left(\frac{a}{b}\right)$$
+$$Pr\left( \varepsilon\leq\frac{ln\left(\frac{Z_t}{K}\right)
++\mu}{\sigma}\right) $$
+$$E\left[ 1_{\varepsilon\leq K} \right] =
+N\left( \frac{ln\left(\frac{Z_t}{K}\right)
++\mu}{\sigma}\right) =N(-L)$$
+Now tackling the second part of \ref{BSind} in a similar vein:
+$$E\left[ Z_T1_{Z_T\geq K} \right] =
+\int_{-\infty}^{\infty}Z_te^{\mu+\sigma\varepsilon}1_{Z_T\geq
+K}n(\varepsilon)
+d\varepsilon$$
+We have found
+$\int_{-\infty}^{\infty} 1_{\varepsilon\leq K}
+n(\varepsilon)d\varepsilon=
+\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}$. We can call this expression
+$L$ and set it as the lower limit of the integral \textbf{why?}, similar to
+setting $K$ as the upper limit when finding the expectation of the raw
+indicator function - this time we set $L$ as the lower limit because the
+inequality sign of the indicator functions are opposite.
+$$\int_{L}^{\infty}Z_te^{\mu+\sigma\varepsilon}n(\varepsilon)d\varepsilon$$
+Remembering that $Z_t$ is observed at time $t$ and that $n(e)$ is the normal
+density function.
+$n(e)=\frac{1}{\sqrt{2\pi}}e^{-\frac{\varepsilon^2}{2}}$.
+$$Z_t\int_{L}^{\infty}e^{\mu+\sigma\varepsilon}
+\frac{1}{\sqrt{2\pi}}e^{-\frac{\varepsilon^2}{2}}d\varepsilon$$
+We can combine $\varepsilon$ by completing the square
+$(a+b)^2=a^2+2ab+b^2$.
+$$\frac{1}{2}(2\mu+2\sigma\varepsilon-\frac{1}{2}\varepsilon^2)=
+\frac{1}{2}(2\mu-(\sigma-\varepsilon)^2+\sigma^2)$$
+Therefore
+$$Z_t\int_{L}^{\infty}e^{\mu+\frac{1}{2}\sigma^2}
+\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\varepsilon-\sigma)^2}d\varepsilon$$
+We still need the standard normal density in order to use our $N(...)$. We can
+set $u=\varepsilon-\sigma$ therefore, $du=d\varepsilon$ because $\sigma$ is
+constant.
+When $\varepsilon=L$; $u=L-\sigma$.
+When $\varepsilon=\infty$; $u=\infty-\sigma$. Now
+$$Z_te^{\mu+\frac{1}{2}\sigma^2}
+\int_{L-\sigma}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}u^2}du$$
+$$Z_te^{\mu+\frac{1}{2}\sigma^2}
+\int_{L-\sigma}^{\infty}n(u)du$$
+Now we have our standard normal $\int_{L-\sigma}^{\infty}n(u)du$ and we can
+switch the inequality direction as we did above with the same logic.
+$$Pr(>L-\sigma)=Pr(<-(L-\sigma))$$
+$$Z_te^{\mu+\frac{1}{2}\sigma^2}
+\int_{\infty}^{-(L-\sigma)}n(u)du$$
+$$E\left[ Z_T1_{Z_T\geq K} \right] =
+Z_te^{\mu+\frac{1}{2}\sigma^2}N(-(L-\sigma))$$
+Putting this all back together
+\begin{equation}
+c(t,S)=e^{-\int_t^Tr(u)du}
+\left[ Z_te^{\mu+\frac{1}{2}\sigma^2}N(-(L-\sigma)) -KN(-L) \right]
+\end{equation}
+where; $Z_t=S$,
+$$L=\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}$$
+$$\mu=\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du$$
+$$\sigma=\sqrt{\int_t^T\sigma_S^2(u)du}$$
+We have been modeling a $Z$ process and not $S$. Option pricing is computing
+present values but by adjusting the expected payoff rather than the discount
+rate. While $S$ grows at $\mu$, $Z$ grows at $r$.
+We can substitute to get to the more familiar Black-Scholes-Merton model.
+Remembering our simplifying notation for $\mu$ and $\sigma$
+$$\mu=\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du$$
+$$\sigma=\sqrt{\int_t^T\sigma_S^2(u)du}$$
+$$c(t,S)=
+e^{-\int_t^Tr(u)du+\int_t^Tr(u)du-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du
+  +\int_t^T\frac{1}{2}\sigma_S^2(u)du}
+Z_tN(-(L-\sigma))-e^{\int_t^Tr(u)du}KN(-L)$$
+\begin{equation} \label{BS}
+e^{-\delta_S(u)du}Z_tN(-(L-\sigma))-e^{\int_t^Tr(u)du}KN(-L)
+\end{equation}
+Only $d_1$ and $d_2$ remain unfamiliar now.
+$$-(L-\sigma)=-L+\sigma=-\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}+
+\sqrt{\int_t^T\sigma_S^2(u)du}$$
+$$\frac{ln\left(\frac{Z_t}{K}\right)+
+\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du}
+{\sqrt{\int_t^T\sigma_S^2(u)du}}+
+\frac{\int_t^T\sigma_S^2(u)du}{\sqrt{\int_t^T\sigma_S^2(u)du}}$$
+\begin{equation} \label{BSd1}
+d_1=\frac{ln\left(\frac{Z_t}{K}\right)+
+    \int_t^Tr(u)-\delta_S(u)+\frac{1}{2}\sigma_S^2(u)du}
+{\sqrt{\int_t^T\sigma_S^2(u)du}}
+\end{equation}
+$$-L=-\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}$$
+\begin{equation} \label{BSd2}
+d_2=\frac{ln\left(\frac{Z_t}{K}\right)+
+\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du}
+{\sqrt{\int_t^T\sigma_S^2(u)du}}
+\end{equation}
+To get the BSM formula with constant parameters we need to remember the rules
+for integrating a constant. $\int_a^bkdx=k\int_a^b1dx=k(b-a)$.
+$$c(t,S)=e^{-\delta_S(T-t)}SN(d_1)-e^{-r(T-t)}KN(d_2)$$
+$$d_1=\frac{ln\left( \frac{S}{K} \right) +
+(r-d_S+\frac{1}{2}\sigma_S^2)(T-t)}{\sigma_S\sqrt{T}}$$
+$$d_2=\frac{ln\left( \frac{S}{K} \right) +
+    (r-d_S-\frac{1}{2}\sigma_S^2)(T-t)}{\sigma_S\sqrt{T}}$$
+The most important point here is the \textbf{replicating portfolio}.
+
+\pagebreak
+
+\section{Simulation}
+
+Remembering that Feynman-Kac is taking the expectation of a function subject to
+some dynamics, $E[g(Z_T)]$, we can see how this can be applied to simulation.
+If we know the distribution of $Z$ then we can use a computer to draw many
+$Z$s (iid) and we can take the average $g(Z_T^i)$.
+The  central limit theorem says that given enough draws our average value will
+be  very close to the true expected value.
+$$\frac{1}{k}\sum_{i=1}^kg(Z_T^i)$$
+This is the payoff and not the present value. We must still discount.
+What is a ``large" number of draws is  not an exact science.
+It is important to remember to average the payoffs  not the values of $Z$.
+We are not looking for the expected stock price.
+A  confidence interval is essential because we are using random numbers.
+
+It is unlikely we know the distribution to draw our $Z$s from. In this case we
+can discretize the continuous time function using the Euler scheme.
+$$dZ_t\approx\Delta Z_t=Z_{t+\Delta t}-Z_t$$
+$$\Delta t\approx (t+\Delta)-t=\Delta t$$
+$$dW_t\approx\Delta W_t=W_{t+\Delta t}-W_t=
+\sqrt{\Delta t}\varepsilon_{t+\Delta t}$$
+where $\varepsilon_{t+\Delta t}\sim N(0,1)$.
+The first order Euler scheme is given by
+$$Z_{t+\Delta t}=Z_t+\mu_Z(t,Z_t)\Delta t+\sigma_Z(t,Z_t)\sqrt{\Delta t}
+\varepsilon_{t+\Delta t}$$
+where the $\sqrt{\Delta t}$ comes from the variance of the standard Brownian
+motion being proportional to the time interval between steps.
+Steps when the marginal distribution is not known;
+\begin{enumerate}
+  \item Draw a matrix of shocks, [$\varepsilon_1^k$, $\varepsilon_2^k$,
+    ..., $\varepsilon_M^k$]
+  \item Make $k$ paths with each list of shocks
+    $$Z_{m+1}^k=Z_m^k+\mu_Z(m,Z_m^k)\Delta t+\sigma_Z(m,Z_M^k)\sqrt{\Delta t}
+    \varepsilon_{m+1}^k$$
+    for each $\varepsilon^k$ for each $k$
+  \item $g_M^k=g(Z_M^k)$ and
+    $c(t,S)=e^{-\int_t^tr(u)du}\frac{1}{k}\sum_{i=1}^kg_M^i$
+\end{enumerate}
+For any diffusion, $Y$, we can define an Euler scheme
+$$Y_{m+1}^k=Y_m^k+\mu_Y(m,Y_m^k)+
+\sigma_Y(m,Y_m^k)\sqrt{\Delta t}\varepsilon_{m+1}$$
+where $\varepsilon_{m+1}\sim N(0,1)$.
+
+Unfortunately, the discrete time model may not have the same properties as the
+continuous time model. One attractive feature of the continuous time stock
+price model is the guarantee that the stock price will always be positive as
+long as the initial $S$ is positive. For the discrete time model we cannot make
+the same guarantee because there is a chance the random shock $\varepsilon$ is
+very large at a time that the stock price is low. This undesirable property
+appears because the discrete time model does not shrink the variance to $dt$
+as in the continuous time model. This non-zero variance means there is a chance
+the shock is very large.
+
+One way to avoid this problem, in the specific setting of a stock price model,
+is to model the continuous time return process
+$$dR_t=(\mu_S-\frac{1}{2}\sigma_S^2)dt+\sigma_SdW_t$$
+in discrete time
+$$R_{m+1}=(\mu_S-\frac{1}{2}\sigma_S^2)\Delta t
++\sigma_S\sqrt{\Delta t}\varepsilon_{m+1}$$
+Since the stock price is given by
+$$S_m^k=e^{R_m^k}$$
+the stock price level cannot be negative.
+
+Drawing random numbers means any simulation we run is just one realization of
+many possible outcomes. It is more informative to create a confidence interval
+than come up with one single estimate of a derivative's value. One approach to
+smaller standard errors is to use antithetic variates. If we draw a random
+number, $u_m$, from a uniform distribution, antithetic variates means we also
+use $\tilde{u}_m=1-u_m$. We get the standard normal from the inverse cumulative
+distribution function: $\tilde{\varepsilon}_m=F^{-1}(\tilde{u}_m)$. The
+standard normal distribution has symmetry so
+$$\tilde{\varepsilon}_m=F^{-1}(\tilde{u}_m)=-\varepsilon_m$$
+$\tilde{\varepsilon}_m$ and $\varepsilon_m$ are highly correlated. This does
+not matter as long as we keep the two series of shocks separate. We can still
+use the same techniques on the separate series of shocks and take the averge of
+the two estimates for the same option value as our final estimate. Antithetic
+variates result in smaller confidence intervals from the same number of random
+draws.
+$$g_M^k=g(T,Y_M^k(\varepsilon))$$
+$$\tilde{g}_M^k=g(T,Y_M^k(\tilde{\varepsilon}))$$
+$$\bar{g}_M^k=\frac{1}{2}(g_M^k+\tilde{g}_M^k)$$
+$$c(t,y)=e^{-\int_t^tr_udu}\frac{1}{K}\sum_{k=1}^K\bar{g}_M^k$$
+
+\pagebreak
+
+\section{Equivalent Martingale Measures}
+
+So far we have been working implicitly with a physical probability measure,
+$P$. From now on we will risk-adjust $P$ to get a risk-adjusted probability
+measure, $Q$. $Q$ is an equivalent martingale measure relative to $P$ if;
+\begin{enumerate}
+  \item $P[x]=0$ when $Q[x]=0$. That is to say, $P$ and $Q$ agree what cannot
+    happen. ``Equivalence"
+  \item \begin{equation} \label{EMM}
+      G_t^{n*}=E_t^Q[G_T^{n*}]
+    \end{equation}
+    That is to say, all gains processes are Q-martingales
+\end{enumerate}
+We make a discounted gains process by choosing a security price to use as
+a numeraire. This follows from the intuition that all value is relative - we
+used to use cows but now we use currency. A numeraire must be $> 0$ and must
+not pay dividends.
+
+\subsection{Spot Measure}
+
+A natural choice in derivatives pricing is the bank account
+$A_t=e^{\int r_udu}$. Discounted processes are denoted with a $*$. In the
+Black-Scholes world this gives us
+$$A_t^*=\frac{A_t}{A_t}=1$$
+$$S_t^*=\frac{S_t}{A_t}$$
+but $S_t^*$ is not a gains process
+$$D_t^*=\int\frac{\delta_S(u,S_u)}{A_t}du$$
+We must discount each dividend independently because they arrive at different
+times and so require different discount rates.
+$$G_t^*=S_t^*+D_t^*$$
+The subscript on stochastic variables shows when the random variable becomes
+observed and therefore a constant. $E_t[X]=E[X|\mathbb{F}_t]$
+
+Well who cares? Let's assume we know $Q$ (which is unrealistic). Given equation
+\ref{EMM} which says that all discounted gains process must be Q-martingales,
+$c_t^*$ must be a Q-martingale.
+$$c_t^*=E_t^Q[c_T^*]$$
+but we want to know $c_t^*$
+$$\frac{c_t}{A_t}=E_t^Q\left[ \frac{c_T}{A_T} \right] $$
+$$c_t=E_t^Q\left[ \frac{A_t}{A_T}c_T^* \right] $$
+We can throw $A_t$ inside the expectation operator because even if interest
+rates are stochastic we can observe the interest rate at time $t$ so $A_t$ is
+a constant.
+$$c_t=E_t^Q\left[ e^{-\int_t^Tr_udu}max(S_T-K,0) \right] $$
+now we can use Feynman-Kac. $Q$ allows us to discount at the riskless rate.
+
+\subsubsection{Example: ZCB}
+
+Payoff function
+$$g(t,W_t)=\begin{cases} 1 & \text{if }t=T \\ 0 & \text{if }t\neq T\end{cases}$$
+$P_{t,T}=PV_t(g(T))$ is the ex-dividend price. That is to say $P_{T,T}=0$
+because we received the dividend.
+$$P_{t,T}^*+D_t^*=E_T^Q[P_T^*+D_T^*]$$
+but we want $P_{t,T}$
+$$\frac{P_{t,T}}{A_t}+0=E_t^Q\left[ 0+\frac{1}{A_T} \right] $$
+$D_T^*=\frac{1}{A_T}$ is not from $D_T^*=\frac{D_T}{A_T}$. It is from Dirac's
+delta.
+$$D_t=\begin{cases} 0 & \text{for }t<T \\ 1 & \text{for }t\geq T \end{cases}$$
+$$D_T^*=\int_0^t\frac{1\delta_T(u)}{A_T}du$$
+$$\delta_T(u)=\begin{cases}\infty & u=T \\ 0 & u\neq T\end{cases}$$
+$$\int_0^{\infty}\delta_T(u)du=1$$
+\textbf{Not really sure what has gone on here.}
+But now we can move $A_t$ inside the expectation operator because it is
+observed and therefore a constant
+$$P_{t,T}=E_t^Q\left[ \frac{A_t}{A_T} \right] $$
+We could also have defined the date $T$ payoff as the price at date $T$. Think
+of it as selling the bond immediately before receiving the dividend.
+$P_{T,T}=1$ and $D_t=0$
+$$P_{t,T}^*+D_t^*=E_t^Q[P_{T,T}^*+D_T^*]$$
+$$\frac{P_{t,T}}{A_t+0}=E_t^Q\left[ \frac{1}{A_T}+0\right] $$
+$$P_{t,T}=E_t^Q\left[ \frac{A_t}{A_T}\right]$$
+where
+$$\frac{A_t}{A_T}=\frac{e^{\int_0^tr_udu}}{e^{\int_0^Tr_udu}}=
+e^{\int_0^tr_udu-\int_0^Tr_udu}$$
+$$P_{t,T}=E_t^Q\left[ e^{-\int_t^Tr_udu}\right]$$
+
+\subsubsection{Example: Continuous Dividend}
+
+A stock that continuously pays dividends where
+$$g(t,S_t)=\begin{cases}\delta_S(t,S_t) & 0\leq t\leq T \\ 0 t>T\end{cases}$$
+$P_T=0$ because dividends are paid out continuously so there is nothing to
+sell.
+$$D_t=\int_t^T\delta_S(u,S_u)du$$
+To avoid arbitrage the discounted gains process must be be a Q-martingale
+$$P_t^*+D_t^*=E_t^Q[P_T^*+D_T^*]$$
+$$P_t^*=E_t^Q[D_T^*]$$
+The discounted price is the expected value of discounted dividends received
+between $t$ and $T$.
+$$\frac{P_t}{A_t}=E_t^Q[D_T^*-D_t^*]$$
+$$P_t=E_t^Q\left[ A_t\left( \int_t^T\frac{\delta_S(u,S_u)}{A_u}du
+-\int_t^T\frac{\delta_S(u,S_u)}{A_u}du\right) \right]$$
+$$P_t=E_t^Q\left[A_t\int_t^T\frac{\delta_S(u,S_u)}{A_u}du\right]$$
+We can move the $A_t$ inside the integral because $A_t$ is observed and
+therefore constant even if interest rates are stochastic.
+$\frac{A_t}{A_T}=e^{-\int_t^Tr_udu}$
+$$P_t=E_t^Q\left[ \int_t^Te^{-\int_t^Tr_udu}\delta_S(u,S_u)du\right]$$
+Using the familiar dividend policy, $\delta_S(u,S_u)=\delta_S(u)S_u$
+$$S_t=E_t^Q\left[ \int_t^Te^{-\int_t^Tr_udu}\delta_S(u)S_udu\right]$$
+The discounted price is the expected value of discounted dividends received
+between $t$ and $T$.
+
+\subsection{Girsanov's Theorem}
+
+Changing probabilities from $P$ to $Q$ means $W$ is no longer a standard Weiner
+process. We can adjust the Weiner process
+\begin{equation} \label{Girsanov}
+d\tilde{W}_t=dW_t+\lambda_tdt
+\end{equation}
+where $\lambda_tdt$ is a deterministic increment. Under the correct $Q$,
+$d\tilde{W}$ can be a standard Weiner process.
+The fundamental theorem of asset pricing says that all discounted gains
+processes must be $Q$-martingales. So we choose $Q$ to make the gains process
+a martingale. We do this by making the drift, $\mu_Y$, equal to $0$. This boils
+down to the following steps;
+\begin{enumerate}
+  \item Find dynamics of $G^*$ using Ito under probability measure $P$
+  \item Change probability measure from $P$ to $Q$ with equation \ref{Girsanov}
+  \item Choose $\lambda$ to make drift, $\mu$, equal to $0$
+\end{enumerate}
+
+\subsubsection{Example: Spot Measure Black-Scholes}
+
+Using our spot measure where the numeraire asset is the bank account gave us;
+$$dA_t=r_tA_tdt$$
+$$dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t$$
+$$dD_t=\delta_S(t)S_tdt$$
+$$dG_t=dS_t+dD_t$$
+We must ensure $G^*$ is a $Q$-martingale to avoid arbitrage. Starting with the
+dynamics of $dS_t^*$ under the $P$ probability measure. We do not need to do
+this step for the dividend process because $D$ has no Weiner process.
+Identification:
+$$S_t^*=\frac{S_t}{A_t}=e^{-\int_t^Tr_udu}S_t=f(t,S)$$
+$$dS_t^*=\left[ f_1+f_2+\frac{1}{2}f_{22}(\sigma_SS)^2 \right] dt+
+\sigma_Sf_2dW_t$$
+Calculation:
+$$f_1=e^{-\int_t^Tr_udu}\frac{\partial}{\partial t}
+\left( -\int_t^Tr_udu\right) S_t$$
+$S_t$ does not depend on $t$ it just has a subscript
+$$=S_tA_t^{-1}\frac{\partial}{\partial t}-r_tdt=-r_tA_t^{-1}S_t$$
+$A_t^{-1}$ does not depend on $S$
+$$f_2=e^{-\int_t^Tr_udu}1=A_t^{-1}$$
+$S$ dies in $f_2$ so there is nothing left to differentiate in $f_{22}$
+$$f_{22}=0$$
+Substitution:
+$$dS_t^*=\left[ -r_tA_t^{-1}S_t+A_t^{-1}\mu_S(t)S_t+\frac{1}{2}0(\sigma_SS)^2
+\right] dt+A_t^{-1}\sigma_S(t)S_tdW_t$$
+Simplification: Remembering $S_t^*=\frac{S_t}{A_t}$
+$$dS_t^*=\left[ \mu_S(t)S_t^*-r_tS_t^*\right] dt+\sigma_S(t)S_t^*dW_t$$
+$$dS_t^*=\left[ \mu_S(t)-r_t\right] S_t^*dt+\sigma_S(t)S_t^*dW_t$$
+This is only the dynamics of $S_t^*$ under $P$ probabilities with a standard
+Weiner process.
+We must make sure the discounted gains process $G^*$ is a $Q$-martingale.
+$$dG_t^*=d(S_t^*+D_t^*)=dS_t^*+dD_t^*$$
+$$=dS_t^*+d\int_0^t\frac{\delta_S(u)S_u}{A_u}du$$
+Noticing $\frac{S_u}{A_u}=S_u^*$
+$$=[\mu_S(t)-r_t]S_t^*dt+\sigma_S(t)S_t^*dW_t+\delta_S(t)S_t^*dt$$
+Changing from $P$ to $Q$ probability measures with
+$d\tilde{W}_t=dW_t+\lambda_tdt$
+$$=[\mu_S(t)+\delta_S(t)-r_t]S_t^*dt+
+\sigma_S(t)S_t^*(d\tilde{W}_t-\lambda(t)dt)$$
+$$=[\mu_S(t)+\delta_S(t)-r_t-\sigma_S(t)\lambda(t)]S_t^*dt+
+\sigma_S(t)S_t^*d\tilde{W}_t$$
+In order to truly treat $d\tilde{W}_t$ as a standard Wiener and say we have
+changed probabilities we need to choose $\lambda$ such that the drift of the
+gains process $\mu_{G^*}=0$. Otherwise there would be arbitrage and much
+wailing and gnashing of teeth.
+$$\mu_S(t)+\delta_S(t)-r_t-\sigma_S(t)\lambda(t)=0$$
+$$\lambda(t)=\frac{\mu_s(t)+\delta_S(t)-r_t}{\sigma_S(t)}$$
+Where $\mu_S+\delta_S$ is the total return of the stock,
+$\mu_S+\delta_S-r_t$ is the excess return and dividing the excess return by
+$\sigma_S$ gives the Sharpe ratio.
+
+We have identified $Q$ through its effect on $d\tilde{W}_t=dW_t+\lambda(t)$.
+The payoff for an option, for example a call, is a function of $S_T$ and $K$,
+not $S_t^*$ or any other process under $Q$ probabilities. We must determine
+$S_T$ under $Q$ because
+\begin{equation} \label{callExpVal}
+c_t=E_t^Q\left[ e^{-\int_t^Tr_udu}max(S_T-K) \right]
+\end{equation}
+We found the dynamics of our gains process under $Q$ in order to find $\lambda$
+so that we can plug this into our stock price process once we change to $Q$
+probabilities. We used the gains process to find $\lambda$ because all gains
+processes must be $Q$-martingales to avoid arbitrage. Having found $\lambda$ we
+can use it to adjust processes to make $d\tilde{W}_t$ a standard Wiener.
+$$dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_t[d\tilde{W}_t-\lambda(t)dt]$$
+$$=[\mu_S(t)+\sigma_S(t)\lambda(t)]S_tdt+\sigma_S(t)S_td\tilde{W}_t$$
+substituting for $\lambda$
+$$\left[\mu_S(t)+\sigma_S(t)\frac{\mu_S(t)+\delta_S(t)-r_t}{\sigma_S(t)}\right]
+S_tdt+\sigma_S(t)d\tilde{W}_t$$
+$$[r_t-\delta_S(t)]S_tdt+\sigma_S(t)S_td\tilde{W}_t$$
+\textbf{No $\mu_S$ here} and we recognize it as a geometric Wiener process.
+$$S_T=S_te^{\int_t^Tr(u)du-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du+
+\int_t^T\sigma_S(u)d\tilde{W}_u}$$
+and remembering \ref{callExpVal} we can use Feynman-Kac. We just change the
+diffusion when using $Q$-probabilities. We have used the same replicating
+portfolio logic to arrive here so we can use the same Black-Scholes-Merton
+formula.
+
+\subsection{Systemic Risk in Option Pricing}
+
+Finding $\lambda$ is independent of derivative payoff we are valuing. The
+underlying asset has systemic risk embodied by $\mu_S$ and $\delta_S$. They do
+not show up in the valuation directly. It is not immediately intuitive why we
+can price different derivatives, with different exposures to systemic risk,
+using the same $\lambda$. Do all derivatives on $S$ have the same systemic
+risk? \textbf{No}.
+
+To understand how we can use $\lambda$ indifferently we need to look at the
+relationship between $P$ and $Q$ measures.
+$f_P$ and $f_Q$ are the probability densities associated with $P$ and $Q$,
+respectively. We can say that $f_Q=zf_P$. Where
+$$z=\frac{\partial Q}{\partial P}=
+e^{-\frac{1}{2}\int_0^t\lambda_u^2du-\int_0^t\lambda_udW_u}$$
+$z$ is a function of $\lambda$ and therefore of the Sharpe ratio under each
+probability measure.
+$$c_t=E_t^Q[c_T]$$
+$$=\int_{-\infty}^{\infty}c_T(\varepsilon)f_Q(\varepsilon)d\varepsilon$$
+$$=\int_{-\infty}^{\infty}c_T(\varepsilon)z(\varepsilon)
+f_P(\varepsilon)d\varepsilon$$
+$$=E_t^P[c_Tz]$$
+But a product inside an expectation means there is covariance lurking.
+$$=E_t^P[c_T]E_t^P[z]+Cov_t^P(c_T,z)$$
+where $E_t^P[z]=1$
+$$=E_t^P[c_T]+Cov_t^P(c_T,z)$$
+The covariance is punishment and project specific. The $z$ may be the same
+between projects but the cashflows can differ. No arbitrage accounts for the
+$z$.
+
+When we construct an EMM we are dragging the drift of a diffusion to $0$. Under
+$P$ probabilities the diffusion is described by
+$$S_t=S_0e^{(\mu-\frac{1}{2}\sigma^2)t-\sigma W_t}$$
+and the expected value is
+$$E_0^P[S_t]=S_0e^{\mu t}$$
+When we change to $Q$ probabilities we drag the growth rate down
+$$S_t=S_0e^{(r-\frac{1}{2}\sigma^2)t-\sigma\tilde{W}_t}$$
+and the expected value drops to
+$$E_0^Q[S_t]=S_0e^{rt}$$
+We make the diffusion a martingale by dividing by the numeraire security
+$$A_t=e^{rt}$$
+$$E_0^Q\left[\frac{S_t}{A_t}\right]$$
+$r$ is compensation for impatience while $\lambda\sigma$ is compensation for
+risk.
+
+\subsection{Alternative Numeraires}
+
+So far we have discounted the price process by a riskless bank account.
+$$A_t^*=\frac{A_t}{A_t}$$
+$$G_t^*=S_t^*+D_t^*=\frac{S_t}{A_t}^*+\int_t^T\frac{\delta_S(u)}{A_u}du$$
+We then chose $Q$ such that $G_t^*$ was a $Q$ martingale, $G_t^*=E_t^Q[G_T^*]$.
+We don't have to use a bank account as the numeraire.
+Depending on the goals, other securities may save some computation time and are
+therefore better.
+
+The requirements for a general numeraire security are; strictly positive and no
+separate dividends, i.e. $B$ is a gains process for $B$.
+$$A_t^B=\frac{A_t}{B_t}$$
+$$G_t^B=S_t^B+D_t^B=\frac{S_t}{B_t}+\int_t^T\frac{\delta_S(u)}{B_u}du$$
+We then chose $Q_B$ such that $G_t^B$ was a $Q$ martingale,
+$G_t^B=E_t^{Q_B}[G_T^B]$.
+
+\subsection{Forward Measure, $Q_T$}
+
+$P(t,T)$ is the date $t$ price of a ZCB paying $1$ at time $T$. We define the
+$T$ forward measure, $Q_T$, by requiring
+$G_t^{P(t,T)}=E_t^{Q_T}[G_s^{P(t,T)}]$ for all $t\leq s$ for discounted gains
+processes. That is to say, $Q_T$ is the probability measure that makes all
+gains processes martingales.
+
+\subsubsection{Example: EU Call}
+
+$$c_t^{P(t,T)}=E_t^{Q_T}[c_T^{P(t,T)}]$$
+iff
+$$\frac{c_t}{P(t,T)}=E_t^{Q_T}\left[\frac{max(S_T-K,0)}{P(T,T)}\right]$$
+$P(T,T)$ is $1$ by construction and $P(t,T)$ can be observed
+$$c_t=E_t^{Q_T}[max(S_T-K,0)]P(t,T)$$
+Who cares? This is the discounted expected value as before. But the forward
+measure helps if interest rates are stochastic. Under the spot measure we would
+have the expectation of a random variable times a random variable. This is
+a covariance nightmare.
+
+\subsection{Stock Measure, $Q_S$}
+
+While the stock price process from our model is strictly positive, it does pay
+dividends. We must adjust it slightly to use it as a numeraire. We use an
+artificial security $S^c$ where all dividends are continuously reinvested. The
+intuition is similar to the bank account. We accumulate units a the rate of
+dividend payout (like we accumulate dollars at the risk free rate).
+\begin{equation} \label{stockNumeraire}
+  S_te^{\int_0^t\delta_S(u)du}
+\end{equation}
+Who cares? In short, $G^S$ will be $Q$-martingales by construction. More
+thoroughly, We know our stock price process $S$ has a gains process of
+$G=S+D$ and we know $S_t=S_0e^{\left(\mu-\frac{1}{2}\sigma^2\right) t+
+\sigma W_t}$, $dS_t=\mu S_tdt+\sigma S_tdW_t$ and $dD_t=\delta S_tdt$.
+Dividing through by $S_t$ removes the $\mu$. But the price process is still
+growing at the dividend rate, $\delta$. Dividing by the adjusted stock price
+process, $S^c$, removes $\mu$ and $\delta$ making $G^S$ a $Q$-martingale by
+construction. 
+While we are using the stock measure we can still use the bank account to find
+the correct risk adjustment, $\lambda^S$.
+$$A_t^S=\frac{A_t}{S_t^c}=\frac{1}{S_t}
+\frac{e^{\int_0^tr_udu}}{e^{\int_0^t\delta_S(u)du}}$$
+$$=\frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}$$
+Now we need to find the dynamics of this diffusion, It\^o to the rescue.
+Identification:
+$$f(t,S)=\frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}$$
+The $S$ means we need It\^o because this is a diffusion. Calculation:
+$$f_1=\frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}(r_t-\delta_S(t))$$
+$$f_2=-\frac{1}{S_t^2}e^{\int_0^tr_u-\delta_S(u)du}$$
+$$f_{22}=2\frac{1}{S_t^3}e^{\int_0^tr_u-\delta_S(u)du}$$
+Substitution (into \ref{IL}):
+$$dA_t^S=$$
+$$\left[ \frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}(r_t-\delta_S(t))-
+\frac{1}{S_t^2}e^{\int_0^tr_u-\delta_S(u)du}\mu_S(t)S_t+
+\frac{1}{2}2\frac{1}{S_t^3}e^{\int_0^tr_u-\delta_S(u)du}(\sigma_S(t)S_t)^2
+\right] dt+$$
+$$-\frac{1}{S_t^2}e^{\int_0^tr_u-\delta_S(u)du}\sigma_S(t)S_tdW_t$$
+Simplification:
+$$dA_t^S=\left[ \frac{A_t}{S_t^c}(r_t-\delta_S(t))-\frac{A_t}{S_t^c}\mu_S(t)+
+\frac{A_t}{S_t^c}\sigma_S^2(t) \right] dt-\frac{A_t}{S_t^c}\sigma_S(t)dW_t$$
+Adjust the Wiener process:
+$$dA_t^S=A_t^S\left[ r_t-\delta_S(t)-\mu_S(t)+\sigma_S^2(t)\right] dt-
+A_t^S\sigma_S(t)\left( dW_t^S-\lambda_t^Sdt\right)$$
+$$dA_t^S=A_t^S\left[ r_t-\delta_S(t)-\mu_S(t)+\sigma_S^2(t)+
+\sigma_S(t)\lambda_t^S\right] dt-
+A_t^S\sigma_S(t)dW_t^S$$
+is a $Q_S$-martingale iff no drift, i.e. set $dt$ term to $0$ and solve for
+$\lambda$.
+$$\lambda_t^S=\frac{-r_t+\delta_S(t)+\mu_S(t)-\sigma_S^2(t)}{\sigma_S(t)}$$
+Now that we have nailed down $\lambda$ in the gains process we can use it to
+adjust the stock price process from $P$ to $Q_S$ probabilities.
+$$dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t$$
+$$dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_t(dW_t^S-\lambda_t^Sdt)$$
+$$dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_t\left[ dW_t^S-
+\frac{-r_t+\delta_S(t)+\mu_S(t)-\sigma_S^2(t)}{\sigma_S(t)}\right]$$
+$$dS_t(r_t-\delta_S(t)+\sigma_S^2(t))S_tdt+\sigma_S(t)S_tdW_t^S$$
+We recognise this as a geometric Wiener.
+
+\subsection{Example: Forward and Spot Measures Black-Scholes}
+
+We can think of the payoff from an EU call option as paying the strike to
+receive the stock at time $T$. We will pay the strike if the stock is worth
+more.
+$$c_T=max(S_T-K,0)=S_T1_{S_T>K}-K1_{S_T>K}$$
+We will refer to the first term as $c_{1T}$ and the second as $c_{2T}$.
+We can use the stock measure to find the present value of $c_{1T}$.
+$$c_{1t}^S=E_t^{Q_S}[c_{1T}^S]$$
+iff
+$$\frac{c_{1t}}{S_t^c}=E_t^{Q_S}\left[\frac{S_T1_{S_T>K}}{S_T^c}\right]$$
+$$\frac{c_{1t}}{S_te^{\int_0^t\delta_S(u)du}}=
+E_t^{Q_S}\left[\frac{S_T}{S_Te^{\int_0^T\delta_S(u)du}}1_{S_T>K}\right]$$
+$$c_{1t}=S_te^{\int_0^t\delta_S(u)du}\frac{1}{e^{\int_0^T\delta_S(u)du}}
+E_t^{Q_S}\left[ 1_{S_T>K}\right]$$
+$$c_{1t}=S_te^{-\int_t^T\delta_S(u)du}Q_S(S_T>K)$$
+The expectation of an indicator function is the probability, under $Q_S$
+probabilities here, of that event happening.
+Remembering our solution for a geometric Wiener
+$$S_T=S_te^{\int_t^Tr_u-\delta_S(u)+\sigma_S^2(u)-\frac{1}{2}\sigma_S^2(u)du+
+\int_t^T\sigma_S(u)dW_u^S}=S_te^{m+\sigma\varepsilon}$$
+Where $\varepsilon\sim N(0,1)$.
+Note the adjusted Wiener process.
+$$Q_S(S_T>K)=Pr(S_te^{m+\sigma\varepsilon}>K)$$
+Solve for $\varepsilon$ inside $Pr$
+$$Q_S(S_T>K)=
+Pr\left(\varepsilon>\frac{ln\left(\frac{K}{S_t}\right) -m}{\sigma}\right)$$
+Remembering section \ref{sec:BS} where we derived the Black-Scholes formula the
+first time, we want to find the probability that $\varepsilon$ is less than
+some value so we can use the cumulative normal density function. We flip the
+inequality
+$$Pr\left(\varepsilon>\frac{ln\left(\frac{K}{S_t}\right) -m}{\sigma}\right)=
+Pr\left(\varepsilon<-\frac{ln\left(\frac{K}{S_t}\right) -m}{\sigma}\right)$$
+$$=Pr\left(\varepsilon<\frac{ln\left(\frac{S_t}{K}\right) +m}{\sigma}\right)$$
+$$=Pr\left(\varepsilon<\frac{ln\left(\frac{S_t}{K}\right) +
+  \int_t^Tr_u-\delta_S(u)+\frac{1}{2}\sigma_S^2(u)du}
+{\sqrt{\int_t^T\sigma_S^2(u)du}}\right)$$
+Where $\frac{1}{2}\sigma_S^2=\sigma_S^2-\frac{1}{2}\sigma_S^2$. We
+recognise this as $d_1$.
+\begin{equation} \label{c1t}
+  c_{1t}=S_te^{-\int_t^T\delta_S(u)du}N(d_1)
+\end{equation}
+
+We can use the forward measure to find the present value of $c_{2T}$.
+$$c_{2t}^{P(t,T)}=E_t^{Q_T}[c_{2T}]$$
+$$\frac{c_{2t}}{P(t,T)}=KE_t^{Q_T}[1_{S_T}>K]$$
+$$c_{2t}=P(t,T)Q_T(S_T>K)$$
+In the Black-Scholes world, interest rates are deterministic so $Q_T$ = $Q$.
+$$Q_T(S_T>K)=Q(S_T>K)=N(d_2)$$
+Remembering $P(t,T)=e^{-\int_t^Tr_udu}$
+\begin{equation} \label{c2t}
+  c_{2t}=Ke^{-\int_t^Tr_udu}N(d_2)
+\end{equation}
+
+\end{document}
+
