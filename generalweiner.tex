@@ -1,0 +1,85 @@
+
+\section{Generalized Weiner Process}
+
+The standard Wiener process is just a series of numbers drawn from a
+distribution (white noise from ECO403). We can generalize this somewhat by
+adding a deterministic drift component and a deterministic uncertainty scaling
+to the source of uncertainty provided by $W$. In differential form this looks
+like:
+\begin{equation} \label{dGenW}
+    dX_t=\mu_X(t)dt+\sigma_X(t)dW_t
+\end{equation}
+where $\mu_X(t)dt$ is the drift, $\sigma_X(t)$ is the uncertainty scaling and
+$dW_t$ is the source of uncertainty (our increments of W from above
+$\sim N(0, t-s)$).
+In descrete time this looks like:
+\begin{equation}
+    X_{t+\Delta t}-X_t=\Delta X_t=\mu_X(t)\Delta t+\sigma_X(t)\Delta W_t
+\end{equation}
+Since $E[\Delta W_t]=0$, Expected value of $\Delta X_t$ is
+\begin{equation} \label{ExpDesGenW}
+    E[\Delta X_t]=\mu_X(t)\Delta t
+\end{equation}
+Since variance of a constant is 0 and the variance of the standard Wiener
+process, W, is $t-s=\Delta t$ AND the two terms are independent of each other,
+we can ignore the covariance (and remembering that constants taken outside of
+$Var(...)$ must be squared)
+\begin{equation} \label{VarDesGenW}
+    Var(\Delta X_t)=\sigma^2_X(t)\Delta t
+\end{equation}
+Linear combinations of normal random variables are normal. Therefore,
+\begin{equation}
+    \Delta X_t \sim N(\mu_X(t)\Delta t, \sigma^2_X(t)\Delta t)
+\end{equation}
+\begin{equation}
+    dX_t \sim N(\mu_X(t)dt, \sigma^2_X(t)dt)
+\end{equation}
+
+If we wanted to solve X we could devide through by dt. Problem is
+$\frac{dW_t}{dt}$ does not exist because otherwise we could trade based on the
+derivative and then there would be arbitrage and wailing and gnashing of teeth.
+We can write $dX_t$ in integral form
+\begin{equation} \label{GenW}
+    X_t=x+\int_0^t\mu_X(u)du+\int_0^t\sigma_X(u)dW_u
+\end{equation}
+The funny $dW_u$ means this is an It\^o integral. In fancy language, ``The time
+period is transformed by the stochastic process." I do not know what this
+means. Basically, the point here is that we cannot use regular integration to
+find $X_t$. But, someone clever called It\^o has got our backs here as we'll
+see later. Nevertheless, we can say something about the expected value and
+variance of $X_t$ using descrete time intuition as we did for $dX_t$.
+
+The expected value of $X_t$ is the expected value of $x$, which we just set
+ourselves, plus all the drift terms multiplied by the time interval. We can
+ignore the dispersion term because $W_t$ comes from a distribution with mean 0.
+We are summing up the expectation of $\Delta X_t$ we came up with in equation
+\ref{ExpDesGenW}.
+\begin{equation}
+    E[X_t]=E[x]+E \left[ \sum \mu_X(u)\Delta u\right] +0
+\end{equation}
+
+The deterministic terms have no variance so we can ignore them. The increments
+of $W$ are independent so we do not need to think about covariances here. The
+variance of a sum is the sum of the variances. We can sum up the descrete time
+variances of $\Delta X_t$ we came up with above (remembering the $\sigma_X^2$
+was introduced when the deterministic uncertainty scaling component
+$\sigma_X(t)$ was taken outside of the $Var(...)$ term and so had to be
+squared in equation \ref{VarDesGenW}. $\Delta t=t-s$, $\Delta u$ takes the
+place of $\Delta t$ here.)
+\begin{equation}
+    Var(X_t)=\sum \sigma^2(u)\Delta u
+\end{equation}
+
+Linear combinations of normal random numbers are normal. Putting this back
+into continuous time gives us:
+\begin{equation}
+    X_t \sim N \left( x+ \int_0^t \mu_X(u)du, \int_0^t \sigma_X^2(u)du \right)
+\end{equation}
+
+X has inherited; independent increments and continuous, non-differentiable
+sample paths. We have not finished. X can still be negative which is not
+consistent with limited liability of stocks. Furthermore, we still cannot solve
+the funny It\^o integral $\frac{dW_u}{du}$. We need to use a process for which
+a solution to the It\^o integral has already been found that has the properties
+that we have just described above; drift, uncertainty scaling, a source of
+uncertainty and independent increments.

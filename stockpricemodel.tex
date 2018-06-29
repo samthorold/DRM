@@ -1,0 +1,52 @@
+
+\section{Stock Price Model}
+
+We will use a particular case of a diffusion as our stock price model, $S$.
+This allows us to combine the properties of the generalized wiener process,
+$X$, and a diffusion, $Y$.
+\begin{itemize}
+    \item deterministic drift, $\mu$
+    \item deterministic uncertainty scaling, $\sigma$
+    \item random (stochastic?) source of uncertainty, $dW_t$
+    \item particular path non-differentiable in t
+    \item independent increments
+    \item no memory
+\end{itemize}
+
+\[dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t\]
+Here we have already said something about the drift and volatility scaling
+terms. In a vanilla diffusion, $Y$, the drift, $\mu_Y(t, Y_t)$, depends on both
+the time and level of the diffusion. Our stock model has assumed the drift only
+depends on the time and is multiplied by the stock level.
+\[\frac{dS_t}{S_t}=\mu_S(t)dt+\sigma_S(t)dW_t\]
+$\frac{\Delta S_t}{S_t}=R_t$ so now we have an expression for the period by
+period gross return of our stock. $\mu_S(t)dt$ represents the systemic risk. As
+usual we want to know the expected value and variance of $\frac{dS_t}{S_t}$.
+Since $dW_t \sim N(0,t-s)$:
+\[E \left[ \frac{dS_t}{S_t} \right] = \mu_S(t)dt\]
+and
+\[Var \left( \frac{dS_t}{S_t} \right) = \sigma_S^2(t)Var(dW_t)\]
+\[Var \left( \frac{dS_t}{S_t} \right) = \sigma_S^2(t)dt\]
+This model addresses the limited liability problem from earlier. $S_t>0$ for
+all $t$. We will show later:
+\begin{equation} \label{S}
+    S_t=S_0e^{\int_0^t\mu_S(u)-\frac{1}{2}\sigma_S^2(u)du+
+    \int_0^t\sigma_S(u)dW_u}
+\end{equation}
+or, with constant coefficients
+\begin{equation} \label{SConsCoef}
+    S_t=S_0e^{(\mu_S-\frac{1}{2}\sigma_S^2)t+\sigma_SW_t}
+\end{equation}
+$e^{\text{whatever}} > 0$ so we are golden on limited liability. BUT strictly
+speaking this does not allow for default, $S_t=0$.
+
+Furthermore, $R_t=ln(S_t)$ means returns are normal since
+\[
+    R_t=ln(S_t)+\int_0^t \left[ \mu_S(u)-\sigma_S^2(u) \right] du +
+    \int_0^t \sigma_S(u)dW_u
+\]
+Recognizing everything after $ln(S_t)$ is a general Wiener process (equation
+\ref{GenW}) we remember that linear combinations of normal numbers are normal.
+This is important because
+\textbf{if $R$ is normal than future returns are independent of past returns
+  as well as past AND current current stock price(s)}.

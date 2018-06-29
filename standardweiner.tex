@@ -1,0 +1,33 @@
+
+\section{Standard Weiner Process}
+
+The standard Wiener process, $W$, is the whole stochastic process or law of
+motion. Also referred to as Brownian motion after the biologist who first came
+up with the informal idea while trying to describe the movements of pollen in
+liquid. Wiener formalized the idea.
+\begin{itemize}
+    \item $W_t$: value at time t, unknown before t, often random variable
+    \item $W_{\omega}$: particular path given state $\omega$
+    \item $W_{t,\omega}$: value at time t, given state $\omega$
+\end{itemize}
+$W$ has the following properties;
+\begin{enumerate}
+\item $W_0=0$ (normalized to 0)
+\item $W_t-W_s \sim N(0, t-s)$ (variance is equal to the time increment)
+\item Non-overlapping time increments of $W$ are independent
+\item $W$ has continuous sample paths, $W_{t, \omega}$ is continuous in t.
+    This is possible because, while the normal distribution can jump to an
+    infinite number of values, as the increments between jumps become smaller
+    the variance converges to 0.
+\end{enumerate}
+
+Given the above properties, $W_{t,\omega}$ is not differentiable in t. This is
+important because if we could find the derivative we would know which way the
+process would move next and trade based on this knowledge. Not consistent with
+no arbitrage. This opportunity would be traded away anyway.
+
+We are not finished because W can be negative. This does not fit well with a
+stock price process due to limited liability. Someone owning a stock can lose a
+maximum of the amount they invested and no more. For a physical asset or
+interest rate the possibility of a negative value is not a complete no go, but
+we will focus on stocks.

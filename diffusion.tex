@@ -1,0 +1,20 @@
+
+\section{Diffusion Process}
+
+Diffusions have been well studied by physicists so we can borrow their hard
+work in solving the equations we also borrow from them. In differential form:
+\[dY_t=\mu_Y(t, Y_t)dt+\sigma_Y(t, Y_t)dW_t\]
+In integral form:
+\[Y_t=y+\int_0^t\mu_Y(u, Y_u)du+\int_0^t\sigma_Y(u,Y_u)dW_u\]
+$dY_t$ is locally normal because linear combination of normals. The whole
+process is not normal. $\mu$ (drift) and $\sigma$ (uncertainty scaling -
+dispursion) are known functions of $t$ and $Y_t$.
+
+It can be shown, not by me, that $Y$ is Markovian. That is to say, it has no
+memory (only depends on $t$ and $Y_t$). The economic interpretation of this is
+that all information about the asset is reflected in the price - market
+efficiency. This is an important theoretical property even if we dispute the
+efficient market hypothesis.
+
+BUT we still have not solved our $\frac{dW_t}{dt}$ problem. Mr. It\^o will save
+us.

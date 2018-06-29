@@ -1,0 +1,30 @@
+
+\section{Binomial Intution}
+
+Option pricing is discounting future cash flows to find the present value of an
+asset. Instead of modifying the discount rate, think corporate finance, we
+modify the expected cash flows using risk adjusted probabilities and discount
+at the risk free rate. The economics behind this comes from the
+\textbf{replicating portfolio}.
+
+By replicating an asset we can find its price through the law
+of one price. Two assets with the same cash flows should have the same
+price, otherwise there is arbitrage and there will be much wailing and gnashing
+of teeth. If markets are complete, as many independent assets as there
+are states of the world, we can always replicate an asset.
+
+Let's say we have some cash flow, X, a stock, S, and a bank account paying R
+for sure. We want to combine a postion in the stock and the bank account such
+that the payoff from the combined stock and bank account matches the cash flow
+in all states of the world.
+\[\Delta S+\theta R=X\]
+\[uS_0+\theta R=X_u\]
+\[dS_0+\theta R=X_d\]
+\[P_0=\frac{1}{R}[qX_u+(1-q)X_d]$$ where $$ q=\frac{R-d}{u-d}\]
+
+We can make trees from many of these two state possibilities and account for
+more than two possible outcomes using the same simple ideas of a replicating
+portfolio and the law of one price. No matter how fine we make our trees we
+will always have some imprecision. Taking the number of nodes in the tree to
+the extreme is a probability distribution. This leads us to the first building
+block in an asset price process.
