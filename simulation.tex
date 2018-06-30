@@ -1,0 +1,93 @@
+
+\section{Simulation}
+
+Remembering that Feynman-Kac is taking the expectation of a function subject to
+some dynamics, $E[g(Z_T)]$, we can see how this can be applied to simulation.
+If we know the distribution of $Z$ then we can use a computer to draw many
+$Z$s (iid) and we can take the average $g(Z_T^i)$.
+The central limit theorem says that given enough draws, our average value will
+be very close to the true expected value.
+\[\frac{1}{k}\sum_{i=1}^kg(Z_T^i)\]
+This is the payoff and not the present value. We must still discount.
+What is a ``large" number of draws is  not an exact science.
+It is important to remember to average the payoffs  not the values of $Z$.
+We are not looking for the expected stock price.
+A  confidence interval is essential because we are using random numbers.
+
+It is unlikely we know the distribution to draw our $Z$s from. In this case we
+can discretize the continuous time function using the Euler scheme.
+\[dZ_t\approx\Delta Z_t=Z_{t+\Delta t}-Z_t\]
+\[\Delta t\approx (t+\Delta)-t=\Delta t\]
+\[
+    dW_t\approx\Delta W_t=W_{t+\Delta t}-W_t=
+    \sqrt{\Delta t}\varepsilon_{t+\Delta t}
+\]
+where $\varepsilon_{t+\Delta t}\sim N(0,1)$.
+The first order Euler scheme is given by
+\[
+    Z_{t+\Delta t}=Z_t+\mu_Z(t,Z_t)\Delta t+\sigma_Z(t,Z_t)\sqrt{\Delta t}
+    \varepsilon_{t+\Delta t}
+\]
+where the $\sqrt{\Delta t}$ comes from the variance of the standard Brownian
+motion being proportional to the time interval between steps.
+Steps when the marginal distribution is not known;
+\begin{enumerate}
+  \item Draw a matrix of shocks, [$\varepsilon_1^k$, $\varepsilon_2^k$,
+    $\cdots$, $\varepsilon_M^k$]
+  \item Make $k$ paths with each list of shocks
+    \[
+        Z_{m+1}^k=Z_m^k+\mu_Z(m,Z_m^k)\Delta t+\sigma_Z(m,Z_M^k)\sqrt{\Delta t}
+        \varepsilon_{m+1}^k
+    \]
+    for each $\varepsilon^k$ for each $k$
+  \item $g_M^k=g(Z_M^k)$ and
+    $c(t,S)=e^{-\int_t^tr(u)du}\frac{1}{k}\sum_{i=1}^kg_M^i$
+\end{enumerate}
+For any diffusion, $Y$, we can define an Euler scheme
+\[
+    Y_{m+1}^k=Y_m^k+\mu_Y(m,Y_m^k)+
+    \sigma_Y(m,Y_m^k)\sqrt{\Delta t}\varepsilon_{m+1}
+\]
+where $\varepsilon_{m+1}\sim N(0,1)$.
+
+Unfortunately, the discrete time model may not have the same properties as the
+continuous time model. One attractive feature of the continuous time stock
+price model is the guarantee that the stock price will always be positive as
+long as the initial $S$ is positive. For the discrete time model we cannot make
+the same guarantee because there is a chance the random shock $\varepsilon$ is
+very large at a time that the stock price is low. This undesirable property
+appears because the discrete time model does not shrink the variance to $dt$
+as in the continuous time model. This non-zero variance means there is a chance
+the shock is very large.
+
+One way to avoid this problem, in the specific setting of a stock price model,
+is to model the continuous time return process
+\[dR_t=(\mu_S-\frac{1}{2}\sigma_S^2)dt+\sigma_SdW_t\]
+in discrete time
+\[
+    R_{m+1}=(\mu_S-\frac{1}{2}\sigma_S^2)\Delta t+
+    \sigma_S\sqrt{\Delta t}\varepsilon_{m+1}
+\]
+Since the stock price is given by
+\[S_m^k=e^{R_m^k}\]
+the stock price level cannot be negative.
+
+Drawing random numbers means any simulation we run is just one realization of
+many possible outcomes. It is more informative to create a confidence interval
+than come up with one single estimate of a derivative's value. One approach to
+smaller standard errors is to use antithetic variates. If we draw a random
+number, $u_m$, from a uniform distribution, antithetic variates means we also
+use $\tilde{u}_m=1-u_m$. We get the standard normal from the inverse cumulative
+distribution function: $\tilde{\varepsilon}_m=F^{-1}(\tilde{u}_m)$. The
+standard normal distribution has symmetry so
+\[\tilde{\varepsilon}_m=F^{-1}(\tilde{u}_m)=-\varepsilon_m\]
+$\tilde{\varepsilon}_m$ and $\varepsilon_m$ are highly correlated. This does
+not matter as long as we keep the two series of shocks separate. We can still
+use the same techniques on the separate series of shocks and take the averge of
+the two estimates for the same option value as our final estimate. Antithetic
+variates result in smaller confidence intervals from the same number of random
+draws.
+\[g_M^k=g(T,Y_M^k(\varepsilon))\]
+\[\tilde{g}_M^k=g(T,Y_M^k(\tilde{\varepsilon}))\]
+\[\bar{g}_M^k=\frac{1}{2}(g_M^k+\tilde{g}_M^k)\]
+\[c(t,y)=e^{-\int_t^tr_udu}\frac{1}{K}\sum_{k=1}^K\bar{g}_M^k\]

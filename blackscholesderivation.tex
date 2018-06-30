@@ -1,0 +1,187 @@
+
+\section{Black-Scholes Derivation} \label{sec:BS}
+
+Recognizing the dynamics (equation \ref{feynkacParDyn}) is a geometric Wiener
+process we can write the solution to the PDE as
+\begin{equation} \label{BSPDE}
+    Z_T=Z_te^{\int_t^T\left[ r(u)-\delta(u) \right]
+    -\frac{1}{2}\sigma_S^2(u)du
+    + \int_t^T\sigma_S(u)dW_u}
+\end{equation}
+This is messy but we can simplify notation.
+\[\mu=\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du\]
+\[\sigma=\sqrt{\int_t^T\sigma_S^2(u)du}\]
+\[Z_T=Z_te^{\mu+\sigma\varepsilon}\]
+where
+\[\varepsilon \sim N(0,1)\]
+This is a simpler way of writing $Z_T$ but means the same thing. It is the risk
+adjusted stock price process discounted at the risk-free rate.
+We are still left trying to solve equation \ref{feynkacPar}.
+Remembering $r$ is deterministic, we can take it outside the expectation.
+\[e^{-\int_t^Tr(u)du}E[\text{max}(Z_T-K,0)]\]
+The remaining $\text{max}(Z_T-K,0)$ has a kink.
+This matters because equations with kinks are non-differentiable.
+Writing with indicator functions solves this problem.
+We can take the expected value of the indicator functions separately.
+\[E\left[ (Z_T-K)1_{Z_T\geq K} \right]\]
+\[E\left[ Z_T1_{Z_T\geq K} - K1_{Z_T\geq K} \right]\]
+\begin{equation} \label{BSind}
+    E\left[ Z_T1_{Z_T\geq K} \right] - KE\left[ 1_{Z_T\geq K} \right]
+\end{equation}
+The expected value of an indicator function is the probability the event
+will happen.
+Tackling the second part of equation \ref{BSind} first:
+\[
+    E\left[ 1_{Z_T\geq K}\right] =Pr(Z_T\geq K) =
+    Pr(Z_te^{\mu +\sigma\varepsilon}\geq K)
+\]
+Working with normals is much nicer than working with lognormals. We can solve
+for $\varepsilon$ in the inequality. It is also important to note
+that \textbf{by substituting $Z_T$ for $Z_te^{\mu+\sigma\varepsilon}$ we
+observe $Z_t$ at time $t$.}
+This means is it a constant rather than a stochastic variable.
+\[Z_te^{\mu +\sigma\varepsilon}\geq K\]
+\[e^{\mu +\sigma\varepsilon}\geq\frac{K}{Z_t}\]
+\[\mu +\sigma\varepsilon\geq ln\left( \frac{K}{Z_t} \right)\]
+\[\varepsilon\geq\frac{ln\left( \frac{K}{Z_t} \right)-\mu}{\sigma}\]
+To use the cumulative normal density function we want to get the probability
+that $\varepsilon$ is below a value not above.
+This follows from:
+\[
+    E\left[ 1_{\varepsilon\leq K} \right] =
+    \int_{-\infty}^{\infty} 1_{\varepsilon\leq K} n(\varepsilon)d\varepsilon
+\]
+where $n(\varepsilon)$ is the normal probability density function.
+We end up here because if $X$ is continuous,
+it is not but we make it so with an indicator function,
+then the expectation of $g(X)$ is defined as
+\[E[g(X)]=\int_{-\infty}^{\infty}g(x)f(x)dx\]
+where $f$ is the probability density function of $X$.
+We can now flip the inequality and put a minus sign on the RHS.
+\[
+    Pr\left( \varepsilon\leq -\frac{ln\left(\frac{K}{Z_t}\right)
+    -\mu}{\sigma}\right)
+\]
+Minus sign means we flip the $K$ and $Z_T$ because
+\[
+    -ln\left(\frac{a}{b}\right) =-(ln(a)-ln(b))=ln(b)-ln(a)=
+    ln\left(\frac{a}{b}\right)
+\]
+\[
+    Pr\left( \varepsilon\leq\frac{ln\left(\frac{Z_t}{K}\right)
+    +\mu}{\sigma}\right)
+\]
+\[
+    E\left[ 1_{\varepsilon\leq K} \right] =
+    N\left( \frac{ln\left(\frac{Z_t}{K}\right)
+    +\mu}{\sigma}\right) =N(-L)
+\]
+Now tackling the second part of equation \ref{BSind}:
+\[
+    E\left[ Z_T1_{Z_T\geq K} \right] =
+    \int_{-\infty}^{\infty}Z_te^{\mu+\sigma\varepsilon}1_{Z_T\geq
+    K}n(\varepsilon)d\varepsilon
+\]
+We have found
+$\int_{-\infty}^{\infty} 1_{\varepsilon\leq K}n(\varepsilon)d\varepsilon=
+\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}$.
+We called this expression $L$ and now we set it as the lower limit of the
+integral \textbf{why?}, similar to setting $K$ as the upper limit when finding
+the expectation of the raw indicator function --
+this time we set $L$ as the lower limit because the inequality sign of the
+indicator functions are opposite.
+\[\int_{L}^{\infty}Z_te^{\mu+\sigma\varepsilon}n(\varepsilon)d\varepsilon\]
+Remembering that $Z_t$ is observed at time $t$ and that $n(e)$ is the normal
+density function.
+$n(e)=\frac{1}{\sqrt{2\pi}}e^{-\frac{\varepsilon^2}{2}}$.
+\[
+    Z_t\int_{L}^{\infty}e^{\mu+\sigma\varepsilon}
+    \frac{1}{\sqrt{2\pi}}e^{-\frac{\varepsilon^2}{2}}d\varepsilon
+\]
+We can combine $\varepsilon$ by completing the square
+$(a+b)^2=a^2+2ab+b^2$.
+\[
+    \frac{1}{2}(2\mu+2\sigma\varepsilon-\frac{1}{2}\varepsilon^2)=
+    \frac{1}{2}(2\mu-(\sigma-\varepsilon)^2+\sigma^2)
+\]
+Therefore
+\[
+    Z_t\int_{L}^{\infty}e^{\mu+\frac{1}{2}\sigma^2}
+    \frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}(\varepsilon-\sigma)^2}d\varepsilon
+\]
+We still need the standard normal density in order to use our $N(\cdot)$.
+We can set $u=\varepsilon-\sigma$ therefore, $du=d\varepsilon$ because $\sigma$
+is constant.
+When $\varepsilon=L$, $u=L-\sigma$.
+When $\varepsilon=\infty$, $u=\infty-\sigma$.
+Now
+\[
+    Z_te^{\mu+\frac{1}{2}\sigma^2}
+    \int_{L-\sigma}^{\infty}\frac{1}{\sqrt{2\pi}}e^{-\frac{1}{2}u^2}du
+\]
+\[Z_te^{\mu+\frac{1}{2}\sigma^2}\int_{L-\sigma}^{\infty}n(u)du\]
+Now we have our standard normal $\int_{L-\sigma}^{\infty}n(u)du$ and we can
+switch the inequality direction as we did above.
+\[Pr(>L-\sigma)=Pr(<-(L-\sigma))\]
+\[Z_te^{\mu+\frac{1}{2}\sigma^2}\int_{\infty}^{-(L-\sigma)}n(u)du\]
+\[
+    E\left[ Z_T1_{Z_T\geq K}\right] =
+    Z_te^{\mu+\frac{1}{2}\sigma^2}N(-(L-\sigma))
+\]
+Putting this all back together
+\begin{equation}
+    c(t,S)=e^{-\int_t^Tr(u)du}
+    \left[ Z_te^{\mu+\frac{1}{2}\sigma^2}N(-(L-\sigma)) -KN(-L) \right]
+\end{equation}
+where; $Z_t=S$,
+\[L=\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}\]
+\[\mu=\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du\]
+\[\sigma=\sqrt{\int_t^T\sigma_S^2(u)du}\]
+We have been modeling a $Z$ process and not $S$. Option pricing is computing
+present values but by adjusting the expected payoff rather than the discount
+rate. While $S$ grows at $\mu$, $Z$ grows at $r$.
+We can substitute to get to the more familiar Black-Scholes model.
+Remembering our simplifying notation for $\mu$ and $\sigma$
+\[\mu=\int_t^Tr(u)-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du\]
+\[\sigma=\sqrt{\int_t^T\sigma_S^2(u)du}\]
+\[
+    c(t,S)=
+    e^{-\int_t^Tr(u)du+\int_t^Tr(u)du-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du
+    +\int_t^T\frac{1}{2}\sigma_S^2(u)du}
+    Z_tN(-(L-\sigma))-e^{\int_t^Tr(u)du}KN(-L)
+\]
+\begin{equation} \label{BS}
+    e^{-\delta_S(u)du}Z_tN(-(L-\sigma))-e^{\int_t^Tr(u)du}KN(-L)
+\end{equation}
+Only $d_1$ and $d_2$ remain unfamiliar now.
+\[
+    -(L-\sigma)=-L+\sigma=-\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}+
+    \sqrt{\int_t^T\sigma_S^2(u)du}
+\]
+\[
+    \frac{ln\left(\frac{Z_t}{K}\right)+\int_t^Tr(u)-\delta_S(u)-
+    \frac{1}{2}\sigma_S^2(u)du}{\sqrt{\int_t^T\sigma_S^2(u)du}}+
+    \frac{\int_t^T\sigma_S^2(u)du}{\sqrt{\int_t^T\sigma_S^2(u)du}}
+\]
+\begin{equation} \label{BSd1}
+    d_1=\frac{ln\left(\frac{Z_t}{K}\right)+\int_t^Tr(u)-\delta_S(u)+
+    \frac{1}{2}\sigma_S^2(u)du}{\sqrt{\int_t^T\sigma_S^2(u)du}}
+\end{equation}
+\[-L=-\frac{ln\left(\frac{K}{Z_t}\right)-\mu}{\sigma}\]
+\begin{equation} \label{BSd2}
+    d_2=\frac{ln\left(\frac{Z_t}{K}\right)+\int_t^Tr(u)-\delta_S(u)-
+    \frac{1}{2}\sigma_S^2(u)du}{\sqrt{\int_t^T\sigma_S^2(u)du}}
+\end{equation}
+To get the Black-Scholes formula with constant parameters,
+we need to remember the rules for integrating a constant;
+$\int_a^bkdx=k\int_a^b1dx=k(b-a)$.
+\[c(t,S)=e^{-\delta_S(T-t)}SN(d_1)-e^{-r(T-t)}KN(d_2)\]
+\[
+    d_1=\frac{ln\left(\frac{S}{K}\right) +
+    (r-d_S+\frac{1}{2}\sigma_S^2)(T-t)}{\sigma_S\sqrt{T}}
+\]
+\[
+    d_2=\frac{ln\left( \frac{S}{K} \right) +
+    (r-d_S-\frac{1}{2}\sigma_S^2)(T-t)}{\sigma_S\sqrt{T}}
+\]
+The most important point here is the \textbf{replicating portfolio}.

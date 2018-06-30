@@ -1,0 +1,73 @@
+
+\section{Black and Scholes PDE}
+
+If $c_t=PV_t(g(t, S_t))=f(t, S_t)$ then IL gives us the SDE/diffusion for
+$c_t$. SDEs are hard to solve. We will use IL to find an SDE that $c_t$ must
+satisfy. Using the replicating portfolio intuition, the replicating portfolio
+must match the dynamics of $c_t$ from IL.
+\begin{equation}
+    dc_t=\left[ c_1+c_2\mu_S(t)S_t+\frac{1}{2}c_{22} \left[ \sigma_S(t)S_t
+    \right] ^2 \right] dt + c_2\sigma_S(t)S_tdW_t
+\end{equation}
+The self-financing replicating portfolio is given by equation \ref{replport}.
+The dynamics of the present value of the option must equal the dynamics of the
+replicating portfolio.
+\begin{equation}
+    dc_t=d(\phi_t S_t+\theta_t A_t)=\phi_t dG_t + \theta_t dA_t
+\end{equation}
+There is no need for IL here we just write the formula in differential form.
+\begin{equation}
+    dc_t=\phi_t \left[ \mu_S(t)S_tdt + \sigma_S(t)S_tdW_t + \delta_S(t)S_tdt
+    \right] + \theta_tr_tA_tdt
+\end{equation}
+
+\begin{equation}
+    dc_t= \left[ \left[ \mu_S(t) + \delta_S(t) \right] \phi_t S_t +
+    \theta_t r_t A_t \right] dt + \phi_t \sigma_S(t)S_tdW_t
+\end{equation}
+Two diffusions $X$ and $Y$ are equal for all $t$ iff $\mu_X(t, X_t)=\mu_Y(t,
+Y_t)$ and $\sigma_X(t, X_t)=\sigma_Y(t, Y_t)$. Collect drift and dispersion
+terms for the option and the replicating portfolio:
+\begin{equation}
+    c_1+c_2\mu_S(t)S_t+\frac{1}{2}c_{22} \left[ \sigma_S(t)S_t \right] ^2 =
+    \left[ \mu_S(t) + \delta_S(t) \right] \phi_t S_t + \theta_t r_t A_t
+\end{equation}
+\begin{equation}
+    c_2\sigma_S(t)S_t=\phi_t\sigma_S(t)S_t
+\end{equation}
+Now we have two equations and two unknowns, $\theta_t$ and $\phi_t$.
+\begin{equation}
+    \phi_t=c_2
+\end{equation}
+Which means
+\[
+    c_1+c_2\mu_S(t)S_t+\frac{1}{2}c_{22} \left[ \sigma_S(t)S_t \right] ^2 =
+    c_2\mu_S(t)S_t + c_2\delta_S(t)S_t + \theta_t r_t A_t
+\]
+Interestingly, this means the required rate of return, $\mu_S$, disappears.
+This does not mean the option price is independent from the required rate of
+return, \textbf{$\mu_S$ is implicit in the stock price}.
+\begin{equation}
+    \theta_t=\frac{1}{r_t A_t} \left[ c_1 - c_2\delta_S(t)S_t + \frac{1}{2}
+    c_{22} \left[ \sigma_S(t)S_t \right] ^2 \right]
+\end{equation}
+Now we can throw $\phi_t$ and $\theta_t$ back into the replicating portfolio.
+\[c_t=\phi_tS_t+\theta_tA_t\]
+\begin{equation}
+    c_t=c_2S_t+\frac{1}{r_tA_t}A_t \left[ c_1-c_2\delta_S(t)S_t + \frac{1}{2}
+    c_{22} \left[ \sigma_S(t)S_t \right] ^ 2 \right]
+\end{equation}
+Simplifying and dropping the $t$ subscripts
+\[rc=rc_2S+c_1-c_2\delta_SS+\frac{1}{2}c_{22}\sigma_S^2S^2\]
+Rearranging gives us the fundamental PDE (no required rate of return!)
+\begin{equation} \label{fundPDE}
+    rc=c_1+c_2 \left( r-\delta_S \right) +\frac{1}{2}c_{22}\sigma_S^2S^2
+\end{equation}
+The fundamental PDE is contract independent. We have not specified any
+boundary conditions such as $c(T, S_T)=g(T, S_T)=max(S_T-K, 0)$. All
+derivatives satisfy equation \ref{fundPDE}. Whatever drift we throw in we will
+end up with $c_2(r-\delta_S)$. It is important to note that while
+the solution to $c(t, S_t)$ does not depend on the required rate of return,
+the value of the option is not independent of $\mu_S$. The required rate of
+return is implicit in the stock price. BUT, how do we solve the fundamental
+PDE?

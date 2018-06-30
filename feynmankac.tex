@@ -1,0 +1,35 @@
+
+\section{Feynman-Kac}
+
+Feynman-Kac helps us solve the fundamental PDE. Equation \ref{fundPDE} is an
+instance of a more general PDE:
+\[c_1(t,x)+c_2(t,x)a(t,x)+\frac{1}{2}c_{22}(t,x)\sigma^2(t,x)=c(t,x)b(t,x)\]
+with the boundary condition: $C(T,x)=g(x)$.
+The economics of the replicating portfolio can tell us the structure of these
+more general formulas.
+FK says the solution to $c(t,x)$ is:
+\begin{equation} \label{feynkacGen}
+    c(t,x)=E\left[ e^{-\int_t^Tb(u,Z_u)du}g(Z_T) \right]
+\end{equation}
+and the dynamics is:
+\[dZ_u=a(u,Z_u)du+\sigma(u,Z_u)dW_u\]
+
+As an example we can consider an EU call in the Black-Scholes world ($S$). We
+know the particular PDE, equation \ref{fundPDE}. Identification:
+\begin{itemize}
+    \item $t\sim t$
+    \item $x\sim S$
+    \item $a(t,S)\sim (r-\delta_S(t))S$
+    \item $b(t,S)\sim r_t$
+    \item $\sigma(t,S)\sim \sigma_S(t)S$
+    \item $g(S)\sim max(S_T-K,0)$
+\end{itemize}
+Substitution:
+\begin{equation} \label{feynkacPar}
+    c(t,S)=E\left[ e^{-\int_t^Tr(u)du}max(S_T-K,0) \right]
+\end{equation}
+The value of the option is the expected value of the discounted value at
+expiration where the dynamics, $Z=S$, is given by:
+\begin{equation} \label{feynkacParDyn}
+    dZu=(r(u)-\delta_S(u))Z_udu+\sigma_S(u)Z_udW_u
+\end{equation}

@@ -1,0 +1,50 @@
+
+\section{Dividends}
+
+$\phi$ is the number of stocks. So $\phi_t S_t$ is the value of the stock
+position at date t. The value of the position from time $0$ to $t$ =
+$\int_0^t \phi_u dS_u$. We have a model for $dS_u$.
+
+Unfortunately, we are forgetting about one common aspect of stocks, dividends.
+Since we work in continuous time we will have to model dividends as a
+constant drip of income, at a deterministic rate $\delta_S(t)$,  rather than
+discrete lumps of cash. While this is not all that realistic for individual
+stocks, the model does make sense for a security such as an index fund which
+would pay out in something of a drip. There will be a stock in the index
+paying some small amount of dividend compared to the value of the index. This
+means $S_t$ is an ex-dividend price, we have not taken into account the gains
+(or foregone gains) from dividends.
+\[G_t=S_t+D_t\]
+where
+\[D_t=\int_0^t \delta_S(u)S_udu\]
+and
+\[dG_t=dS_t+dD_t\]
+which is a mix of present and accounting values. Over small time interval
+$dt$ we don't mind.
+\[dG_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t+\delta_S(t)S_tdt\]
+\[dG_t=\left[ \mu_S(t)+\delta_S(t) \right] S_tdt+\sigma_S(t)dW_t\]
+$G_t$ does not assume optimal use of dividends, i.e. reinvestment. Since we
+work with $dG_u$ this is fine.
+
+\section{Buy and Hold Strategy}
+
+Assume we invest in a bank account and a stock. Buy and hold so the quantities
+of the bank account and the stock are fixed from time $0$ to $t$. We invest
+$\theta$ quantity of \$1 bank accounts and $\phi$ quantity of $S$. The bank
+account process is
+\[A_t=e^{\int_0^t r(u)du}\]
+\[dA_t=e^{\int_0^t r(u)du} \int_0^t r(u)du\]
+\[dA_t=A_tr_td\]
+So the portfolio value from $0$ to $t$ is
+\[\int_0^t \phi_u dG_u + \int_0^t \theta_udA_u\]
+
+\section{Self-financing Portfolio}
+
+Remembering the binomial intuition, we need a self-financing portfolio to
+replicate the option payoff.
+\begin{equation} \label{replport}
+    \phi_tS_t+\theta_tA_t=\phi_0S_0+\theta_0A_0+ \int_0^t \phi_u dG_u +
+    \int_0^t \theta_udA_u
+\end{equation}
+We don't know how to solve integrals that don't have regular $dt$ or $du$
+terms.

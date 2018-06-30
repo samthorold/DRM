@@ -1,0 +1,20 @@
+
+\section{Girsanov's Theorem}
+
+Changing probabilities from $P$ to $Q$ means $W$ is no longer a standard Weiner
+process. We can adjust the Weiner process
+\begin{equation} \label{Girsanov}
+    d\tilde{W}_t=dW_t+\lambda_tdt
+\end{equation}
+where $\lambda_tdt$ is a deterministic increment. Under the correct $Q$,
+$d\tilde{W}$ can be a standard Weiner process.
+The fundamental theorem of asset pricing says that all discounted gains
+processes must be $Q$-martingales. So we choose $Q$ to make the gains process
+a martingale. We do this by making the drift, $\mu_Y$, equal to $0$. This boils
+down to the following steps;
+\begin{enumerate}
+    \item Find dynamics of $G^*$ using Ito under probability measure $P$
+    \item Change probability measure from $P$ to $Q$ with equation
+          \ref{Girsanov}
+    \item Choose $\lambda$ to make drift, $\mu$, equal to $0$
+\end{enumerate}

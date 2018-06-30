@@ -1,0 +1,126 @@
+
+\section{Equivalent Martingale Measures}
+
+So far, we have been working implicitly with a physical probability measure,
+$P$.
+From now on, we will risk-adjust $P$ to get a risk-adjusted probability
+measure, $Q$.
+$Q$ is an equivalent martingale measure relative to $P$ if;
+\begin{enumerate}
+    \item $P[x]=0$ when $Q[x]=0$. That is to say, $P$ and $Q$ agree what cannot
+          happen (``equivalence")
+  \item \begin{equation} \label{EMM}
+            G_t^{n*}=E_t^Q[G_T^{n*}]
+        \end{equation}
+        That is to say, all gains processes are $Q$-martingales
+\end{enumerate}
+We make a discounted gains process by choosing a security price to use as
+a numeraire. This follows from the intuition that all value is relative -- we
+used to use cows but now we use currency. A numeraire must be $> 0$ and must
+not pay dividends.
+
+\section{Spot Measure}
+
+A natural choice in derivatives pricing is the bank account
+$A_t=e^{\int r_udu}$. Discounted processes are denoted with ``*".
+In the Black-Scholes world, this gives
+\[A_t^*=\frac{A_t}{A_t}=1\]
+\[S_t^*=\frac{S_t}{A_t}\]
+but $S_t^*$ is not a gains process
+\[D_t^*=\int\frac{\delta_S(u,S_u)}{A_t}du\]
+We must discount each dividend independently because they arrive at different
+times and so require different discount rates.
+\[G_t^*=S_t^*+D_t^*\]
+The subscript on stochastic variables shows when the random variable becomes
+observed and therefore a constant. $E_t[X]=E[X|\mathbb{F}_t]$
+
+Well who cares? Let's assume we know $Q$ (which is unrealistic).
+Given equation \ref{EMM}, which says that all discounted gains process must be
+$Q$-martingales, $c_t^*$ must be a $Q$-martingale.
+\[c_t^*=E_t^Q[c_T^*]\]
+but we want to know $c_t^*$
+\[\frac{c_t}{A_t}=E_t^Q\left[ \frac{c_T}{A_T} \right]\]
+\[c_t=E_t^Q\left[ \frac{A_t}{A_T}c_T^* \right]\]
+We can throw $A_t$ inside the expectation operator because even if interest
+rates are stochastic we can observe the interest rate at time $t$ so $A_t$ is
+a constant.
+\[c_t=E_t^Q\left[ e^{-\int_t^Tr_udu}max(S_T-K,0) \right]\]
+now we can use Feynman-Kac. $Q$ allows us to discount at the riskless rate.
+
+\subsection{Example: ZCB}
+
+Payoff function
+\[
+    g(t,W_t)=
+    \begin{cases}
+        1 & \text{if }t=T \\
+        0 & \text{if }t\neq T
+    \end{cases}
+\]
+$P_{t,T}=PV_t(g(T))$ is the ex-dividend price. That is to say $P_{T,T}=0$
+because we received the dividend.
+\[P_{t,T}^*+D_t^*=E_T^Q[P_T^*+D_T^*]\]
+but we want $P_{t,T}$
+\[\frac{P_{t,T}}{A_t}+0=E_t^Q\left[ 0+\frac{1}{A_T} \right]\]
+$D_T^*=\frac{1}{A_T}$ is not from $D_T^*=\frac{D_T}{A_T}$. It is from Dirac's
+delta.
+\[D_t=\begin{cases} 0 & \text{for }t<T \\ 1 & \text{for }t\geq T \end{cases}\]
+\[D_T^*=\int_0^t\frac{1\delta_T(u)}{A_T}du\]
+\[
+    \delta_T(u)=
+    \begin{cases}
+        \infty & u=T \\
+        0 & u\neq T
+    \end{cases}
+\]
+\[\int_0^{\infty}\delta_T(u)du=1\]
+\textbf{Not really sure what has gone on here.}
+But now we can move $A_t$ inside the expectation operator because it is
+observed and therefore a constant
+\[P_{t,T}=E_t^Q\left[ \frac{A_t}{A_T} \right]\]
+We could also have defined the date $T$ payoff as the price at date $T$. Think
+of it as selling the bond immediately before receiving the dividend.
+$P_{T,T}=1$ and $D_t=0$
+\[P_{t,T}^*+D_t^*=E_t^Q[P_{T,T}^*+D_T^*]\]
+\[\frac{P_{t,T}}{A_t+0}=E_t^Q\left[ \frac{1}{A_T}+0\right]\]
+\[P_{t,T}=E_t^Q\left[ \frac{A_t}{A_T}\right]\]
+where
+\[
+    \frac{A_t}{A_T}=
+    \frac{e^{\int_0^tr_udu}}{e^{\int_0^Tr_udu}}=
+    e^{\int_0^tr_udu-\int_0^Tr_udu}
+\]
+\[P_{t,T}=E_t^Q\left[ e^{-\int_t^Tr_udu}\right]\]
+
+\subsection{Example: Continuous Dividend}
+
+A stock that continuously pays dividends where
+\[
+    g(t,S_t)=
+    \begin{cases}
+        \delta_S(t,S_t) & 0\leq t\leq T \\
+        0 & t>T
+    \end{cases}
+\]
+$P_T=0$ because dividends are paid out continuously so there is nothing to
+sell.
+\[D_t=\int_t^T\delta_S(u,S_u)du\]
+To avoid arbitrage the discounted gains process must be be a Q-martingale
+\[P_t^*+D_t^*=E_t^Q[P_T^*+D_T^*]\]
+\[P_t^*=E_t^Q[D_T^*]\]
+The discounted price is the expected value of discounted dividends received
+between $t$ and $T$.
+\[\frac{P_t}{A_t}=E_t^Q[D_T^*-D_t^*]\]
+\[
+    P_t=E_t^Q\left[ A_t\left( \int_0^T\frac{\delta_S(u,S_u)}{A_u}du-
+    \int_0^t\frac{\delta_S(u,S_u)}{A_u}du\right) \right]
+\]
+\[P_t=E_t^Q\left[A_t\int_t^T\frac{\delta_S(u,S_u)}{A_u}du\right]\]
+We can move the $A_t$ inside the integral because $A_t$ is observed and
+therefore constant even if interest rates are stochastic.
+$\frac{A_t}{A_T}=e^{-\int_t^Tr_udu}$
+\[P_t=E_t^Q\left[ \int_t^Te^{-\int_t^Tr_udu}\delta_S(u,S_u)du\right]\]
+Using the familiar dividend policy, $\delta_S(u,S_u)=\delta_S(u)S_u$
+\[S_t=E_t^Q\left[ \int_t^Te^{-\int_t^Tr_udu}\delta_S(u)S_udu\right]\]
+The discounted price is the expected value of discounted dividends received
+between $t$ and $T$.

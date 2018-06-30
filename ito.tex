@@ -1,0 +1,86 @@
+
+\section{It\^o's Lemma}
+
+We want to find the present value of derivative payoffs. E.g. an EU call
+$g(T, S_T)$. It can be shown that $PV_t=f(t, S_t)$. If we can solve $f$ we are
+golden. It\^o's Lemma gives us the stochastic differential equation for the
+unknown function, $f$. Theoretically, we can solve the SDE. Put another way,
+IL gives us the change in the PV of an option given time and the stock price.
+It is the total derivative of the unknown function, $f$, that gives us the PV
+of the option.
+\[df(t,x)=f_1(t,x)dt+f_2(t,x)dx\]
+The total derivative is: $\Delta f$ given the $\Delta t$ with constant $x$ +
+$\Delta f$ given the $\Delta x$ with constant $t$.
+
+Given diffusion $Y$;
+\begin{equation} \label{IL}
+    df(t, Y_t) = \left[ f_1(t,Y_t)+f_2(t,Y_t) \mu_Y (t,Y_t)+ \frac{1}{2} f_{22}
+    (t,Y_t) \sigma_Y^2 (t,Y_t) \right] dt+f_2(t,Y_t)\sigma_Y (t,Y_t)dW_t
+\end{equation}
+where
+\[f_1(t, Y_t)=\frac{df(t,Y_t)}{dt}\]
+\[f_2(t, Y_t)=\frac{df(t,Y_t)}{dY_t}\]
+\[f_{22}(t, Y_t)=\frac{d^2f(t,Y_t)}{dY_t^2}\]
+
+\subsection{Example: Stock Price Process}
+
+We define returns as the log of the price, $R_t=ln(S_t)$. We can use IL to
+prove that $S$, from equation \ref{S}, has the solution:
+\[
+    S_t=S_0e^{\int_0^t\mu_S(u)-\frac{1}{2}\sigma_S^2(u)du+
+    \int_0^t\sigma_S(u)dW_u}
+\]
+Identification
+\[f(t,Y_t)=R_t=ln(S_t)\]
+\[Y_t=S_t\]
+Calculation
+\[f_1(t,S_t)=0\]
+\[f_2(t, S_t)=\frac{1}{S_t}\]
+\[f_{22}(t,S_t)=-\frac{1}{S_t^2}\]
+Substitution
+\[
+    dR_t=\left[ 0+\frac{1}{S_t}\mu_S(t)S_t+\frac{1}{2}\frac{-1}{S_t^2}
+    \left[ \sigma_S(t)S_t \right] ^2 \right] dt+ \frac{1}{S_t}\sigma_SS_tdW_t
+\]
+Simplification
+\[
+    dR_t= \left[ \mu_S(u)-\frac{1}{2}\sigma_S^2(t) \right] dt + \sigma_S(t)dW_t
+\]
+$dR_t$ is a generalized Wiener process, equation \ref{dGenW}.
+
+\subsection{Example: Buy and Hold}
+
+We claimed
+\[\phi_tS_t + \phi_0S_0=\int_0^t\phi_udG_u\]
+where $\phi_t=e^{\int_0^t\delta_S(u)du}$ and $\delta_S(t, S_t)=\delta_S(t)S_t$
+because we reinvest dividends.
+IL can give us the dynamics of the position.
+\[Z_t=\phi_tS_t=e^{\int_0^t\delta_S(u)du}S_t\]
+Remembering that
+\[\frac{d}{dt}f(x)g(x)=f'(x)g(x)+f(x)g'(x)\]
+Identification
+\[f(t, Y_t)=e^{\int_0^t\delta_S(u)du}S_t\]
+\[Y_t=S_t\]
+Calculation
+\[f_1=S_te^{\int_0^t\delta_S(u)du}\frac{d}{dt}\int_0^t\delta_S(u)du\]
+When differentiating w.r.t. the limits of an integral we can evalutate at the
+upper limit if the lower limit does not depend on, in our case, $t$.
+\[f_1=S_te^{\int_0^t\delta_S(u)du}\delta_S(t)=\phi_tS_t\delta_S(t)\]
+\[f_2=e^{\int_0^t\delta_S(u)du}1=\phi_t\]
+\[f_2=0\]
+Substitution
+\[
+    dZ_t=\left[ \phi_tS_t\delta_S(t) + \phi_t\mu_S(t)S_t +\frac{1}{2}0  \right]
+    dt + \phi_t\sigma_S^2(t)S_tdW_t
+\]
+Simplification (where does the squared term go?)
+\[
+    Z_t=\phi_tS_t=z_0+\int_0^t\phi_tS_t\delta(u)+
+    \phi_u\mu_S(u)S_udu+\int_0^t\phi_u\sigma_S(u)S_udW_u
+\]
+\[
+    z_0+\int_0^t\phi_u\mu_S(u)S_udu+
+    \int_0^t\phi_u\sigma_S(u)S_udW_u+\int_0^t\phi_tS_t\delta(u)du
+\]
+\[z_0+\int_0^t\phi_udS_u+\int_0^t\phi_udD_u\]
+\[z_0+\int_0^t\phi_ud(S_u+D_u)\]
