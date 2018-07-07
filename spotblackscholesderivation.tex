@@ -1,0 +1,92 @@
+
+\section{Spot Measure Black-Scholes}
+
+Using our spot measure where the numeraire asset is the bank account gave us;
+\[dA_t=r_tA_tdt\]
+\[dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t\]
+\[dD_t=\delta_S(t)S_tdt\]
+\[dG_t=dS_t+dD_t\]
+We must ensure $G^*$ is a $Q$-martingale to avoid arbitrage. Starting with the
+dynamics of $dS_t^*$ under the $P$ probability measure. We do not need to do
+this step for the dividend process because $D$ has no Weiner process.
+Identification:
+\[S_t^*=\frac{S_t}{A_t}=e^{-\int_t^Tr_udu}S_t=f(t,S)\]
+\[
+  dS_t^*=\left[ f_1+f_2+\frac{1}{2}f_{22}(\sigma_SS)^2\right] dt+\sigma_Sf_2dW_t
+\]
+Calculation:
+\[
+  f_1=e^{-\int_t^Tr_udu}\frac{\partial}{\partial t}
+  \left( -\int_t^Tr_udu\right) S_t
+\]
+$S_t$ does not depend on $t$ it just has a subscript
+\[=S_tA_t^{-1}\frac{\partial}{\partial t}-r_tdt=-r_tA_t^{-1}S_t\]
+$A_t^{-1}$ does not depend on $S$
+\[f_2=e^{-\int_t^Tr_udu}1=A_t^{-1}\]
+$S$ dies in $f_2$ so there is nothing left to differentiate in $f_{22}$
+\[f_{22}=0\]
+Substitution:
+\[
+  dS_t^*=\left[ -r_tA_t^{-1}S_t+A_t^{-1}\mu_S(t)S_t+\frac{1}{2}0(\sigma_SS)^2
+  \right] dt+A_t^{-1}\sigma_S(t)S_tdW_t
+\]
+Simplification: Remembering $S_t^*=\frac{S_t}{A_t}$
+\[dS_t^*=\left[ \mu_S(t)S_t^*-r_tS_t^*\right] dt+\sigma_S(t)S_t^*dW_t\]
+\[dS_t^*=\left[ \mu_S(t)-r_t\right] S_t^*dt+\sigma_S(t)S_t^*dW_t\]
+This is only the dynamics of $S_t^*$ under $P$ probabilities with a standard
+Weiner process.
+We must make sure the discounted gains process $G^*$ is a $Q$-martingale.
+\[dG_t^*=d(S_t^*+D_t^*)=dS_t^*+dD_t^*\]
+\[=dS_t^*+d\int_0^t\frac{\delta_S(u)S_u}{A_u}du\]
+Noticing $\frac{S_u}{A_u}=S_u^*$
+\[=[\mu_S(t)-r_t]S_t^*dt+\sigma_S(t)S_t^*dW_t+\delta_S(t)S_t^*dt\]
+Changing from $P$ to $Q$ probability measures with
+$d\tilde{W}_t=dW_t+\lambda_tdt$
+\[
+  =[\mu_S(t)+\delta_S(t)-r_t]S_t^*dt+
+  \sigma_S(t)S_t^*(d\tilde{W}_t-\lambda(t)dt)
+\]
+\[
+  =[\mu_S(t)+\delta_S(t)-r_t-\sigma_S(t)\lambda(t)]S_t^*dt+
+  \sigma_S(t)S_t^*d\tilde{W}_t
+\]
+In order to truly treat $d\tilde{W}_t$ as a standard Wiener and say we have
+changed probabilities we need to choose $\lambda$ such that the drift of the
+gains process $\mu_{G^*}=0$. Otherwise there would be arbitrage and much
+wailing and gnashing of teeth.
+\[\mu_S(t)+\delta_S(t)-r_t-\sigma_S(t)\lambda(t)=0\]
+\[\lambda(t)=\frac{\mu_s(t)+\delta_S(t)-r_t}{\sigma_S(t)}\]
+Where $\mu_S+\delta_S$ is the total return of the stock,
+$\mu_S+\delta_S-r_t$ is the excess return and dividing the excess return by
+$\sigma_S$ gives the Sharpe ratio.
+
+We have identified $Q$ through its effect on $d\tilde{W}_t=dW_t+\lambda(t)$.
+The payoff for an option, for example a call, is a function of $S_T$ and $K$,
+not $S_t^*$ or any other process under $Q$ probabilities. We must determine
+$S_T$ under $Q$ because
+\begin{equation} \label{callExpVal}
+  c_t=E_t^Q\left[ e^{-\int_t^Tr_udu}max(S_T-K) \right]
+\end{equation}
+We found the dynamics of our gains process under $Q$ in order to find $\lambda$
+so that we can plug this into our stock price process once we change to $Q$
+probabilities. We used the gains process to find $\lambda$ because all gains
+processes must be $Q$-martingales to avoid arbitrage. Having found $\lambda$ we
+can use it to adjust processes to make $d\tilde{W}_t$ a standard Wiener.
+\[dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_t[d\tilde{W}_t-\lambda(t)dt]\]
+\[=[\mu_S(t)+\sigma_S(t)(-\lambda(t))]S_tdt+\sigma_S(t)S_td\tilde{W}_t\]
+substituting for $\lambda$
+\[
+  \left[\mu_S(t)+\sigma_S(t)
+  \left( -\frac{\mu_S(t)+\delta_S(t)-r_t}{\sigma_S(t)}\right)\right]
+  S_tdt+\sigma_S(t)d\tilde{W}_t
+\]
+\[[r_t-\delta_S(t)]S_tdt+\sigma_S(t)S_td\tilde{W}_t\]
+\textbf{No $\mu_S$ here} and we recognize it as a geometric Wiener process.
+\[
+  S_T=S_te^{\int_t^Tr(u)du-\delta_S(u)-\frac{1}{2}\sigma_S^2(u)du+
+  \int_t^T\sigma_S(u)d\tilde{W}_u}
+\]
+and remembering \ref{callExpVal} we can use Feynman-Kac. We just change the
+diffusion when using $Q$-probabilities. We have used the same replicating
+portfolio logic to arrive here so we can use the same Black-Scholes-Merton
+formula.

@@ -2,4 +2,7 @@
 *.log
 *.aux
 *.pdf
+R_libs/
+_book/libs/
+_book/search_index.json
 

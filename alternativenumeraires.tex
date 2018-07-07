@@ -1,0 +1,106 @@
+
+\section{Alternative Numeraires}
+
+So far we have discounted the price process by a riskless bank account.
+\[A_t^*=\frac{A_t}{A_t}\]
+\[G_t^*=S_t^*+D_t^*=\frac{S_t}{A_t}^*+\int_t^T\frac{\delta_S(u)}{A_u}du\]
+We then chose $Q$ such that $G_t^*$ was a $Q$ martingale, $G_t^*=E_t^Q[G_T^*]$.
+We don't have to use a bank account as the numeraire.
+Depending on the goals, other securities may save some computation time and are
+therefore better.
+
+The requirements for a general numeraire security are; strictly positive and no
+separate dividends, i.e. $B$ is a gains process for $B$.
+\[A_t^B=\frac{A_t}{B_t}\]
+\[G_t^B=S_t^B+D_t^B=\frac{S_t}{B_t}+\int_t^T\frac{\delta_S(u)}{B_u}du\]
+We then chose $Q_B$ such that $G_t^B$ was a $Q$ martingale,
+$G_t^B=E_t^{Q_B}[G_T^B]$.
+
+\section{Forward Measure, $Q_T$}
+
+$P(t,T)$ is the date $t$ price of a ZCB paying $1$ at time $T$. We define the
+$T$ forward measure, $Q_T$, by requiring
+$G_t^{P(t,T)}=E_t^{Q_T}[G_s^{P(t,T)}]$ for all $t\leq s$ for discounted gains
+processes. That is to say, $Q_T$ is the probability measure that makes all
+gains processes martingales.
+
+\subsection{Example: EU Call}
+
+\[c_t^{P(t,T)}=E_t^{Q_T}[c_T^{P(t,T)}]\]
+iff
+\[\frac{c_t}{P(t,T)}=E_t^{Q_T}\left[\frac{max(S_T-K,0)}{P(T,T)}\right]\]
+$P(T,T)$ is $1$ by construction and $P(t,T)$ can be observed
+\[c_t=E_t^{Q_T}[max(S_T-K,0)]P(t,T)\]
+Who cares? This is the discounted expected value as before. But the forward
+measure helps if interest rates are stochastic. Under the spot measure we would
+have the expectation of a random variable times a random variable. This is
+a covariance nightmare.
+
+\section{Stock Measure, $Q_S$}
+
+While the stock price process from our model is strictly positive, it does pay
+dividends. We must adjust it slightly to use it as a numeraire. We use an
+artificial security $S^c$ where all dividends are continuously reinvested. The
+intuition is similar to the bank account. We accumulate units a the rate of
+dividend payout (like we accumulate dollars at the risk free rate).
+\begin{equation} \label{stockNumeraire}
+  S_te^{\int_0^t\delta_S(u)du}
+\end{equation}
+Who cares? In short, $G^S$ will be $Q$-martingales by construction. More
+thoroughly, We know our stock price process $S$ has a gains process of
+$G=S+D$ and we know $S_t=S_0e^{\left(\mu-\frac{1}{2}\sigma^2\right) t+
+\sigma W_t}$, $dS_t=\mu S_tdt+\sigma S_tdW_t$ and $dD_t=\delta S_tdt$.
+Dividing through by $S_t$ removes the $\mu$. But the price process is still
+growing at the dividend rate, $\delta$. Dividing by the adjusted stock price
+process, $S^c$, removes $\mu$ and $\delta$ making $G^S$ a $Q$-martingale by
+construction. 
+While we are using the stock measure we can still use the bank account to find
+the correct risk adjustment, $\lambda^S$.
+\[
+  A_t^S=\frac{A_t}{S_t^c}=\frac{1}{S_t}
+  \frac{e^{\int_0^tr_udu}}{e^{\int_0^t\delta_S(u)du}}
+\]
+\[=\frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}\]
+Now we need to find the dynamics of this diffusion, It\^o to the rescue.
+Identification:
+\[f(t,S)=\frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}\]
+The $S$ means we need It\^o because this is a diffusion. Calculation:
+\[f_1=\frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}(r_t-\delta_S(t))\]
+\[f_2=-\frac{1}{S_t^2}e^{\int_0^tr_u-\delta_S(u)du}\]
+\[f_{22}=2\frac{1}{S_t^3}e^{\int_0^tr_u-\delta_S(u)du}\]
+Substitution (into \ref{IL}):
+\[dA_t^S=\]
+\[
+  \left[ \frac{1}{S_t}e^{\int_0^tr_u-\delta_S(u)du}(r_t-\delta_S(t))-
+  \frac{1}{S_t^2}e^{\int_0^tr_u-\delta_S(u)du}\mu_S(t)S_t+
+  \frac{1}{2}2\frac{1}{S_t^3}e^{\int_0^tr_u-\delta_S(u)du}(\sigma_S(t)S_t)^2
+  \right] dt+
+\]
+\[-\frac{1}{S_t^2}e^{\int_0^tr_u-\delta_S(u)du}\sigma_S(t)S_tdW_t\]
+Simplification:
+\[
+  dA_t^S=\left[ \frac{A_t}{S_t^c}(r_t-\delta_S(t))-\frac{A_t}{S_t^c}\mu_S(t)+
+  \frac{A_t}{S_t^c}\sigma_S^2(t) \right] dt-\frac{A_t}{S_t^c}\sigma_S(t)dW_t
+\]
+Adjust the Wiener process:
+\[
+  dA_t^S=A_t^S\left[ r_t-\delta_S(t)-\mu_S(t)+\sigma_S^2(t)\right] dt-
+  A_t^S\sigma_S(t)\left( dW_t^S-\lambda_t^Sdt\right)
+\]
+\[
+  dA_t^S=A_t^S\left[ r_t-\delta_S(t)-\mu_S(t)+\sigma_S^2(t)+
+  \sigma_S(t)\lambda_t^S\right] dt-A_t^S\sigma_S(t)dW_t^S
+\]
+is a $Q_S$-martingale iff no drift, i.e. set $dt$ term to $0$ and solve for
+$\lambda$.
+\[\lambda_t^S=\frac{-r_t+\delta_S(t)+\mu_S(t)-\sigma_S^2(t)}{\sigma_S(t)}\]
+Now that we have nailed down $\lambda$ in the gains process we can use it to
+adjust the stock price process from $P$ to $Q_S$ probabilities.
+\[dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_tdW_t\]
+\[dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_t(dW_t^S-\lambda_t^Sdt)\]
+\[
+  dS_t=\mu_S(t)S_tdt+\sigma_S(t)S_t\left[ dW_t^S-
+  \frac{-r_t+\delta_S(t)+\mu_S(t)-\sigma_S^2(t)}{\sigma_S(t)}\right]
+\]
+\[dS_t(r_t-\delta_S(t)+\sigma_S^2(t))S_tdt+\sigma_S(t)S_tdW_t^S\]
+We recognise this as a geometric Wiener.

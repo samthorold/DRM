@@ -1,0 +1,66 @@
+
+\section{Forward and Spot Measures Black-Scholes}
+
+We can think of the payoff from an EU call option as paying the strike to
+receive the stock at time $T$. We will pay the strike if the stock is worth
+more.
+\[c_T=max(S_T-K,0)=S_T1_{S_T>K}-K1_{S_T>K}\]
+We will refer to the first term as $c_{1T}$ and the second as $c_{2T}$.
+We can use the stock measure to find the present value of $c_{1T}$.
+\[c_{1t}^S=E_t^{Q_S}[c_{1T}^S]\]
+iff
+\[\frac{c_{1t}}{S_t^c}=E_t^{Q_S}\left[\frac{S_T1_{S_T>K}}{S_T^c}\right]\]
+\[
+  \frac{c_{1t}}{S_te^{\int_0^t\delta_S(u)du}}=
+  E_t^{Q_S}\left[\frac{S_T}{S_Te^{\int_0^T\delta_S(u)du}}1_{S_T>K}\right]
+\]
+\[
+  c_{1t}=S_te^{\int_0^t\delta_S(u)du}\frac{1}{e^{\int_0^T\delta_S(u)du}}
+  E_t^{Q_S}\left[ 1_{S_T>K}\right]
+\]
+\[c_{1t}=S_te^{-\int_t^T\delta_S(u)du}Q_S(S_T>K)\]
+The expectation of an indicator function is the probability, under $Q_S$
+probabilities here, of that event happening.
+Remembering our solution for a geometric Wiener
+\[
+  S_T=S_te^{\int_t^Tr_u-\delta_S(u)+\sigma_S^2(u)-\frac{1}{2}\sigma_S^2(u)du+
+  \int_t^T\sigma_S(u)dW_u^S}=S_te^{m+\sigma\varepsilon}
+\]
+Where $\varepsilon\sim N(0,1)$.
+Note the adjusted Wiener process.
+\[Q_S(S_T>K)=Pr(S_te^{m+\sigma\varepsilon}>K)\]
+Solve for $\varepsilon$ inside $Pr$
+\[
+  Q_S(S_T>K)=
+  Pr\left(\varepsilon>\frac{ln\left(\frac{K}{S_t}\right) -m}{\sigma}\right)
+\]
+Remembering section \ref{sec:BS} where we derived the Black-Scholes formula the
+first time, we want to find the probability that $\varepsilon$ is less than
+some value so we can use the cumulative normal density function. We flip the
+inequality
+\[
+  Pr\left(\varepsilon>\frac{ln\left(\frac{K}{S_t}\right) -m}{\sigma}\right)=
+  Pr\left(\varepsilon<-\frac{ln\left(\frac{K}{S_t}\right) -m}{\sigma}\right)
+\]
+\[=Pr\left(\varepsilon<\frac{ln\left(\frac{S_t}{K}\right) +m}{\sigma}\right)\]
+\[
+  =Pr\left(\varepsilon<\frac{ln\left(\frac{S_t}{K}\right) +
+  \int_t^Tr_u-\delta_S(u)+\frac{1}{2}\sigma_S^2(u)du}
+  {\sqrt{\int_t^T\sigma_S^2(u)du}}\right)
+\]
+Where $\frac{1}{2}\sigma_S^2=\sigma_S^2-\frac{1}{2}\sigma_S^2$. We
+recognise this as $d_1$.
+\begin{equation} \label{c1t}
+  c_{1t}=S_te^{-\int_t^T\delta_S(u)du}N(d_1)
+\end{equation}
+
+We can use the forward measure to find the present value of $c_{2T}$.
+\[c_{2t}^{P(t,T)}=E_t^{Q_T}[c_{2T}]\]
+\[\frac{c_{2t}}{P(t,T)}=KE_t^{Q_T}[1_{S_T}>K]\]
+\[c_{2t}=P(t,T)Q_T(S_T>K)\]
+In the Black-Scholes world, interest rates are deterministic so $Q_T$ = $Q$.
+\[Q_T(S_T>K)=Q(S_T>K)=N(d_2)\]
+Remembering $P(t,T)=e^{-\int_t^Tr_udu}$
+\begin{equation} \label{c2t}
+  c_{2t}=Ke^{-\int_t^Tr_udu}N(d_2)
+\end{equation}

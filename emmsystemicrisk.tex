@@ -1,0 +1,47 @@
+
+\section{Systemic Risk in Option Pricing}
+
+Finding $\lambda$ is independent of derivative payoff we are valuing. The
+underlying asset has systemic risk embodied by $\mu_S$ and $\delta_S$. They do
+not show up in the valuation directly. It is not immediately intuitive why we
+can price different derivatives, with different exposures to systemic risk,
+using the same $\lambda$. Do all derivatives on $S$ have the same systemic
+risk? \textbf{No}.
+
+To understand how we can use $\lambda$ indifferently we need to look at the
+relationship between $P$ and $Q$ measures.
+$f_P$ and $f_Q$ are the probability densities associated with $P$ and $Q$,
+respectively. We can say that $f_Q=zf_P$. Where
+$$z=\frac{\partial Q}{\partial P}=
+e^{-\frac{1}{2}\int_0^t\lambda_u^2du-\int_0^t\lambda_udW_u}$$
+$z$ is a function of $\lambda$ and therefore of the Sharpe ratio under each
+probability measure.
+\[c_t=E_t^Q[c_T]\]
+\[=\int_{-\infty}^{\infty}c_T(\varepsilon)f_Q(\varepsilon)d\varepsilon\]
+\[
+  =\int_{-\infty}^{\infty}c_T(\varepsilon)z(\varepsilon)
+  f_P(\varepsilon)d\varepsilon
+\]
+\[=E_t^P[c_Tz]\]
+But a product inside an expectation means there is covariance lurking.
+\[=E_t^P[c_T]E_t^P[z]+Cov_t^P(c_T,z)\]
+where $E_t^P[z]=1$
+\[=E_t^P[c_T]+Cov_t^P(c_T,z)\]
+The covariance is punishment and project specific. The $z$ may be the same
+between projects but the cashflows can differ. No arbitrage accounts for the
+$z$.
+
+When we construct an EMM we are dragging the drift of a diffusion to $0$. Under
+$P$ probabilities the diffusion is described by
+\[S_t=S_0e^{(\mu-\frac{1}{2}\sigma^2)t-\sigma W_t}\]
+and the expected value is
+\[E_0^P[S_t]=S_0e^{\mu t}\]
+When we change to $Q$ probabilities we drag the growth rate down
+\[S_t=S_0e^{(r-\frac{1}{2}\sigma^2)t-\sigma\tilde{W}_t}\]
+and the expected value drops to
+\[E_0^Q[S_t]=S_0e^{rt}\]
+We make the diffusion a martingale by dividing by the numeraire security
+\[A_t=e^{rt}\]
+\[E_0^Q\left[\frac{S_t}{A_t}\right]\]
+$r$ is compensation for impatience while $\lambda\sigma$ is compensation for
+risk.
