@@ -2,5 +2,6 @@
 title: Option Pricing
 author: Sam Thorold
 rmd_files: ["index.md", "intro.md", "binomial-model.md"]
+output_dir: "docs"
 ---
 
