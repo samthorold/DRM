@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Preface | _main.utf8.md</title>
+  <title>2 Stochastic investment returns | _main.utf8.md</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.12 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Preface | _main.utf8.md" />
+  <meta property="og:title" content="2 Stochastic investment returns | _main.utf8.md" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Preface | _main.utf8.md" />
+  <meta name="twitter:title" content="2 Stochastic investment returns | _main.utf8.md" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="utility-theory.html">
+<link rel="prev" href="utility-theory.html">
+<link rel="next" href="binomial-model.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -158,22 +158,80 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<!--bookdown:title:end-->
-<!--bookdown:title:start-->
-<div id="preface" class="section level1 unnumbered">
-<h1>Preface</h1>
-<p>This book provides an introduction to option pricing with worked examples of
-many of the ideas.</p>
-<p><a href="https://samthorold.github.io/DRM/index.html" class="uri">https://samthorold.github.io/DRM/index.html</a></p>
+<div id="stochastic-investment-returns" class="section level1">
+<h1><span class="header-section-number">2</span> Stochastic investment returns</h1>
+<p>Provides information about the distribution of financial outcomes which can be
+used to find bst estimates and probabilities.</p>
+<div id="fixed-rate-model" class="section level2">
+<h2><span class="header-section-number">2.1</span> Fixed rate model</h2>
+<p>Remember: expected accumulated value <span class="math inline">\(\neq\)</span> accumulated value at expected
+rate of return, if <span class="math inline">\(n&gt;1\)</span>.
+<span class="math display">\[
+\sum_{j=1}^kp_j(i+i_j)^n \neq \left( 1 + \sum_{j=1}^kp_ji_j\right) ^n
+\]</span></p>
+<p>Mean and variance must be calculated from first principles.
+It is assumed that the rate of return is unknown until immediately after the
+investment is made.</p>
+</div>
+<div id="varying-rate-model" class="section level2">
+<h2><span class="header-section-number">2.2</span> Varying rate model</h2>
+<p><span class="math display">\[\begin{align}
+S_n=(1+i_1)(1+i_2)(1+i_3)\dots &amp;(1+i_n) \\
+A_n=(1+i_1)(1+i_2)(1+i_3)\dots &amp;(1+i_n) + \\
+           (1+i_2)(1+i_3)\dots &amp;(1+i_n) + \\
+                               &amp;(1+i_n)
+\end{align}\]</span></p>
+<p>Assume <span class="math inline">\(i\)</span> has mean <span class="math inline">\(j\)</span> and variance <span class="math inline">\(s^2\)</span>.</p>
+<div id="moments-of-s_n" class="section level3">
+<h3><span class="header-section-number">2.2.1</span> Moments of <span class="math inline">\(S_n\)</span></h3>
+<p><span class="math display">\[\begin{align}
+E[S_n]&amp;=\prod_{t=1}^nE[1+i_t] = \prod_{t=1}^n(1+E[i_t])=(1+j)^n \\
+E[S_n^2]&amp;=\prod_{t=1}^nE(1+2i_t+i_t^2)=\prod_{t=1}^n(1+2E[i_t]+E[i_t^2]) \\
+        &amp;=(1+2j+j^2+s^2)^n\text{ since }E[i_t^2]=(E[i_t])^2+Var(i_t) \\
+Var(S_n)&amp;=(1+2j+j^2+s^2) - (1+j)^{2n}
+\end{align}\]</span></p>
+</div>
+<div id="moments-of-a_n" class="section level3">
+<h3><span class="header-section-number">2.2.2</span> Moments of <span class="math inline">\(A_n\)</span></h3>
+<p><span class="math inline">\(\mu_n = E[A_n]\)</span> and <span class="math inline">\(m_n=E[A_n^2]\)</span></p>
+<p><span class="math display">\[\begin{align}
+\mu^n&amp;=(1+j)(1+\mu_{n-1})\text{ so }\mu_n =
+    \ddot{s}_n\text{ at }j\text{ where}\\
+\ddot{s}_n&amp;=\frac{(1+j)^n-1}{d} \text{ and }d=\frac{j}{1+j} \\
+A_n^2&amp;=(1+2i_n+i_n^2)(1+2A_{n-1}+A_{n-1}^2) \\
+m_n&amp;=(1+2j+j^2+s^2)(1+2\mu_{n-1}+m_{n-1})\\
+Var(A_n)&amp;=E[A_n^2]-(E[A_n])^2=m_n-\mu_n^2
+\end{align}\]</span></p>
+</div>
+</div>
+<div id="lognormal-distribution" class="section level2">
+<h2><span class="header-section-number">2.3</span> Lognormal distribution</h2>
+<p>This is useul because compounding makes investment returns multiplicative.</p>
+<p>Handily, if <span class="math inline">\(X_1\sim ln\mathcal{N}(\mu_2, \sigma_2^2)\)</span> and
+<span class="math inline">\(X_2\sim ln\mathcal{N}(\mu_2, \sigma_2^2)\)</span> then
+<span class="math inline">\(X_1X_2\sim ln\mathcal{N}(\mu_1+\mu_2, \sigma_1^2+\sigma_2^2)\)</span>.</p>
+<p>From page 14 in the tables</p>
+<p><span class="math display">\[\begin{align}
+E[1+i]&amp;=e^{\mu+\frac{1}{2}\sigma^2} \\
+Var(1+i)&amp;=e^{2\mu+\sigma^2}(e^{\sigma^2}-1)
+\end{align}\]</span></p>
+<p>Probabilities accumulations or present values are below a given value.
+<span class="math display">\[\begin{align}
+S_n&amp;\sim ln\mathcal{N}(n\mu,n\sigma^2)\text{ and }
+P(S_n\le s)=\Phi\left(\frac{ln(s)-n\mu}{\sigma\sqrt{n}}\right) \\
+V_n&amp;\sim ln\mathcal{N}(-n\mu,n\sigma^2)\text{ and }
+P(V_n\le s)=\Phi\left(\frac{ln(s)-(-n\mu)}{\sigma\sqrt{n}}\right)
+\end{align}\]</span></p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-
-<a href="utility-theory.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="utility-theory.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
