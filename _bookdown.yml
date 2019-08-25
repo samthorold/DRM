@@ -4,7 +4,8 @@ author: Sam Thorold
 rmd_files: ["index.md",
             "utility-theory.md",
             "stochastic-investment-returns.md",
-            "binomial-model.md"]
+            "binomial-model.md",
+            "5-step-method.md"]
 output_dir: "docs"
 ---
 
