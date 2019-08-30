@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Binomial Model | _main.utf8.md</title>
+  <title>1 The Efficient Markets Hypothesis | _main.utf8.md</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Binomial Model | _main.utf8.md" />
+  <meta property="og:title" content="1 The Efficient Markets Hypothesis | _main.utf8.md" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Binomial Model | _main.utf8.md" />
+  <meta name="twitter:title" content="1 The Efficient Markets Hypothesis | _main.utf8.md" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stochastic-investment-returns.html"/>
-<link rel="next" href="step-method.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="utility-theory.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -176,37 +176,99 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="binomial-model" class="section level1">
-<h1><span class="header-section-number">6</span> Binomial Model</h1>
-<p>The binomial model is one of the simplest and most flexible methods of option
-pricing.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">function</span> recursive_tree(T, t, h, S, K, σ, δ, r, payoff, eu=true)</a>
-<a class="sourceLine" id="cb1-2" title="2">    exercise_value = payoff(S, K)</a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="co"># if t==T, node is a leaf node and exercise</span></a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="kw">if</span> round(t, <span class="fl">6</span>)==T</a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="kw">return</span> exercise_value</a>
-<a class="sourceLine" id="cb1-6" title="6">    <span class="kw">end</span></a>
-<a class="sourceLine" id="cb1-7" title="7">    <span class="co"># otherwise, discount the up and down values</span></a>
-<a class="sourceLine" id="cb1-8" title="8">    u = _u(h, σ, δ, r)</a>
-<a class="sourceLine" id="cb1-9" title="9">    d = _d(h, σ, δ, r)</a>
-<a class="sourceLine" id="cb1-10" title="10">    q = _q(h, u, d, δ, r)</a>
-<a class="sourceLine" id="cb1-11" title="11">    Cu = recursive_tree(T, t+h, h, S*u, K, σ, δ, r, payoff, eu)</a>
-<a class="sourceLine" id="cb1-12" title="12">    Cd = recursive_tree(T, t+h, h, S*d, K, σ, δ, r, payoff, eu)</a>
-<a class="sourceLine" id="cb1-13" title="13">    continuation_value = exp(-r*h) * (q*Cu + (<span class="fl">1</span>-q)*Cd)</a>
-<a class="sourceLine" id="cb1-14" title="14">    <span class="kw">if</span> !eu</a>
-<a class="sourceLine" id="cb1-15" title="15">        <span class="kw">return</span> max(exercise_value, continuation_value)</a>
-<a class="sourceLine" id="cb1-16" title="16">    <span class="kw">end</span></a>
-<a class="sourceLine" id="cb1-17" title="17">    <span class="kw">return</span> continuation_value</a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="kw">end</span></a></code></pre></div>
+<div id="the-efficient-markets-hypothesis" class="section level1">
+<h1><span class="header-section-number">1</span> The Efficient Markets Hypothesis</h1>
+<p>In an <em>efficient</em> security market the price of every security fully reflects all
+relevant and available information.
+The EMH states that security markets are efficient.
+The three forms of EMH are;</p>
+<ul>
+<li><strong>Weak</strong>: Market prices reflect all of the information contained in
+historical price data.
+If markets are weak form efficient, technical analysis cannot be used to
+generate excess risk-adjusted returns.</li>
+<li><strong>Semi-strong</strong>: Market prices reflect all publically available information.
+If markets are semi-strong form efficient, then fundamental analysis cannot be
+used to generate excess risk-adjusted returns.</li>
+<li><strong>Strong</strong>: Market prices reflect all information, whether or not it is
+public.
+If markets are strong form efficient, then insider trading cannot be used to
+generate excess risk-adjusted returns.</li>
+</ul>
+<p>In practice, the level of efficiency depends on whether information is freely
+available, which in turn may depend on the level of disclosure required by
+regulation.
+The importance of market efficiency stems from the fact that if markets are not
+efficient then investors with better information may be able to generate
+higher risk-adjusted returns.
+If markets are efficient, an active investment manager is difficult to justify.</p>
+<div id="tests-of-the-emh" class="section level2">
+<h2><span class="header-section-number">1.1</span> Tests of the EMH</h2>
+<p>This is tough and so empirical evidence is inconclusive concerning the extent
+to which markets are efficient in practice. But;</p>
+<ul>
+<li>Studies of directors’ share dealings suggest that, even with inside
+information, it is difficult to out-perform the market.</li>
+<li>Studies have failed to identify a difference between the returns on stocks
+selected with technical analysis and those selected purely at random.</li>
+<li>Research has concentrated on the semi-strong form of the EMH and in
+particular, tests of informational efficiency and volatility tests.</li>
+</ul>
+<div id="informational-efficiency" class="section level3">
+<h3><span class="header-section-number">1.1.1</span> Informational efficiency</h3>
+<p>Studies show that the market overreacts to certain events and underreacts to
+other events.
+The over/under reaction is corrected over a long time period.
+If this is true then investors could take advantage of the slow correction of
+the market and efficiency would not hold.</p>
+<div id="overreaction" class="section level4">
+<h4><span class="header-section-number">1.1.1.1</span> Overreaction</h4>
+<ul>
+<li>Past winners tend to be future losers and the market appears to overreact to
+past performance.</li>
+<li>Certain accounting ratios appear to have predictive powers, an example of the
+market apparently overreacting to past growth.</li>
+<li>Firms coming to the market have poor subsequent performance.</li>
+</ul>
+</div>
+<div id="underreaction" class="section level4">
+<h4><span class="header-section-number">1.1.1.2</span> Underreaction</h4>
+<ul>
+<li>Stock prices continue to respond to earnings announcements up to a year after
+their announcement.</li>
+<li>Abnormal excess returns for the parent and subsidiary firms following a
+de-merger.</li>
+<li>Abnormal negative returns following mergers.</li>
+</ul>
+</div>
+</div>
+<div id="volatility-tests" class="section level3">
+<h3><span class="header-section-number">1.1.2</span> Volatility tests</h3>
+<p>Rob Shiller first formulated the claim of “excess volatility” into a testable
+proposition in 1981.
+He found strong evidence that the observed level of volatility contradicted
+the EMH.
+However, subsequent studies using different formulations of the problem found
+that the violation of the EMH had only borderline statistical significance.
+Criticisms of Shiller’s study include;</p>
+<ul>
+<li>Choice of terminal value for the stock price</li>
+<li>Use of a constant discount rate</li>
+<li>Bias in estimates of the variation due to autocorrelation</li>
+<li>Possible non-stationarity of the series, i.e. the series may have stochastic
+trends that invalidate the measurements of variance.</li>
+</ul>
 
+</div>
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="stochastic-investment-returns.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="step-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="utility-theory.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

@@ -2,7 +2,10 @@
 title: Derivatives and risk management
 author: Sam Thorold
 rmd_files: ["index.md",
+            "efficient-market-hypothesis.md",
             "utility-theory.md",
+            "behavioural-finance.md",
+            "measures-of-investment-risk.md",
             "stochastic-investment-returns.md",
             "binomial-model.md",
             "5-step-method.md"]

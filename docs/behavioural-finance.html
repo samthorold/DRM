@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Binomial Model | _main.utf8.md</title>
+  <title>3 Behavioural finance | _main.utf8.md</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Binomial Model | _main.utf8.md" />
+  <meta property="og:title" content="3 Behavioural finance | _main.utf8.md" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Binomial Model | _main.utf8.md" />
+  <meta name="twitter:title" content="3 Behavioural finance | _main.utf8.md" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stochastic-investment-returns.html"/>
-<link rel="next" href="step-method.html"/>
+<link rel="prev" href="utility-theory.html"/>
+<link rel="next" href="measures-of-investment-risk.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -176,28 +176,66 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="binomial-model" class="section level1">
-<h1><span class="header-section-number">6</span> Binomial Model</h1>
-<p>The binomial model is one of the simplest and most flexible methods of option
-pricing.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">function</span> recursive_tree(T, t, h, S, K, σ, δ, r, payoff, eu=true)</a>
-<a class="sourceLine" id="cb1-2" title="2">    exercise_value = payoff(S, K)</a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="co"># if t==T, node is a leaf node and exercise</span></a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="kw">if</span> round(t, <span class="fl">6</span>)==T</a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="kw">return</span> exercise_value</a>
-<a class="sourceLine" id="cb1-6" title="6">    <span class="kw">end</span></a>
-<a class="sourceLine" id="cb1-7" title="7">    <span class="co"># otherwise, discount the up and down values</span></a>
-<a class="sourceLine" id="cb1-8" title="8">    u = _u(h, σ, δ, r)</a>
-<a class="sourceLine" id="cb1-9" title="9">    d = _d(h, σ, δ, r)</a>
-<a class="sourceLine" id="cb1-10" title="10">    q = _q(h, u, d, δ, r)</a>
-<a class="sourceLine" id="cb1-11" title="11">    Cu = recursive_tree(T, t+h, h, S*u, K, σ, δ, r, payoff, eu)</a>
-<a class="sourceLine" id="cb1-12" title="12">    Cd = recursive_tree(T, t+h, h, S*d, K, σ, δ, r, payoff, eu)</a>
-<a class="sourceLine" id="cb1-13" title="13">    continuation_value = exp(-r*h) * (q*Cu + (<span class="fl">1</span>-q)*Cd)</a>
-<a class="sourceLine" id="cb1-14" title="14">    <span class="kw">if</span> !eu</a>
-<a class="sourceLine" id="cb1-15" title="15">        <span class="kw">return</span> max(exercise_value, continuation_value)</a>
-<a class="sourceLine" id="cb1-16" title="16">    <span class="kw">end</span></a>
-<a class="sourceLine" id="cb1-17" title="17">    <span class="kw">return</span> continuation_value</a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="kw">end</span></a></code></pre></div>
+<div id="behavioural-finance" class="section level1">
+<h1><span class="header-section-number">3</span> Behavioural finance</h1>
+<p>The field of behavioural finance relates to the psychology that underlies and
+drives financial decision-making behaviour.</p>
+<p><strong>Prospect theory</strong> details how human decision-making differs systematically
+from that predicted by expected utility theory.
+Further, it states that humans consistently violate the rationality axioms
+that form the basis of utility theory.
+There are two phases of decision-making in prospect theory;</p>
+<ul>
+<li>Editing/framing: Outcomes are initially appraised and ordered. Behavioural
+patterns observed during this phase
+<ul>
+<li>Acceptance: People are unlikely to alter the formulation of the choices
+presented</li>
+<li>Segregation: People tend to focus on the most “relevant” factors of a
+problem</li>
+</ul></li>
+<li>Evaluation: Choise made from appraised outcomes. Behavioural patterns
+observed during this phase include
+<ul>
+<li>Reference dependence</li>
+<li>Loss aversion</li>
+<li>Endowment effects</li>
+<li>Changing risk attitudes</li>
+<li>Diminishing sensitivity</li>
+<li>Probability weighting</li>
+<li>Certainty effect</li>
+<li>Isolation effect.</li>
+</ul></li>
+</ul>
+<p>Prospect theory says that utility is based on gains and losses relative to some
+reference point.
+People are typically risk-averse when considering gains relative to the
+reference point and risk-seeking when considering losses relative to the
+reference point.</p>
+<p>A <em>heuristic</em> is a shortcut used by the brain to deliver a quick decision.
+Examples include</p>
+<ul>
+<li>Anchoring and adjustment</li>
+<li>Representativeness</li>
+<li>Availability</li>
+<li>Familiarity.</li>
+</ul>
+<p>The following behavioural biases have been observed</p>
+<ul>
+<li>Overconfidence, perhaps due to hindsight bias or confirmation bias</li>
+<li>Self-attribution bias</li>
+<li>Status quo bias</li>
+<li>Herd behaviour.</li>
+</ul>
+<p>The <em>equity premium puzzle</em>, the fact that the returns from equities exceed the
+returns from bonds by more than is predicted by risk aversion alone, can be
+explained by myopic loss aversion.
+<em>Myopic loss aversion</em> suggests that investors are much more concerned by losses
+than by equivalent gains.
+They tend to focus on very short-term returns and volatilities rather than
+long-run earnings.
+Investors need to earn additional return on equities to overcome their aversion
+to the short-term losses typical of equity investment.</p>
 
 </div>
             </section>
@@ -205,8 +243,8 @@ pricing.</p>
           </div>
         </div>
       </div>
-<a href="stochastic-investment-returns.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="step-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="utility-theory.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="measures-of-investment-risk.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

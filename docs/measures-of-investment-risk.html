@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>6 Binomial Model | _main.utf8.md</title>
+  <title>4 Measures of investment risk | _main.utf8.md</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="6 Binomial Model | _main.utf8.md" />
+  <meta property="og:title" content="4 Measures of investment risk | _main.utf8.md" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="6 Binomial Model | _main.utf8.md" />
+  <meta name="twitter:title" content="4 Measures of investment risk | _main.utf8.md" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="stochastic-investment-returns.html"/>
-<link rel="next" href="step-method.html"/>
+<link rel="prev" href="behavioural-finance.html"/>
+<link rel="next" href="stochastic-investment-returns.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -176,37 +176,45 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="binomial-model" class="section level1">
-<h1><span class="header-section-number">6</span> Binomial Model</h1>
-<p>The binomial model is one of the simplest and most flexible methods of option
-pricing.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode julia"><code class="sourceCode julia"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">function</span> recursive_tree(T, t, h, S, K, σ, δ, r, payoff, eu=true)</a>
-<a class="sourceLine" id="cb1-2" title="2">    exercise_value = payoff(S, K)</a>
-<a class="sourceLine" id="cb1-3" title="3">    <span class="co"># if t==T, node is a leaf node and exercise</span></a>
-<a class="sourceLine" id="cb1-4" title="4">    <span class="kw">if</span> round(t, <span class="fl">6</span>)==T</a>
-<a class="sourceLine" id="cb1-5" title="5">        <span class="kw">return</span> exercise_value</a>
-<a class="sourceLine" id="cb1-6" title="6">    <span class="kw">end</span></a>
-<a class="sourceLine" id="cb1-7" title="7">    <span class="co"># otherwise, discount the up and down values</span></a>
-<a class="sourceLine" id="cb1-8" title="8">    u = _u(h, σ, δ, r)</a>
-<a class="sourceLine" id="cb1-9" title="9">    d = _d(h, σ, δ, r)</a>
-<a class="sourceLine" id="cb1-10" title="10">    q = _q(h, u, d, δ, r)</a>
-<a class="sourceLine" id="cb1-11" title="11">    Cu = recursive_tree(T, t+h, h, S*u, K, σ, δ, r, payoff, eu)</a>
-<a class="sourceLine" id="cb1-12" title="12">    Cd = recursive_tree(T, t+h, h, S*d, K, σ, δ, r, payoff, eu)</a>
-<a class="sourceLine" id="cb1-13" title="13">    continuation_value = exp(-r*h) * (q*Cu + (<span class="fl">1</span>-q)*Cd)</a>
-<a class="sourceLine" id="cb1-14" title="14">    <span class="kw">if</span> !eu</a>
-<a class="sourceLine" id="cb1-15" title="15">        <span class="kw">return</span> max(exercise_value, continuation_value)</a>
-<a class="sourceLine" id="cb1-16" title="16">    <span class="kw">end</span></a>
-<a class="sourceLine" id="cb1-17" title="17">    <span class="kw">return</span> continuation_value</a>
-<a class="sourceLine" id="cb1-18" title="18"><span class="kw">end</span></a></code></pre></div>
+<div id="measures-of-investment-risk" class="section level1">
+<h1><span class="header-section-number">4</span> Measures of investment risk</h1>
+<div id="variance" class="section level2">
+<h2><span class="header-section-number">4.1</span> Variance</h2>
+<p>Mathematically tractable and leads to tidy solutions for optimal portfolios
+within the context of mean-variance portfolio theory.</p>
+<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^\infty (\mu-x)^2f(x)dx\)</span></p>
+<p>Discrete random varianble: <span class="math inline">\(Var=\sum_x (\mu-x)^2P(X=x)dx\)</span></p>
+<p>But, investors care more about downside risk than they do about uncertainty in
+general.</p>
+</div>
+<div id="semi-variance" class="section level2">
+<h2><span class="header-section-number">4.2</span> Semi-variance</h2>
+<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^\mu (\mu-x)^2f(x)dx\)</span></p>
+<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;\mu} (\mu-x)^2P(X=x)dx\)</span></p>
+</div>
+<div id="shortfall-probability" class="section level2">
+<h2><span class="header-section-number">4.3</span> Shortfall probability</h2>
+<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^Lf(x)dx\)</span></p>
+<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;L}P(X=x)dx\)</span></p>
+</div>
+<div id="value-at-risk-var" class="section level2">
+<h2><span class="header-section-number">4.4</span> Value-at-Risk (VaR)</h2>
+<p>VaR represents the maximum potential loss on a portfolio over a given period
+of time with a given degree of confidence (<span class="math inline">\(1-p\)</span>).
+It is often calculated assuming investment returns follow a normal distribution,
+which may not be appropriate.</p>
+<p>Continuous random varianble: <span class="math inline">\(VaR(X)=-t\)</span> where <span class="math inline">\(P(X=x)=p\)</span>.</p>
+<p>Discrete random varianble: <span class="math inline">\(VaR(X)=-t\)</span> where <span class="math inline">\(t=max(x:P(X&lt;x)\le p)\)</span></p>
 
+</div>
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="stochastic-investment-returns.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="step-method.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="behavioural-finance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="stochastic-investment-returns.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
