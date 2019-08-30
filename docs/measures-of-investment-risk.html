@@ -144,6 +144,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.2" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#semi-variance"><i class="fa fa-check"></i><b>4.2</b> Semi-variance</a></li>
 <li class="chapter" data-level="4.3" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#shortfall-probability"><i class="fa fa-check"></i><b>4.3</b> Shortfall probability</a></li>
 <li class="chapter" data-level="4.4" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#value-at-risk-var"><i class="fa fa-check"></i><b>4.4</b> Value-at-Risk (VaR)</a></li>
+<li class="chapter" data-level="4.5" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#expected-shortfall"><i class="fa fa-check"></i><b>4.5</b> Expected shortfall</a></li>
+<li class="chapter" data-level="4.6" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#risk-measures-and-utility"><i class="fa fa-check"></i><b>4.6</b> Risk measures and utility</a></li>
+<li class="chapter" data-level="4.7" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#using-insurance-to-manage-risk"><i class="fa fa-check"></i><b>4.7</b> Using insurance to manage risk</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="stochastic-investment-returns.html"><a href="stochastic-investment-returns.html"><i class="fa fa-check"></i><b>5</b> Stochastic investment returns</a><ul>
 <li class="chapter" data-level="5.1" data-path="stochastic-investment-returns.html"><a href="stochastic-investment-returns.html#fixed-rate-model"><i class="fa fa-check"></i><b>5.1</b> Fixed rate model</a></li>
@@ -190,12 +193,14 @@ general.</p>
 <div id="semi-variance" class="section level2">
 <h2><span class="header-section-number">4.2</span> Semi-variance</h2>
 <p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^\mu (\mu-x)^2f(x)dx\)</span></p>
-<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;\mu} (\mu-x)^2P(X=x)dx\)</span></p>
+<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;\mu} (\mu-x)^2P(X=x)\)</span></p>
 </div>
 <div id="shortfall-probability" class="section level2">
 <h2><span class="header-section-number">4.3</span> Shortfall probability</h2>
 <p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^Lf(x)dx\)</span></p>
-<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;L}P(X=x)dx\)</span></p>
+<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;L}P(X=x)\)</span></p>
+<p>The benchmark level can be expressed as return on a benchmark fund or an
+absolute level.</p>
 </div>
 <div id="value-at-risk-var" class="section level2">
 <h2><span class="header-section-number">4.4</span> Value-at-Risk (VaR)</h2>
@@ -205,6 +210,50 @@ It is often calculated assuming investment returns follow a normal distribution,
 which may not be appropriate.</p>
 <p>Continuous random varianble: <span class="math inline">\(VaR(X)=-t\)</span> where <span class="math inline">\(P(X=x)=p\)</span>.</p>
 <p>Discrete random varianble: <span class="math inline">\(VaR(X)=-t\)</span> where <span class="math inline">\(t=max(x:P(X&lt;x)\le p)\)</span></p>
+</div>
+<div id="expected-shortfall" class="section level2">
+<h2><span class="header-section-number">4.5</span> Expected shortfall</h2>
+<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^L(L-x)f(x)dx\)</span></p>
+<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;L}(L-x)P(X=x)\)</span></p>
+<p>Expected shortfall measures are useful for monitoring a fund’s exposure to risk
+because underperformance to a bench mark is easy to understand.</p>
+<p>When <span class="math inline">\(L\)</span> is the VaR with a particular confidence level,
+the expected shortfall is known at <em>TailVaR</em>.
+TailVaR measures the expected loss in excess of the VaR.</p>
+<p>It is also possible to calculate the expected shortfall and tailVaR conditional
+on a shortfall occurring by dividing through by the shortfall probability.</p>
+</div>
+<div id="risk-measures-and-utility" class="section level2">
+<h2><span class="header-section-number">4.6</span> Risk measures and utility</h2>
+<p>If expected return and variance are used as the basis of investment decisions,
+it can be shown that this is equivalent to a quadratic utility function.</p>
+<p>If expected return and semi-variance below the expected return are used as the
+basis of investment decisions, it can be shown this is equivalent to a utility
+function that is quadtratic below the expected return and linear above.</p>
+<p>Use of a shortfall risk measure corresponds to a utility function that has a
+discontinuity at the minimum required return.</p>
+</div>
+<div id="using-insurance-to-manage-risk" class="section level2">
+<h2><span class="header-section-number">4.7</span> Using insurance to manage risk</h2>
+<p>Insurers decide which events to offer protection for based on the frequency and
+severity of the event.</p>
+<ul>
+<li>Low risk, low liklihood events are not a problem</li>
+<li>Low risk, high liklihood events must be monitored to prevent problems due to
+an accumulation of these events</li>
+<li>high risk, low liklihood events are normally insured</li>
+<li>high risk, high liklihood events should be avoided.</li>
+</ul>
+<p>Micro-insurance has increased the number of low risk events being insured.
+For example, mobiles on holiday.</p>
+<p>The <em>pooling</em> of resources can be used to reduce an insurer’s risk.</p>
+<p><em>Adverse selection</em> describes the fact that people who know that they are bad
+risks are more inclined to take out insurance than those who know they are
+good risks.
+Insurers will try to find out as much about a person as possible to prevent
+risks being inaccurately measured.</p>
+<p><em>Moral hazard</em> is the change in a policy holder’s behaviour once insurance has
+been taken out, which means the event is more likely to occur.</p>
 
 </div>
 </div>

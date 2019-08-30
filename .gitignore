@@ -3,3 +3,4 @@
 *.aux
 *.pdf
 R_libs/
+.Rhistory
