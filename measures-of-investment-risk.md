@@ -8,7 +8,7 @@ within the context of mean-variance portfolio theory.
 
 Continuous random varianble: $Var=\int_{-\infty}^\infty (\mu-x)^2f(x)dx$
 
-Discrete random varianble: $Var=\sum_x (\mu-x)^2P(X=x)dx$
+Discrete random varianble: $Var=\sum_x (\mu-x)^2P(X=x)$
 
 But, investors care more about downside risk than they do about uncertainty in
 general.
