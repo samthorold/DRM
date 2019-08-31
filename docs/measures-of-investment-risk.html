@@ -155,6 +155,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="4.5" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#expected-shortfall"><i class="fa fa-check"></i><b>4.5</b> Expected shortfall</a></li>
 <li class="chapter" data-level="4.6" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#risk-measures-and-utility"><i class="fa fa-check"></i><b>4.6</b> Risk measures and utility</a></li>
 <li class="chapter" data-level="4.7" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#using-insurance-to-manage-risk"><i class="fa fa-check"></i><b>4.7</b> Using insurance to manage risk</a></li>
+<li class="chapter" data-level="4.8" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#example---value-of-fund"><i class="fa fa-check"></i><b>4.8</b> Example - value of fund</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="stochastic-investment-returns.html"><a href="stochastic-investment-returns.html"><i class="fa fa-check"></i><b>5</b> Stochastic investment returns</a><ul>
 <li class="chapter" data-level="5.1" data-path="stochastic-investment-returns.html"><a href="stochastic-investment-returns.html#fixed-rate-model"><i class="fa fa-check"></i><b>5.1</b> Fixed rate model</a></li>
@@ -265,6 +266,83 @@ Insurers will try to find out as much about a person as possible to prevent
 risks being inaccurately measured.</p>
 <p><em>Moral hazard</em> is the change in a policy holder’s behaviour once insurance has
 been taken out, which means the event is more likely to occur.</p>
+</div>
+<div id="example---value-of-fund" class="section level2">
+<h2><span class="header-section-number">4.8</span> Example - value of fund</h2>
+<p>_An investor wishes to save for a retirement fund of £100,000 in 10 years time.
+The investor can purchase non-dividend-paying shares governed by the SDE
+<span class="math inline">\(dS_t=S_t(\mu dt+\sigma dZ_t)\)</span>.</p>
+<ul>
+<li><span class="math inline">\(Z_t\)</span> is a standard Brownian motion</li>
+<li><span class="math inline">\(\mu=12%\)</span></li>
+<li>$=25%</li>
+<li><span class="math inline">\(t\)</span> is in years</li>
+<li><span class="math inline">\(S_0=1\)</span></li>
+</ul>
+<p>Derive the distribution of <span class="math inline">\(S_t\)</span>
+<span class="math display">\[
+S_t\sim lnN(0.08875t, 0.25^2t)
+\]</span></p>
+<p>Calculate the amount <span class="math inline">\(A\)</span> the investor would need to invest to have a 50:50
+probability of building up a retirement fund of £100,000 in 10 years.</p>
+<p><span class="math display">\[
+A=100,000e^{-0.8875}=£41,168
+\]</span></p>
+<p>Calulate the following risk measures applied to the difference between the
+value of the fund and £100,000 if the investor invests in <span class="math inline">\(A\)</span>.</p>
+<p>If the initial amount is invested in <span class="math inline">\(A\)</span>, then the fund after 10 years is
+<span class="math display">\[\begin{align}
+F_{10} &amp;= Ae^{0.8875+0.25Z_{10}}\\
+       &amp;= 100,000e^{-0.8875}e^{0.8875+0.25Z_{10}}\\
+       &amp;= 100,000e^{0.25Z_{10}}
+\end{align}\]</span></p>
+<p>Variance:
+<span class="math display">\[\begin{align}
+Var(100,000-F_{10}) &amp;= Var(F_{10})\\
+                    &amp;= Var(100,000e^{0.25Z_{10}})\\
+                    &amp;= 100,000^2e^{0.25Z_{10}}
+\end{align}\]</span></p>
+<p>To find <span class="math inline">\(Var(e^{0.25Z_{10}})\)</span> note that <span class="math inline">\(Z_{10}\sim N(0,1)\)</span>.
+This means <span class="math inline">\(0.25Z_{10}\sim N(0, 0.25^2\times 10)=N(0, 0.625)\)</span>.
+Therefore, <span class="math inline">\(e^{0.25z_{10}}\sim lnN(0, 0.625)\)</span>.</p>
+<p>Using the formula for variance of the lognormal distribution
+<span class="math display">\[
+E[e^{0.25Z_{10}}]=e^{0.625}(e^{0.625}-1)=1.622097
+\]</span>
+So
+<span class="math display">\[
+Var(100,000-F_{10})=100,000^2\times 1.622097=(£127,362)^2
+\]</span></p>
+<p>Shortfall probability relative to £90,000:
+<span class="math display">\[\begin{align}
+P(F_{10}&lt;90,000)&amp;=P(100,000e^{0.25Z_{10}}&lt;90,000)\\
+  &amp;= P(e^{0.25Z_{10}}&lt;0.9)\\
+  &amp;= P(0.25Z_{10}&lt;ln0.9)\\
+  &amp;= P(Z_{10}&lt;\frac{ln0.9}{0.25})\\
+  &amp;= P(N(0,10)&lt;\frac{ln0.9}{0.25})\\
+  &amp;= P(N(0,1)&lt;\frac{ln0.9}{0.25\sqrt{10}})\\
+  &amp;= \Phi(-0.1333)
+\end{align}\]</span>
+Interpolating from the Tables:
+<span class="math display">\[
+\Phi(0.1333)=0.33\times\Phi(0.14)+0.67\times\Phi(0.13)=0.55304
+\]</span>
+So
+<span class="math display">\[
+P(F_{10}&lt;90,000)=1-\Phi(0.1333)=0.44696
+\]</span></p>
+<p>99% VaR:</p>
+<p>To find the 99% VaR we need to find the value <span class="math inline">\(t\)</span> such that the fund will
+fall below <span class="math inline">\(t\)</span> with a probability of 1% i.e <span class="math inline">\(P(F_{10}&lt;t)=0.01\)</span>.</p>
+<p>Since <span class="math inline">\(Z_{10}\sim N(0,10)\)</span> and this distribution is equivalent to
+<span class="math inline">\(sqrt{10}\times N(0,1)\)</span>, the 1% percentile for <span class="math inline">\(Z_{10}\)</span> is
+<span class="math inline">\(\sqrt{10}\times-2.3263=-7.3564\)</span>.</p>
+<p>But, $F_{10}=100,000e^{0.25Z_{10}}. So the 1% percentile for <span class="math inline">\(F_{10}\)</span> is
+<span class="math display">\[
+t=100,000e^{0.25(-7.3564)}=£15,896
+\]</span>
+So the 99% VaR compared to the target of £100,000 is
+<span class="math inline">\(£100,000-15,896=£84,104\)</span>.</p>
 
 </div>
 </div>

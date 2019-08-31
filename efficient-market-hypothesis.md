@@ -94,7 +94,7 @@ trends that invalidate the measurements of variance.
 
 Discuss the statement _The efficient markets hypothesis states that the market
 price is always correct and therefore it is not possible for investors to make
-money from investig in shares._
+money from investing in shares._
 
 _Prices are always correct..._
 
