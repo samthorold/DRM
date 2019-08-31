@@ -66,7 +66,19 @@ de-merger.
 
 Rob Shiller first formulated the claim of "excess volatility" into a testable
 proposition in 1981.
-He found strong evidence that the observed level of volatility contradicted
+He considered a discounted cashflow model of equities going back to 1870.
+By using actual dividends paid out and some terminal value for the stock,
+he calculated a "perfect foresight" price for the stock, i.e. the "correct"
+price for the stock if market participants had been able to predict future
+dividends.
+The difference between the actual price and the perfect forecast price
+represents forecast errors.
+If market participants are rational, there should be no systematic
+forecast errors.
+Further, broad movements in perfect forecast price should correlate with
+broad moves in the actual price.
+
+Shiller found strong evidence that the observed level of volatility contradicted
 the EMH.
 However, subsequent studies using different formulations of the problem found
 that the violation of the EMH had only borderline statistical significance.
@@ -77,3 +89,42 @@ Criticisms of Shiller's study include;
 - Bias in estimates of the variation due to autocorrelation
 - Possible non-stationarity of the series, i.e. the series may have stochastic
 trends that invalidate the measurements of variance.
+
+## Example - Organising an EMH answer
+
+Discuss the statement _The efficient markets hypothesis states that the market
+price is always correct and therefore it is not possible for investors to make
+money from investig in shares._
+
+_Prices are always correct..._
+
+EMH states that prices react quickly and accurately to new information, which
+can be treated as saying that prices are "correct" in the sense that they factor
+in all available information. However, it is important to distinguish between
+the different types of information that are factored into prices. This could be
+just past price history (weak form) or all publically available information
+(semi-strong form) or all information, including privileged information known
+only to company directors (strong form).
+
+If the relevant form of EMH applies, it is not possible to make an risk-adjusted
+profit based on that category of information. For example, if markets are
+weak-form efficient, then technical analysts should not be able to benefit from
+their analyses.
+
+_Not possible for shareholders to make money..._
+
+This does not mean that it is not possible to make money by investing in shares.
+In the long-term shares are generally believed to offer a higher expected return
+than investing in a risk-free asset. However, if the market is efficient, it
+should not be possible to outperform other investors who are working from the
+same information and within the same constraints.
+
+If additional information is available, higher returns may be possible e.g. if
+an investor in a semi-strong form marker has access to insider information
+(which may be illegal to make use of) this could provide an advantage. It may
+also be possible to pay for more detailed analysis that provides more
+information than available to the public.
+
+There has been considerable research into testing whether the markets are indeed
+efficient and at what level, but there are difficulties with testing each form.
+
