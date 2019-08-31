@@ -275,7 +275,7 @@ The investor can purchase non-dividend-paying shares governed by the SDE
 <ul>
 <li><span class="math inline">\(Z_t\)</span> is a standard Brownian motion</li>
 <li><span class="math inline">\(\mu=12%\)</span></li>
-<li>$=25%</li>
+<li><span class="math inline">\(\sigma=25%\)</span></li>
 <li><span class="math inline">\(t\)</span> is in years</li>
 <li><span class="math inline">\(S_0=1\)</span></li>
 </ul>
@@ -315,13 +315,13 @@ Var(100,000-F_{10})=100,000^2\times 1.622097=(£127,362)^2
 \]</span></p>
 <p>Shortfall probability relative to £90,000:
 <span class="math display">\[\begin{align}
-P(F_{10}&lt;90,000)&amp;=P(100,000e^{0.25Z_{10}}&lt;90,000)\\
-  &amp;= P(e^{0.25Z_{10}}&lt;0.9)\\
-  &amp;= P(0.25Z_{10}&lt;ln0.9)\\
-  &amp;= P(Z_{10}&lt;\frac{ln0.9}{0.25})\\
-  &amp;= P(N(0,10)&lt;\frac{ln0.9}{0.25})\\
-  &amp;= P(N(0,1)&lt;\frac{ln0.9}{0.25\sqrt{10}})\\
-  &amp;= \Phi(-0.1333)
+P(F_{10}&lt;90,000)&amp;=P\left( 100,000e^{0.25Z_{10}}&lt;90,000\right)\\
+  &amp;= P\left( e^{0.25Z_{10}}&lt;0.9\right)\\
+  &amp;= P\left( 0.25Z_{10}&lt;ln0.9\right)\\
+  &amp;= P\left( Z_{10}&lt;\frac{ln0.9}{0.25}\right)\\
+  &amp;= P\left( N(0,10)&lt;\frac{ln0.9}{0.25}\right)\\
+  &amp;= P\left( N(0,1)&lt;\frac{ln0.9}{0.25\sqrt{10}}\right)\\
+  &amp;= \Phi\left( -0.1333\right)
 \end{align}\]</span>
 Interpolating from the Tables:
 <span class="math display">\[

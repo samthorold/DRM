@@ -100,7 +100,7 @@ $dS_t=S_t(\mu dt+\sigma dZ_t)$.
 
 - $Z_t$ is a standard Brownian motion
 - $\mu=12%$
-- $\sigma=25%
+- $\sigma=25%$
 - $t$ is in years
 - $S_0=1$
 
@@ -148,13 +148,13 @@ Var(100,000-F_{10})=100,000^2\times 1.622097=(£127,362)^2
 
 Shortfall probability relative to £90,000:
 \begin{align}
-P(F_{10}<90,000)&=P(100,000e^{0.25Z_{10}}<90,000)\\
-  &= P(e^{0.25Z_{10}}<0.9)\\
-  &= P(0.25Z_{10}<ln0.9)\\
-  &= P(Z_{10}<\frac{ln0.9}{0.25})\\
-  &= P(N(0,10)<\frac{ln0.9}{0.25})\\
-  &= P(N(0,1)<\frac{ln0.9}{0.25\sqrt{10}})\\
-  &= \Phi(-0.1333)
+P(F_{10}<90,000)&=P\left( 100,000e^{0.25Z_{10}}<90,000\right)\\
+  &= P\left( e^{0.25Z_{10}}<0.9\right)\\
+  &= P\left( 0.25Z_{10}<ln0.9\right)\\
+  &= P\left( Z_{10}<\frac{ln0.9}{0.25}\right)\\
+  &= P\left( N(0,10)<\frac{ln0.9}{0.25}\right)\\
+  &= P\left( N(0,1)<\frac{ln0.9}{0.25\sqrt{10}}\right)\\
+  &= \Phi\left( -0.1333\right)
 \end{align}
 Interpolating from the Tables:
 \[
