@@ -130,7 +130,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="utility-theory.html"><a href="utility-theory.html"><i class="fa fa-check"></i><b>2</b> Utility theory</a><ul>
-<li class="chapter" data-level="2.1" data-path="utility-theory.html"><a href="utility-theory.html#axioms"><i class="fa fa-check"></i><b>2.1</b> Axioms</a></li>
+<li class="chapter" data-level="2.1" data-path="utility-theory.html"><a href="utility-theory.html#expected-utility"><i class="fa fa-check"></i><b>2.1</b> Expected utility</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="utility-theory.html"><a href="utility-theory.html#axioms"><i class="fa fa-check"></i><b>2.1.1</b> Axioms</a></li>
+</ul></li>
 <li class="chapter" data-level="2.2" data-path="utility-theory.html"><a href="utility-theory.html#utility-functions-and-risk-preference"><i class="fa fa-check"></i><b>2.2</b> Utility functions and risk preference</a></li>
 <li class="chapter" data-level="2.3" data-path="utility-theory.html"><a href="utility-theory.html#forms-of-utility-function"><i class="fa fa-check"></i><b>2.3</b> Forms of utility function</a></li>
 <li class="chapter" data-level="2.4" data-path="utility-theory.html"><a href="utility-theory.html#state-dependent-utility-functions"><i class="fa fa-check"></i><b>2.4</b> State-dependent utility functions</a></li>
@@ -138,7 +140,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="utility-theory.html"><a href="utility-theory.html#limitations"><i class="fa fa-check"></i><b>2.6</b> Limitations</a></li>
 <li class="chapter" data-level="2.7" data-path="utility-theory.html"><a href="utility-theory.html#alternative-decision-rules"><i class="fa fa-check"></i><b>2.7</b> Alternative decision rules</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="behavioural-finance.html"><a href="behavioural-finance.html"><i class="fa fa-check"></i><b>3</b> Behavioural finance</a></li>
+<li class="chapter" data-level="3" data-path="behavioural-finance.html"><a href="behavioural-finance.html"><i class="fa fa-check"></i><b>3</b> Behavioural finance</a><ul>
+<li class="chapter" data-level="3.1" data-path="behavioural-finance.html"><a href="behavioural-finance.html#prospect-theory"><i class="fa fa-check"></i><b>3.1</b> Prospect theory</a></li>
+<li class="chapter" data-level="3.2" data-path="behavioural-finance.html"><a href="behavioural-finance.html#behavioural-bias"><i class="fa fa-check"></i><b>3.2</b> Behavioural bias</a></li>
+<li class="chapter" data-level="3.3" data-path="behavioural-finance.html"><a href="behavioural-finance.html#the-equity-premium-puzzle"><i class="fa fa-check"></i><b>3.3</b> The equity premium puzzle</a></li>
+<li class="chapter" data-level="3.4" data-path="behavioural-finance.html"><a href="behavioural-finance.html#example---behaviour-following-poor-stock-returns-st5-april-2008-q6"><i class="fa fa-check"></i><b>3.4</b> Example - Behaviour following poor stock returns (ST5 April 2008, Q6)</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html"><i class="fa fa-check"></i><b>4</b> Measures of investment risk</a><ul>
 <li class="chapter" data-level="4.1" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#variance"><i class="fa fa-check"></i><b>4.1</b> Variance</a></li>
 <li class="chapter" data-level="4.2" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#semi-variance"><i class="fa fa-check"></i><b>4.2</b> Semi-variance</a></li>
@@ -183,7 +190,13 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <h1><span class="header-section-number">3</span> Behavioural finance</h1>
 <p>The field of behavioural finance relates to the psychology that underlies and
 drives financial decision-making behaviour.</p>
-<p><strong>Prospect theory</strong> details how human decision-making differs systematically
+<p>Friedman and Savage approach: individuals are risk-seeking at low levels of
+wealth and risk-averse at high levels of wealth.
+The most famous critique of expected utility theory is from Kahneman and
+Tversky, culminating in <em>prospect theory</em>.</p>
+<div id="prospect-theory" class="section level2">
+<h2><span class="header-section-number">3.1</span> Prospect theory</h2>
+<p>Prospect theory details how human decision-making differs systematically
 from that predicted by expected utility theory.
 Further, it states that humans consistently violate the rationality axioms
 that form the basis of utility theory.
@@ -200,14 +213,24 @@ problem</li>
 <li>Evaluation: Choise made from appraised outcomes. Behavioural patterns
 observed during this phase include
 <ul>
-<li>Reference dependence</li>
-<li>Loss aversion</li>
-<li>Endowment effects</li>
-<li>Changing risk attitudes</li>
-<li>Diminishing sensitivity</li>
-<li>Probability weighting</li>
-<li>Certainty effect</li>
-<li>Isolation effect.</li>
+<li>Reference dependence: utility curves have inflexion point at reference
+point because investors are more attuned to changes in attributes than
+changes in absolute value</li>
+<li><strong>Loss aversion</strong>: investors are more sensitive to losses than gains of
+the same magnitude resulting in utility curves that are steeper for losses
+than for gains</li>
+<li>Endowment effects: preferences depend on what an investor already has</li>
+<li>Changing risk attitudes: investors tend to be less risk-averse in domain
+of gains</li>
+<li>Diminishing sensitivity: as investors gain more, the marginal impact of
+additional gains falls (and vice versa). Utility functions are concave in
+the domain of gains but convex in the domain of losses</li>
+<li>Probability weighting: low probabilities are often overweighted and vice
+versa</li>
+<li>Certainty effect: a reduction in probability from 100% has more of an
+impact on utility than an equivalent reduction from a lower probability</li>
+<li>Isolation effect: investors focus on the differences between options,
+ignoring the similarities.</li>
 </ul></li>
 </ul>
 <p>Prospect theory says that utility is based on gains and losses relative to some
@@ -215,31 +238,84 @@ reference point.
 People are typically risk-averse when considering gains relative to the
 reference point and risk-seeking when considering losses relative to the
 reference point.</p>
+</div>
+<div id="behavioural-bias" class="section level2">
+<h2><span class="header-section-number">3.2</span> Behavioural bias</h2>
 <p>A <em>heuristic</em> is a shortcut used by the brain to deliver a quick decision.
 Examples include</p>
 <ul>
-<li>Anchoring and adjustment</li>
-<li>Representativeness</li>
-<li>Availability</li>
-<li>Familiarity.</li>
+<li><strong>Anchoring and adjustment</strong>: investors start with an idea of the answer and
+then adjust away to produce the final answer.
+The anchor may be from someone else such as an expert and does not have to be
+particularly good to be relied upon by investors.</li>
+<li>Representativeness: investors often replace probabilistic thinking with taking
+a similar system/situation as a proxy.
+It is easier and quicker to use a similar situation than to compute new
+probabilities. Can result in using the recent past to gauge decision to invest.</li>
+<li>Availability: probability is equated to ease of remembering examples.
+Vivid outcomes are more easily recalled.</li>
+<li>Familiarity: can lead to home country bias when constructing portfolios.</li>
 </ul>
-<p>The following behavioural biases have been observed</p>
+<p>The interaction between system one and system two thinking can lead to
+<strong>behavioural biases</strong> that are significant deviations from rational thinking.
+They include</p>
 <ul>
-<li>Overconfidence, perhaps due to hindsight bias or confirmation bias</li>
-<li>Self-attribution bias</li>
-<li>Status quo bias</li>
-<li>Herd behaviour.</li>
+<li><strong>Overconfidence</strong>, perhaps due to hindsight bias or confirmation bias</li>
+<li>Self-attribution bias: investors credit themselves for gains but blame
+external forces for losses</li>
+<li><strong>Status quo bias</strong>: investors inherently prefer the current situation.
+Related to loss aversion and endowment effects.</li>
+<li>Herd behaviour: tendency of investors to mimic the actions of other investors.</li>
 </ul>
+</div>
+<div id="the-equity-premium-puzzle" class="section level2">
+<h2><span class="header-section-number">3.3</span> The equity premium puzzle</h2>
 <p>The <em>equity premium puzzle</em>, the fact that the returns from equities exceed the
 returns from bonds by more than is predicted by risk aversion alone, can be
-explained by myopic loss aversion.
-<em>Myopic loss aversion</em> suggests that investors are much more concerned by losses
-than by equivalent gains.
-They tend to focus on very short-term returns and volatilities rather than
-long-run earnings.
-Investors need to earn additional return on equities to overcome their aversion
-to the short-term losses typical of equity investment.</p>
+explained by <strong>myopic loss aversion</strong> (Benartzi and Thaler, 1995).
+Myopic loss aversion suggests that investors are less risk averse when faced
+with a multi-period series of gambles.
+This is because investors are much more concerned by losses than equivalent
+gains leading them to focus on very short-term returns and volatilities rather
+than long-run earnings.
+Stocks are volatile in the short-term and this may dissuade myopic investors
+from buying stocks, unless they are compensated with adequate returns.
+The high equity premium seen around the world accounts for risk aversion as well
+as aversion to short-term losses.</p>
+<p>Basically, investors need to earn additional return on equities to overcome
+their aversion to the short-term losses, on top of risk-aversion, typical of
+equity investment.</p>
+</div>
+<div id="example---behaviour-following-poor-stock-returns-st5-april-2008-q6" class="section level2">
+<h2><span class="header-section-number">3.4</span> Example - Behaviour following poor stock returns (ST5 April 2008, Q6)</h2>
+<p>Consider a risk-averse investor with around 1% of their retirement invested in
+the shares of a large bank.
+Historically, the bank has been involved in low-risk activities and produced
+steady returns.
+Since new management three years ago,
+the bank has been involved in more risky activities that have gone wrong.
+The share price has declined.
+The investor had the opportunity to sell the stock six months ago but chose not
+to.
+Since then, the share price has fallen further.</p>
+<p>Why might the investor not have sold the stock?</p>
+<ul>
+<li>Investor expects the share price to rebound</li>
+<li>Share represents only 1% of their total portfolio</li>
+<li>Investor may not follow performance of their shares very closely</li>
+<li>Share may be part of a diversified portfolio</li>
+<li><em>Regret aversion</em>: to avoid regretting a decision to sell had the share price
+subsequently risen and/or avoid the regret of crystallising a loss</li>
+<li><em>Status quo bias</em>: investor may have a preference for keeping things as they
+are</li>
+<li><em>Overconfidence</em> in their abilities to predict the future share price</li>
+<li><em>Anchoring</em>: investor may be “attached” to a particular share price and
+reluctant to sell below this specific price</li>
+<li>Avoid creating a tax liability</li>
+<li>Share may provide high dividend income</li>
+</ul>
 
+</div>
 </div>
             </section>
 

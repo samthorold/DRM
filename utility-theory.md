@@ -11,9 +11,21 @@ All part of _theories of financial market behaviour_.
 action.
 It is a numerical value that can be assigned to each possible value
 of an investor's wealth through a utility function.
-Individuals act in a way that maximises $U(W)$.
 
-## Axioms
+## Expected utility
+
+The expected utility theorem states that a function $U(w)$ can be constructed
+as representing an investor's utility of wealth at some future date.
+Decisions are made in a manner to maximise the expected value of utility
+given the investor's particular beliefs about the probability of different
+outcomes.
+\[
+E[U(w)] = \sum_{i=1}^Np(w_i)U(w_i)
+\]
+**Note**: Expected utility theory is not required in conditions of certainty.
+In this context, investors aim to maximise utility (not _expected_ utility).
+
+### Axioms
 
 There are four common axioms;
 

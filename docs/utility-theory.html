@@ -130,7 +130,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </ul></li>
 </ul></li>
 <li class="chapter" data-level="2" data-path="utility-theory.html"><a href="utility-theory.html"><i class="fa fa-check"></i><b>2</b> Utility theory</a><ul>
-<li class="chapter" data-level="2.1" data-path="utility-theory.html"><a href="utility-theory.html#axioms"><i class="fa fa-check"></i><b>2.1</b> Axioms</a></li>
+<li class="chapter" data-level="2.1" data-path="utility-theory.html"><a href="utility-theory.html#expected-utility"><i class="fa fa-check"></i><b>2.1</b> Expected utility</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="utility-theory.html"><a href="utility-theory.html#axioms"><i class="fa fa-check"></i><b>2.1.1</b> Axioms</a></li>
+</ul></li>
 <li class="chapter" data-level="2.2" data-path="utility-theory.html"><a href="utility-theory.html#utility-functions-and-risk-preference"><i class="fa fa-check"></i><b>2.2</b> Utility functions and risk preference</a></li>
 <li class="chapter" data-level="2.3" data-path="utility-theory.html"><a href="utility-theory.html#forms-of-utility-function"><i class="fa fa-check"></i><b>2.3</b> Forms of utility function</a></li>
 <li class="chapter" data-level="2.4" data-path="utility-theory.html"><a href="utility-theory.html#state-dependent-utility-functions"><i class="fa fa-check"></i><b>2.4</b> State-dependent utility functions</a></li>
@@ -138,7 +140,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.6" data-path="utility-theory.html"><a href="utility-theory.html#limitations"><i class="fa fa-check"></i><b>2.6</b> Limitations</a></li>
 <li class="chapter" data-level="2.7" data-path="utility-theory.html"><a href="utility-theory.html#alternative-decision-rules"><i class="fa fa-check"></i><b>2.7</b> Alternative decision rules</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="behavioural-finance.html"><a href="behavioural-finance.html"><i class="fa fa-check"></i><b>3</b> Behavioural finance</a></li>
+<li class="chapter" data-level="3" data-path="behavioural-finance.html"><a href="behavioural-finance.html"><i class="fa fa-check"></i><b>3</b> Behavioural finance</a><ul>
+<li class="chapter" data-level="3.1" data-path="behavioural-finance.html"><a href="behavioural-finance.html#prospect-theory"><i class="fa fa-check"></i><b>3.1</b> Prospect theory</a></li>
+<li class="chapter" data-level="3.2" data-path="behavioural-finance.html"><a href="behavioural-finance.html#behavioural-bias"><i class="fa fa-check"></i><b>3.2</b> Behavioural bias</a></li>
+<li class="chapter" data-level="3.3" data-path="behavioural-finance.html"><a href="behavioural-finance.html#the-equity-premium-puzzle"><i class="fa fa-check"></i><b>3.3</b> The equity premium puzzle</a></li>
+<li class="chapter" data-level="3.4" data-path="behavioural-finance.html"><a href="behavioural-finance.html#example---behaviour-following-poor-stock-returns-st5-april-2008-q6"><i class="fa fa-check"></i><b>3.4</b> Example - Behaviour following poor stock returns (ST5 April 2008, Q6)</a></li>
+</ul></li>
 <li class="chapter" data-level="4" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html"><i class="fa fa-check"></i><b>4</b> Measures of investment risk</a><ul>
 <li class="chapter" data-level="4.1" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#variance"><i class="fa fa-check"></i><b>4.1</b> Variance</a></li>
 <li class="chapter" data-level="4.2" data-path="measures-of-investment-risk.html"><a href="measures-of-investment-risk.html#semi-variance"><i class="fa fa-check"></i><b>4.2</b> Semi-variance</a></li>
@@ -190,10 +197,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p><strong>Utility</strong>: Satisfaction an individual obtains from a particular course of
 action.
 It is a numerical value that can be assigned to each possible value
-of an investor’s wealth through a utility function.
-Individuals act in a way that maximises <span class="math inline">\(U(W)\)</span>.</p>
-<div id="axioms" class="section level2">
-<h2><span class="header-section-number">2.1</span> Axioms</h2>
+of an investor’s wealth through a utility function.</p>
+<div id="expected-utility" class="section level2">
+<h2><span class="header-section-number">2.1</span> Expected utility</h2>
+<p>The expected utility theorem states that a function <span class="math inline">\(U(w)\)</span> can be constructed
+as representing an investor’s utility of wealth at some future date.
+Decisions are made in a manner to maximise the expected value of utility
+given the investor’s particular beliefs about the probability of different
+outcomes.
+<span class="math display">\[
+E[U(w)] = \sum_{i=1}^Np(w_i)U(w_i)
+\]</span>
+<strong>Note</strong>: Expected utility theory is not required in conditions of certainty.
+In this context, investors aim to maximise utility (not <em>expected</em> utility).</p>
+<div id="axioms" class="section level3">
+<h3><span class="header-section-number">2.1.1</span> Axioms</h3>
 <p>There are four common axioms;</p>
 <ul>
 <li><em>Comparability</em>: An investor can state a preference for all certain outcomes</li>
@@ -207,6 +225,7 @@ liklihood <span class="math inline">\(1-p\)</span>, and <span class="math inline
 </ul>
 <p>Investors’ preferences are assumed to be influenced by risk.
 What does a utility function say about an investor’s risk-return preference?</p>
+</div>
 </div>
 <div id="utility-functions-and-risk-preference" class="section level2">
 <h2><span class="header-section-number">2.2</span> Utility functions and risk preference</h2>
