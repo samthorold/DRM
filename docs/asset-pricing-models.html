@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>4 Measures of investment risk | _main.utf8.md</title>
+  <title>7 Asset pricing models | _main.utf8.md</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="4 Measures of investment risk | _main.utf8.md" />
+  <meta property="og:title" content="7 Asset pricing models | _main.utf8.md" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="4 Measures of investment risk | _main.utf8.md" />
+  <meta name="twitter:title" content="7 Asset pricing models | _main.utf8.md" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="behavioural-finance.html"/>
-<link rel="next" href="stochastic-investment-returns.html"/>
+<link rel="prev" href="models-of-asset-returns.html"/>
+<link rel="next" href="binomial-model.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -201,159 +201,54 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="measures-of-investment-risk" class="section level1">
-<h1><span class="header-section-number">4</span> Measures of investment risk</h1>
-<div id="variance" class="section level2">
-<h2><span class="header-section-number">4.1</span> Variance</h2>
-<p>Mathematically tractable and leads to tidy solutions for optimal portfolios
-within the context of mean-variance portfolio theory.</p>
-<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^\infty (\mu-x)^2f(x)dx\)</span></p>
-<p>Discrete random varianble: <span class="math inline">\(Var=\sum_x (\mu-x)^2P(X=x)\)</span></p>
-<p>But, investors care more about downside risk than they do about uncertainty in
-general.</p>
-</div>
-<div id="semi-variance" class="section level2">
-<h2><span class="header-section-number">4.2</span> Semi-variance</h2>
-<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^\mu (\mu-x)^2f(x)dx\)</span></p>
-<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;\mu} (\mu-x)^2P(X=x)\)</span></p>
-</div>
-<div id="shortfall-probability" class="section level2">
-<h2><span class="header-section-number">4.3</span> Shortfall probability</h2>
-<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^Lf(x)dx\)</span></p>
-<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;L}P(X=x)\)</span></p>
-<p>The benchmark level can be expressed as return on a benchmark fund or an
-absolute level.</p>
-</div>
-<div id="value-at-risk-var" class="section level2">
-<h2><span class="header-section-number">4.4</span> Value-at-Risk (VaR)</h2>
-<p>VaR represents the maximum potential loss on a portfolio over a given period
-of time with a given degree of confidence (<span class="math inline">\(1-p\)</span>).
-It is often calculated assuming investment returns follow a normal distribution,
-which may not be appropriate.</p>
-<p>Continuous random varianble: <span class="math inline">\(VaR(X)=-t\)</span> where <span class="math inline">\(P(X=x)=p\)</span>.</p>
-<p>Discrete random varianble: <span class="math inline">\(VaR(X)=-t\)</span> where <span class="math inline">\(t=max(x:P(X&lt;x)\le p)\)</span></p>
-</div>
-<div id="expected-shortfall" class="section level2">
-<h2><span class="header-section-number">4.5</span> Expected shortfall</h2>
-<p>Continuous random varianble: <span class="math inline">\(Var=\int_{-\infty}^L(L-x)f(x)dx\)</span></p>
-<p>Discrete random varianble: <span class="math inline">\(Var=\sum_{x&lt;L}(L-x)P(X=x)\)</span></p>
-<p>Expected shortfall measures are useful for monitoring a fund’s exposure to risk
-because underperformance to a bench mark is easy to understand.</p>
-<p>When <span class="math inline">\(L\)</span> is the VaR with a particular confidence level,
-the expected shortfall is known at <em>TailVaR</em>.
-TailVaR measures the expected loss in excess of the VaR.</p>
-<p>It is also possible to calculate the expected shortfall and tailVaR conditional
-on a shortfall occurring by dividing through by the shortfall probability.</p>
-</div>
-<div id="risk-measures-and-utility" class="section level2">
-<h2><span class="header-section-number">4.6</span> Risk measures and utility</h2>
-<p>If expected return and variance are used as the basis of investment decisions,
-it can be shown that this is equivalent to a quadratic utility function.</p>
-<p>If expected return and semi-variance below the expected return are used as the
-basis of investment decisions, it can be shown this is equivalent to a utility
-function that is quadtratic below the expected return and linear above.</p>
-<p>Use of a shortfall risk measure corresponds to a utility function that has a
-discontinuity at the minimum required return.</p>
-</div>
-<div id="using-insurance-to-manage-risk" class="section level2">
-<h2><span class="header-section-number">4.7</span> Using insurance to manage risk</h2>
-<p>Insurers decide which events to offer protection for based on the frequency and
-severity of the event.</p>
+<div id="asset-pricing-models" class="section level1">
+<h1><span class="header-section-number">7</span> Asset pricing models</h1>
+<div id="capm" class="section level2">
+<h2><span class="header-section-number">7.1</span> CAPM</h2>
+<div id="capm-assumptions" class="section level3">
+<h3><span class="header-section-number">7.1.1</span> CAPM assumptions</h3>
 <ul>
-<li>Low risk, low liklihood events are not a problem</li>
-<li>Low risk, high liklihood events must be monitored to prevent problems due to
-an accumulation of these events</li>
-<li>high risk, low liklihood events are normally insured</li>
-<li>high risk, high liklihood events should be avoided.</li>
+<li>Investors make their decisions purely on the basis of expected return and variance. So all expected returns, variances and covariances of assets are known.</li>
+<li>Investors are non-satiated and risk-averse.</li>
+<li>There are no taxes or transaction costs.</li>
+<li>Assets may be held in any amount.</li>
+<li>All investors share the same fixed, one-step time horizon.</li>
+<li>All investors share the same assumptions about expected returns, variances and covariances of asstes.</li>
+<li>All investors measure returns consistently (e.g. same currency or real/nominal terms).</li>
+<li>The market is perfect.</li>
+<li>All investors may lend or borrow any amount of a risk-free asset at the same risk-free rate, <span class="math inline">\(r\)</span>.</li>
 </ul>
-<p>Micro-insurance has increased the number of low risk events being insured.
-For example, mobiles on holiday.</p>
-<p>The <em>pooling</em> of resources can be used to reduce an insurer’s risk.</p>
-<p><em>Adverse selection</em> describes the fact that people who know that they are bad
-risks are more inclined to take out insurance than those who know they are
-good risks.
-Insurers will try to find out as much about a person as possible to prevent
-risks being inaccurately measured.</p>
-<p><em>Moral hazard</em> is the change in a policy holder’s behaviour once insurance has
-been taken out, which means the event is more likely to occur.</p>
 </div>
-<div id="example---value-of-fund" class="section level2">
-<h2><span class="header-section-number">4.8</span> Example - value of fund</h2>
-<p>_An investor wishes to save for a retirement fund of £100,000 in 10 years time.
-The investor can purchase non-dividend-paying shares governed by the SDE
-<span class="math inline">\(dS_t=S_t(\mu dt+\sigma dZ_t)\)</span>.</p>
+<div id="results-of-the-capm" class="section level3">
+<h3><span class="header-section-number">7.1.2</span> Results of the CAPM</h3>
 <ul>
-<li><span class="math inline">\(Z_t\)</span> is a standard Brownian motion</li>
-<li><span class="math inline">\(\mu=12%\)</span></li>
-<li><span class="math inline">\(\sigma=25%\)</span></li>
-<li><span class="math inline">\(t\)</span> is in years</li>
-<li><span class="math inline">\(S_0=1\)</span></li>
+<li>All investors share the same efficient frontier of risky assets.</li>
+<li>The efficient frontier collapses to a straight line in <span class="math inline">\(E-\sigma\)</span> space in the presence of a risk-free asset.</li>
+<li>All investors hold a combination of the risk-free asset and the same portfolio of risky assets, <span class="math inline">\(M\)</span>.</li>
+<li><span class="math inline">\(M\)</span> is the market portfolio - it consists of all assets held in proportion to their market capitalisation.</li>
 </ul>
-<p>Derive the distribution of <span class="math inline">\(S_t\)</span>
+<p>The <strong>separation theorem</strong> suggests that the investor’s choice of portfolio of risky assets is independent of their utility function.</p>
+<p><strong>Capital market line</strong>
 <span class="math display">\[
-S_t\sim lnN(0.08875t, 0.25^2t)
+E_p = r +\frac{\sigma_p}{\sigma_M}(E_m-r)
 \]</span></p>
-<p>Calculate the amount <span class="math inline">\(A\)</span> the investor would need to invest to have a 50:50
-probability of building up a retirement fund of £100,000 in 10 years.</p>
-<p><span class="math display">\[
-A=100,000e^{-0.8875}=£41,168
-\]</span></p>
-<p>Calulate the following risk measures applied to the difference between the
-value of the fund and £100,000 if the investor invests in <span class="math inline">\(A\)</span>.</p>
-<p>If the initial amount is invested in <span class="math inline">\(A\)</span>, then the fund after 10 years is
-<span class="math display">\[\begin{align}
-F_{10} &amp;= Ae^{0.8875+0.25Z_{10}}\\
-       &amp;= 100,000e^{-0.8875}e^{0.8875+0.25Z_{10}}\\
-       &amp;= 100,000e^{0.25Z_{10}}
-\end{align}\]</span></p>
-<p>Variance:
-<span class="math display">\[\begin{align}
-Var(100,000-F_{10}) &amp;= Var(F_{10})\\
-                    &amp;= Var(100,000e^{0.25Z_{10}})\\
-                    &amp;= 100,000^2e^{0.25Z_{10}}
-\end{align}\]</span></p>
-<p>To find <span class="math inline">\(Var(e^{0.25Z_{10}})\)</span> note that <span class="math inline">\(Z_{10}\sim N(0,1)\)</span>.
-This means <span class="math inline">\(0.25Z_{10}\sim N(0, 0.25^2\times 10)=N(0, 0.625)\)</span>.
-Therefore, <span class="math inline">\(e^{0.25z_{10}}\sim lnN(0, 0.625)\)</span>.</p>
-<p>Using the formula for variance of the lognormal distribution
+<p><strong>Market price of risk</strong>
 <span class="math display">\[
-E[e^{0.25Z_{10}}]=e^{0.625}(e^{0.625}-1)=1.622097
+MPR = \frac{E_m-r}{\sigma_M}
+\]</span></p>
+<p><strong>Security market line</strong>
+<span class="math display">\[
+E_p = r +\beta_p(E_m-r)
 \]</span>
-So
+where
 <span class="math display">\[
-Var(100,000-F_{10})=100,000^2\times 1.622097=(£127,362)^2
+\beta_p = \frac{Cov(R_p, R_M)}{Var(R_M)}
 \]</span></p>
-<p>Shortfall probability relative to £90,000:
-<span class="math display">\[\begin{align}
-P(F_{10}&lt;90,000)&amp;=P\left( 100,000e^{0.25Z_{10}}&lt;90,000\right)\\
-  &amp;= P\left( e^{0.25Z_{10}}&lt;0.9\right)\\
-  &amp;= P\left( 0.25Z_{10}&lt;ln0.9\right)\\
-  &amp;= P\left( Z_{10}&lt;\frac{ln0.9}{0.25}\right)\\
-  &amp;= P\left( N(0,10)&lt;\frac{ln0.9}{0.25}\right)\\
-  &amp;= P\left( N(0,1)&lt;\frac{ln0.9}{0.25\sqrt{10}}\right)\\
-  &amp;= \Phi\left( -0.1333\right)
-\end{align}\]</span>
-Interpolating from the Tables:
-<span class="math display">\[
-\Phi(0.1333)=0.33\times\Phi(0.14)+0.67\times\Phi(0.13)=0.55304
-\]</span>
-So
-<span class="math display">\[
-P(F_{10}&lt;90,000)=1-\Phi(0.1333)=0.44696
-\]</span></p>
-<p>99% VaR:</p>
-<p>To find the 99% VaR we need to find the value <span class="math inline">\(t\)</span> such that the fund will
-fall below <span class="math inline">\(t\)</span> with a probability of 1% i.e <span class="math inline">\(P(F_{10}&lt;t)=0.01\)</span>.</p>
-<p>Since <span class="math inline">\(Z_{10}\sim N(0,10)\)</span> and this distribution is equivalent to
-<span class="math inline">\(sqrt{10}\times N(0,1)\)</span>, the 1% percentile for <span class="math inline">\(Z_{10}\)</span> is
-<span class="math inline">\(\sqrt{10}\times-2.3263=-7.3564\)</span>.</p>
-<p>But, $F_{10}=100,000e^{0.25Z_{10}}. So the 1% percentile for <span class="math inline">\(F_{10}\)</span> is
-<span class="math display">\[
-t=100,000e^{0.25(-7.3564)}=£15,896
-\]</span>
-So the 99% VaR compared to the target of £100,000 is
-<span class="math inline">\(£100,000-15,896=£84,104\)</span>.</p>
+<p>The main limitations of the basic CAPM are that most of the assumptions are unrealistic
+and that empirical studies do not provide strong support for the model.
+But, there is some evidence to suggest that a linear relationship between expected return and systemic risk.</p>
 
+</div>
 </div>
 </div>
             </section>
@@ -361,8 +256,8 @@ So the 99% VaR compared to the target of £100,000 is
           </div>
         </div>
       </div>
-<a href="behavioural-finance.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="stochastic-investment-returns.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="models-of-asset-returns.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binomial-model.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

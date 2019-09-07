@@ -7,6 +7,8 @@ rmd_files: ["index.md",
             "behavioural-finance.md",
             "measures-of-investment-risk.md",
             "stochastic-investment-returns.md",
+            "models-of-asset-returns.md",
+            "asset-pricing-models.md",
             "binomial-model.md",
             "5-step-method.md",
             "useful-maths.md"]
