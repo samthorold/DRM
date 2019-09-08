@@ -188,7 +188,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="10.1.3" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#short-and-forward-rates"><i class="fa fa-check"></i><b>10.1.3</b> Short and forward rates</a></li>
 </ul></li>
 <li class="chapter" data-level="10.2" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#desirable-characteristics-of-term-structure-models"><i class="fa fa-check"></i><b>10.2</b> Desirable characteristics of term structure models</a></li>
-<li class="chapter" data-level="10.3" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#models-for-the-term-structure-of-interest-rates"><i class="fa fa-check"></i><b>10.3</b> Models for the term structure of interest rates</a></li>
+<li class="chapter" data-level="10.3" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#models-of-term-structure"><i class="fa fa-check"></i><b>10.3</b> Models of term structure</a><ul>
+<li class="chapter" data-level="10.3.1" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#vasicek-model"><i class="fa fa-check"></i><b>10.3.1</b> Vasicek model</a></li>
+<li class="chapter" data-level="10.3.2" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#cox-ingersoll-ross"><i class="fa fa-check"></i><b>10.3.2</b> Cox-Ingersoll-Ross</a></li>
+<li class="chapter" data-level="10.3.3" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#hull-white-model"><i class="fa fa-check"></i><b>10.3.3</b> Hull-White model</a></li>
+</ul></li>
+<li class="chapter" data-level="10.4" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#summary"><i class="fa fa-check"></i><b>10.4</b> Summary</a><ul>
+<li class="chapter" data-level="10.4.1" data-path="the-term-structure-of-interest-rates.html"><a href="the-term-structure-of-interest-rates.html#limitations-1"><i class="fa fa-check"></i><b>10.4.1</b> Limitations</a></li>
+</ul></li>
 </ul></li>
 <li class="chapter" data-level="11" data-path="useful-maths.html"><a href="useful-maths.html"><i class="fa fa-check"></i><b>11</b> Useful maths</a><ul>
 <li class="chapter" data-level="11.1" data-path="useful-maths.html"><a href="useful-maths.html#probability"><i class="fa fa-check"></i><b>11.1</b> Probability</a></li>
@@ -294,8 +301,8 @@ An example is the Hill-White model.</p>
 <li>Flexible enough to cope with a variety of derivative contracts.</li>
 </ul>
 </div>
-<div id="models-for-the-term-structure-of-interest-rates" class="section level2">
-<h2><span class="header-section-number">10.3</span> Models for the term structure of interest rates</h2>
+<div id="models-of-term-structure" class="section level2">
+<h2><span class="header-section-number">10.3</span> Models of term structure</h2>
 <p>We can use an argument similar to that for the Black-Scholes models using the martingale approach to demonstrate
 <span class="math display">\[
 P(t,T)=E_Q\left[ e^{-\int_t^Tr_udu}\mid F_t\right]
@@ -348,7 +355,140 @@ For this to be a Q-martingale, we require
 r_tg(t,r_t)
 =0
 \]</span></p>
+<div id="vasicek-model" class="section level3">
+<h3><span class="header-section-number">10.3.1</span> Vasicek model</h3>
+<p><span class="math display">\[
+dr_t = \alpha(\mu-r_t)dt + \sigma d\widetilde{W}_t
+\]</span>
+Which gives the pde
+<span class="math display">\[
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\alpha(\mu-r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)-
+r_tg(t,r_t)
+=0
+\]</span></p>
+<p><span class="math display">\[\begin{align}
+b(t,T)&amp;=\frac{1}{\alpha}\left( 1-e^{-\alpha(T-t)}\right)  \\
+a(t,T)&amp;=\left(\mu-\frac{\sigma^2}{2\alpha^2}\right) (b(t,T)-T+t)-
+  \frac{\sigma^2}{4\alpha}b^2(t,T) \\
+P(t,T)&amp;=e^{a(t,T)-b(t,T)r_t}
+\end{align}\]</span></p>
+</div>
+<div id="cox-ingersoll-ross" class="section level3">
+<h3><span class="header-section-number">10.3.2</span> Cox-Ingersoll-Ross</h3>
+<p><span class="math display">\[
+dr_t = \alpha(\mu-r_t)dt + \sigma\sqrt{r_t}d\widetilde{W}_t
+\]</span>
+Which gives the pde
+<span class="math display">\[
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\alpha(\mu-r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)r_t-
+r_tg(t,r_t)
+=0
+\]</span></p>
+<p><span class="math display">\[\begin{align}
+\gamma&amp;=\sqrt{\alpha^2+2\sigma^2} \\
+b(\tau)&amp;=\frac{2\left( e^{\gamma\tau}-1\right)}
+  {(\gamma+\alpha)\left( e^{\gamma\tau}-1\right)+2\gamma} \\
+a(t,T)&amp;=\frac{2\alpha\mu}{\sigma^2}
+  ln\left(
+    \frac{2\gamma e^{\frac{1}{2}(\gamma+\alpha)\tau}}
+    {(\gamma+\alpha)\left( e^{\gamma\tau}-1\right)+2\gamma}
+  \right) \\
+  &amp;=\frac{2\alpha\mu}{\sigma^2}
+  ln\left(b(\tau)
+    \frac{\gamma e^{\frac{1}{2}(\gamma+\alpha)\tau}}
+    {\left( e^{\gamma\tau}-1\right)}
+  \right) \\
+P(t,T)&amp;=e^{a(t,T)-b(t,T)r_t}
+\end{align}\]</span></p>
+</div>
+<div id="hull-white-model" class="section level3">
+<h3><span class="header-section-number">10.3.3</span> Hull-White model</h3>
+<p>Very similar to Vasicek except the mean-reversion level is a deterministic function of time.
+This means <span class="math inline">\(\mu(t)\)</span> can be chosen to match, as closely as possible, the exact yield curve.</p>
+<p><span class="math display">\[
+dr_t = \alpha(\mu(t)-r_t)dt + \sigma d\widetilde{W}_t
+\]</span>
+Which gives the pde
+<span class="math display">\[
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\alpha(\mu(t)-r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)-
+r_tg(t,r_t)
+=0
+\]</span></p>
+<p><span class="math display">\[\begin{align}
+b(t,T)&amp;=\int_t^Te^{-\int_t^s\alpha(u)du}ds \\
+a(t,T)&amp;=\int_t^T\left( -\alpha\mu(s)b(s,T)+
+  \frac{1}{2}\sigma^2b^2(s,T)\right) ds \\
+P(t,T)&amp;=e^{a(t,T)-b(t,T)r_t}
+\end{align}\]</span></p>
+</div>
+</div>
+<div id="summary" class="section level2">
+<h2><span class="header-section-number">10.4</span> Summary</h2>
+<table>
+<colgroup>
+<col width="23%" />
+<col width="23%" />
+<col width="29%" />
+<col width="23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th align="left">Model</th>
+<th align="left">Dynamics</th>
+<th align="center"><span class="math inline">\(r_t&gt;0\)</span> for all <span class="math inline">\(t\)</span></th>
+<th align="left">Distribution of <span class="math inline">\(r_t\)</span></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Vasicek</td>
+<td align="left"><span class="math inline">\(dr_t = \alpha(\mu-r_t)dt + \sigma d\widetilde{W}_t\)</span></td>
+<td align="center">No</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="even">
+<td align="left">CIR</td>
+<td align="left"><span class="math inline">\(dr_t = \alpha(\mu-r_t)dt + \sigma\sqrt{r_t}d\widetilde{W}_t\)</span></td>
+<td align="center">Yes</td>
+<td align="left">Non-central Cho-squared</td>
+</tr>
+<tr class="odd">
+<td align="left">Hull-White – Vasicek</td>
+<td align="left"><span class="math inline">\(dr_t = \alpha(\mu(t)-r_t)dt + \sigma d\widetilde{W}_t\)</span></td>
+<td align="center">No</td>
+<td align="left">Normal</td>
+</tr>
+<tr class="even">
+<td align="left">Hull-White – CIR</td>
+<td align="left"><span class="math inline">\(dr_t = \alpha(\mu(t)-r_t)dt + \sigma\sqrt{r_t}d\widetilde{W}_t\)</span></td>
+<td align="center">Yes</td>
+<td align="left">Non-central Cho-squared</td>
+</tr>
+</tbody>
+</table>
+<div id="limitations-1" class="section level3">
+<h3><span class="header-section-number">10.4.1</span> Limitations</h3>
+<ul>
+<li>Single-factor short-rate models mean all maturities behave in the same way. This means they are useless for pricing swaptions but OK for pricing caps and floors.</li>
+<li>There is little consistency in valuation between the models.</li>
+<li>They are difficult to calibrate.</li>
+</ul>
+<p>One-factor models have further limitations</p>
+<ul>
+<li>Changes in the prices for bonds of different maturities are not perfectly correlated, as one would expect to see if a one-factor model was correct.</li>
+<li>Long-run historical data shows sustained periods of both high and low interest rates.</li>
+<li>This is important for long-term insurance pricing and asset-liability modelling.</li>
+<li>One-factor models can be useful for valuing simple liabilities with no option characteristics.</li>
+<li>It can be appropriate to address these deficiences with multi-factor models which may include a multi-dimensional Wiener.</li>
+</ul>
 
+</div>
 </div>
 </div>
             </section>

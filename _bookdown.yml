@@ -12,6 +12,7 @@ rmd_files: ["index.md",
             "binomial-model.md",
             "5-step-method.md",
             "term-structure-of-interest-rates.md",
+            "credit-risk.md",
             "useful-maths.md"]
 output_dir: "docs"
 ---

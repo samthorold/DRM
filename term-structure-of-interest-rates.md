@@ -89,7 +89,7 @@ We would like models to be
 - Easy to calibrate.
 - Flexible enough to cope with a variety of derivative contracts.
 
-## Models for the term structure of interest rates
+## Models of term structure
 
 We can use an argument similar to that for the Black-Scholes models using the martingale approach to demonstrate
 $$
@@ -148,3 +148,102 @@ $$
 r_tg(t,r_t)
 =0
 $$
+
+### Vasicek model
+
+$$
+dr_t = \alpha(\mu-r_t)dt + \sigma d\widetilde{W}_t
+$$
+Which gives the pde
+$$
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\alpha(\mu-r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)-
+r_tg(t,r_t)
+=0
+$$
+
+\begin{align}
+b(t,T)&=\frac{1}{\alpha}\left( 1-e^{-\alpha(T-t)}\right)  \\
+a(t,T)&=\left(\mu-\frac{\sigma^2}{2\alpha^2}\right) (b(t,T)-T+t)-
+  \frac{\sigma^2}{4\alpha}b^2(t,T) \\
+P(t,T)&=e^{a(t,T)-b(t,T)r_t}
+\end{align}
+
+### Cox-Ingersoll-Ross
+
+$$
+dr_t = \alpha(\mu-r_t)dt + \sigma\sqrt{r_t}d\widetilde{W}_t
+$$
+Which gives the pde
+$$
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\alpha(\mu-r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)r_t-
+r_tg(t,r_t)
+=0
+$$
+
+\begin{align}
+\gamma&=\sqrt{\alpha^2+2\sigma^2} \\
+b(\tau)&=\frac{2\left( e^{\gamma\tau}-1\right)}
+  {(\gamma+\alpha)\left( e^{\gamma\tau}-1\right)+2\gamma} \\
+a(t,T)&=\frac{2\alpha\mu}{\sigma^2}
+  ln\left(
+    \frac{2\gamma e^{\frac{1}{2}(\gamma+\alpha)\tau}}
+    {(\gamma+\alpha)\left( e^{\gamma\tau}-1\right)+2\gamma}
+  \right) \\
+  &=\frac{2\alpha\mu}{\sigma^2}
+  ln\left(b(\tau)
+    \frac{\gamma e^{\frac{1}{2}(\gamma+\alpha)\tau}}
+    {\left( e^{\gamma\tau}-1\right)}
+  \right) \\
+P(t,T)&=e^{a(t,T)-b(t,T)r_t}
+\end{align}
+
+### Hull-White model
+
+Very similar to Vasicek except the mean-reversion level is a deterministic function of time.
+This means $\mu(t)$ can be chosen to match, as closely as possible, the exact yield curve.
+
+$$
+dr_t = \alpha(\mu(t)-r_t)dt + \sigma d\widetilde{W}_t
+$$
+Which gives the pde
+$$
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\alpha(\mu(t)-r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)-
+r_tg(t,r_t)
+=0
+$$
+
+\begin{align}
+b(t,T)&=\int_t^Te^{-\int_t^s\alpha(u)du}ds \\
+a(t,T)&=\int_t^T\left( -\alpha\mu(s)b(s,T)+
+  \frac{1}{2}\sigma^2b^2(s,T)\right) ds \\
+P(t,T)&=e^{a(t,T)-b(t,T)r_t}
+\end{align}
+
+## Summary
+
+Model | Dynamics | $r_t>0$ for all $t$ | Distribution of $r_t$
+:--- | :--- | :---: | :---
+Vasicek | $dr_t = \alpha(\mu-r_t)dt + \sigma d\widetilde{W}_t$ | No | Normal
+CIR | $dr_t = \alpha(\mu-r_t)dt + \sigma\sqrt{r_t}d\widetilde{W}_t$ | Yes | Non-central Cho-squared
+Hull-White -- Vasicek | $dr_t = \alpha(\mu(t)-r_t)dt + \sigma d\widetilde{W}_t$ | No | Normal
+Hull-White -- CIR| $dr_t = \alpha(\mu(t)-r_t)dt + \sigma\sqrt{r_t}d\widetilde{W}_t$ | Yes | Non-central Cho-squared
+
+### Limitations
+
+- Single-factor short-rate models mean all maturities behave in the same way. This means they are useless for pricing swaptions but OK for pricing caps and floors.
+- There is little consistency in valuation between the models.
+- They are difficult to calibrate.
+
+One-factor models have further limitations
+
+- Changes in the prices for bonds of different maturities are not perfectly correlated, as one would expect to see if a one-factor model was correct.
+- Long-run historical data shows sustained periods of both high and low interest rates.
+- This is important for long-term insurance pricing and asset-liability modelling.
+- One-factor models can be useful for valuing simple liabilities with no option characteristics.
+- It can be appropriate to address these deficiences with multi-factor models which may include a multi-dimensional Wiener.
