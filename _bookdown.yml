@@ -11,6 +11,7 @@ rmd_files: ["index.md",
             "asset-pricing-models.md",
             "binomial-model.md",
             "5-step-method.md",
+            "term-structure-of-interest-rates.md",
             "useful-maths.md"]
 output_dir: "docs"
 ---

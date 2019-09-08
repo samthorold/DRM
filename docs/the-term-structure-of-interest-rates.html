@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>9 5-step method | _main.utf8.md</title>
+  <title>10 The term structure of interest rates | _main.utf8.md</title>
   <meta name="description" content="" />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="9 5-step method | _main.utf8.md" />
+  <meta property="og:title" content="10 The term structure of interest rates | _main.utf8.md" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="9 5-step method | _main.utf8.md" />
+  <meta name="twitter:title" content="10 The term structure of interest rates | _main.utf8.md" />
   
   
   
@@ -29,8 +29,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="binomial-model.html"/>
-<link rel="next" href="the-term-structure-of-interest-rates.html"/>
+<link rel="prev" href="step-method.html"/>
+<link rel="next" href="useful-maths.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -208,82 +208,67 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="step-method" class="section level1">
-<h1><span class="header-section-number">9</span> 5-step method</h1>
-<p>We want to prove the forumula for the fair price of a derivative
-<span class="math inline">\(V_t=e^{-r(n-t)}E_Q[c_n\mid F_t]\)</span>.
-Working backwards, the steps are;</p>
-<ul>
-<li>Show that a certain portfolio replicates the derivative at all times</li>
-<li>Looking at the definition of a replicating strategy,
-we see that we first need a self-financing portfolio</li>
-<li>Looking at the definition of a self-financing portfolio,
-we see that we need the holdings in the portfolio to be pre-visible</li>
-<li>To show a process is pre-visible, we have the martingale
-representation theorem</li>
-<li>But, the martingale representation theorem requires two martingales</li>
-<li>The discounted share price process is a <span class="math inline">\(Q\)</span>-martingale but we need one
-more</li>
-<li>The other martingale is constructed from derivative payoff,
-discounting this all the way back, past the current time <span class="math inline">\(t\)</span>, to time 0.</li>
-</ul>
-<p>This is a replicating strategies approach to price derivative.</p>
-<div id="definitions" class="section level2">
-<h2><span class="header-section-number">9.1</span> Definitions</h2>
-<p><strong>Pre-visible</strong>: Known based on information up to but not including time <span class="math inline">\(t\)</span>.
-Sometimes known as <span class="math inline">\(F_{t^-}\)</span> measurable.
-For the binomial model, <span class="math inline">\(t^-=t-1\)</span>.</p>
-<p><strong>Complete market</strong>: For any derivative payment <span class="math inline">\(X\)</span>, there is a replicating
-strategy, <span class="math inline">\((\phi_t, \psi_t)\)</span>.</p>
-<p><strong>Equivalent measure</strong>: Two measures <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> are equivalent if for any
-event, <span class="math inline">\(E\)</span>, <span class="math inline">\(P(E)&gt;0\)</span> iff <span class="math inline">\(Q(E)&gt;0\)</span>. Bascially, both measures must agree what is
-and what is not possible.</p>
-<p><strong>Self-financing strategy</strong>: A strategy is self-financing is there are no cash
-inflows or outflows.</p>
-<p><strong>Replicating strategy</strong>: A self-financing strategy for <span class="math inline">\(0\le t&lt;u\)</span> such that
-<span class="math inline">\(V_u = \phi_u S_u+\psi_uB_u=X\)</span>.
-For an initial investment <span class="math inline">\(V_0\)</span> at <span class="math inline">\(t=0\)</span> if we follow the self-financing
-strategy we will reproduce the derivative payoff without risk.
-We rebalance to have <span class="math inline">\(\phi_t\)</span> units of stock and <span class="math inline">\(\psi_t\)</span> uints of cash
-without any inflow or outflow.
-The replicating strategy gives the derivative payoff regardless of the value
-of <span class="math inline">\(S_u\)</span>.</p>
-</div>
-<div id="cameron-martin-girsanov" class="section level2">
-<h2><span class="header-section-number">9.2</span> Cameron-Martin-Girsanov</h2>
-<p>Helps us with change of measure in ECO423 – <span class="math inline">\(d\tilde{Z}_t=dW_t+\lambda dt\)</span>.</p>
-<p>Suppose <span class="math inline">\(Z_t\)</span> is a standard Brownian motion under <span class="math inline">\(P\)</span>.
-Further, suppose <span class="math inline">\(\gamma_t\)</span> is a pre-visible process.
-Then there exists a measure <span class="math inline">\(Q\)</span> equivalent to <span class="math inline">\(P\)</span> and where
+<div id="the-term-structure-of-interest-rates" class="section level1">
+<h1><span class="header-section-number">10</span> The term structure of interest rates</h1>
+<div id="definitions-1" class="section level2">
+<h2><span class="header-section-number">10.1</span> Definitions</h2>
+<div id="zero-coupon-bond" class="section level3">
+<h3><span class="header-section-number">10.1.1</span> Zero-coupon bond</h3>
+<p>Also known as a discount bond. Pays 1 unit of currency at time <span class="math inline">\(T\)</span> and is traded at time <span class="math inline">\(t&lt;T\)</span>.
+The price of a discount bond is given by
 <span class="math display">\[
-\tilde{Z}_t = Z_t + \int_0^t\gamma_sds
+P(t,T) = \frac{1}{(1+R(t,T))^{T-t}}
 \]</span>
-is a standard Brownian motion under <span class="math inline">\(Q\)</span>.</p>
-<p>Conversely, if <span class="math inline">\(Z_t\)</span> is a standard Brownian motion under <span class="math inline">\(P\)</span> and if <span class="math inline">\(Q\)</span> is
-equivalent to <span class="math inline">\(P\)</span> then there exists a pre-visible process <span class="math inline">\(\gamma_t\)</span> such that
+where the spot rate <span class="math inline">\(R(t,T)\)</span> is the effective rate of interest applicable over the period <span class="math inline">\(t\)</span> to <span class="math inline">\(T\)</span>.</p>
+<p>Similarly, with <span class="math inline">\(\tau =T-t\)</span>
 <span class="math display">\[
-\tilde{Z}_t = Z_t + \int_0^t\gamma_sds
+R(t,t+\tau)=\frac{1}{P(t,t+\tau)^{1/\tau}}-1
+\]</span>
+and as the number of times the spot rate is “paid” goes to infinity
+<span class="math display">\[\begin{align}
+P(t,T)&amp;=\frac{1}{(1+R(t,T))^\tau} \\
+      &amp;=e^{-r(t,T)\tau}
+\end{align}\]</span>
+and the continuously compounded bond yield, or instantaneous spot rate, is calculated with
+<span class="math display">\[
+r(t,T)=-\frac{lnP(t,T)}{\tau}
 \]</span></p>
-<p>The CMG theorem tells us that we can change the drift but not the volatility
-of Brownian motion.</p>
-<p>So if we know <span class="math inline">\(P\)</span> and <span class="math inline">\(\gamma\)</span> then we can get <span class="math inline">\(Q\)</span>.
-Similarly, if we know <span class="math inline">\(P\)</span> and <span class="math inline">\(Q\)</span> we can get <span class="math inline">\(\gamma_t\)</span>.</p>
-<p>For geometric Brownian motion, <span class="math inline">\(\gamma=\frac{\mu-r}{\sigma}\)</span>.
-This is the Sharpe ratio.</p>
 </div>
-<div id="martingale-representation-theorem" class="section level2">
-<h2><span class="header-section-number">9.3</span> Martingale representation theorem</h2>
-<p>Suppose <span class="math inline">\(X_t\)</span> and <span class="math inline">\(Y_t\)</span> are martingales under <span class="math inline">\(P\)</span>.
-The MRT says there exists a pre-visible process <span class="math inline">\(\phi_t\)</span> such that
-<span class="math display">\[
-Y_t=Y_0+\int_0^t\phi_sdX_s\iff dY_t=\phi_tdX_t
-\]</span></p>
-<p>We’ll see later that <span class="math inline">\(\phi_t\)</span> is the amount of stock to hold in the
-replicating portfolio.
-To make this a replicating portfolio, it is imperative that the amount of
-stock to hold is pre-visible.
-The MRT proves that it is. Happy days.</p>
+<div id="the-yield-curve" class="section level3">
+<h3><span class="header-section-number">10.1.2</span> The yield curve</h3>
+<p><strong>Expectations theory</strong>: Long-term rates are determined purely by expectations of future short-term rates.
+The expected final value of investing in a sequence of short-term bonds equals the final value of investing in long-term bonds.</p>
+<p><strong>Market segmentation</strong>: Different agents in the market have different objectives.
+Pension funds determine long-term rates, market makers determine short-term rates, and businesses determine medium-term rates.
+Each segment is governed by supply and demand of debt within that segment.</p>
+<p><strong>Liquidity preference</strong>: Borrowers prefer to borrow long-term and lenders prefer to lend short-term.
+This means forward rates are higher than expected future zero rates and yield curves are upward sloping.</p>
+</div>
+<div id="short-and-forward-rates" class="section level3">
+<h3><span class="header-section-number">10.1.3</span> Short and forward rates</h3>
+<p>The interest rate charged today for a very short period, such as overnight.
+<span class="math display">\[\begin{align}
+r(t) &amp;= r(t,t+\delta)=-\frac{\partial}{\partial\delta}lnP(t,t+\delta) \\
+     &amp;\approx R(t,t+\delta)
+\end{align}\]</span></p>
+<p><span class="math display">\[
+F(0,t,T)=\left( \frac{P(0,t)}{P(0,T)}\right) ^{\frac{1}{T-t}}-1
+\]</span>
+<span class="math display">\[\begin{align}
+f(0,t,T)&amp;=\frac{r(0,T)T-r(0,t)t}{T-t} \\
+        &amp;=\frac{1}{T-t}ln\frac{P(0,t)}{P(0,T)}
+\end{align}\]</span>
+and as <span class="math inline">\(t\rightarrow T\)</span>, we get the instantaneous forward rate
+<span class="math display">\[\begin{align}
+f(0,T)&amp;=r(0,T)+T\frac{\partial r(0,T)}{\partial T} \\
+      &amp;=-\frac{\partial}{\partial T}lnP(0,T)
+\end{align}\]</span>
+<span class="math display">\[\begin{align}
+P(t,T)&amp;=e^{-\int_t^Tf(t,u,u)du} \\
+      &amp;=e^{-\int_t^Tf(t,u)du}
+\end{align}\]</span></p>
 
+</div>
 </div>
 </div>
             </section>
@@ -291,8 +276,8 @@ The MRT proves that it is. Happy days.</p>
           </div>
         </div>
       </div>
-<a href="binomial-model.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="the-term-structure-of-interest-rates.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="step-method.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="useful-maths.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
