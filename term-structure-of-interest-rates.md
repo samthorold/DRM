@@ -65,3 +65,86 @@ f(0,T)&=r(0,T)+T\frac{\partial r(0,T)}{\partial T} \\
 P(t,T)&=e^{-\int_t^Tf(t,u,u)du} \\
       &=e^{-\int_t^Tf(t,u)du}
 \end{align}
+
+## Desirable characteristics of term structure models
+
+**Equilibrium** models start with a theory about the economy, such as mean-reverting interest rates.
+Based on the model, the implications for pricing assets is worked out.
+Examples include the Vasicek and Cox-Ingersoll-Ross models.
+Equilibrium models rarely reproduce observed term structures.
+
+**No arbitrage models** use the term structure as an input and are formulated to adhere to the no arbitrage principal.
+An example is the Hill-White model.
+
+Both models are arbitrage free, just their starting intuition is different.
+
+We would like models to be
+
+- Arbitrage free.
+- Positive interest rate. Depends on application though, some countries have negative nominal rates.
+- Mean-reversion.
+- Easy to use to calculate prices of bonds and derivatives.
+- Realsitic dynamics.
+- Fit historical data.
+- Easy to calibrate.
+- Flexible enough to cope with a variety of derivative contracts.
+
+## Models for the term structure of interest rates
+
+We can use an argument similar to that for the Black-Scholes models using the martingale approach to demonstrate
+$$
+P(t,T)=E_Q\left[ e^{-\int_t^Tr_udu}\mid F_t\right]
+$$
+since the payoff of a bond is 1 and any information before time $t$ is irrelevant.
+
+We assume the short rate is driven by the diffusion
+$$
+dr_t=\mu(t,r_t)dt+\sigma(t,r_t)d\widetilde{W}_t
+$$
+where $\widetilde{W}_t$ is a Wiener process under the martingale measure.
+
+We define a bank account process as
+$$
+dB_t=r_tB_tdt
+$$
+and
+$$
+B_t=e^{\int_0^tr_udu}
+$$
+
+All discounted assets must be Q-martingales and $B_t$ is known at time $t$.
+\begin{align}
+\frac{P(t,T)}{B_t}&=E_Q\left[\frac{1}{B_T}\mid F_t\right] \\
+            P(t,T)&=E_Q\left[\frac{B_t}{B_T}\mid F_t\right] \\
+            P(t,T)&=E_Q\left[ e^{-\int_t^Tr_udu}\mid F_t\right]
+\end{align}
+
+We assume that the discount bond process is some deterministic function of the short-rate process, $r_t$.
+$$
+P(t,T)=g(t,r_t)
+$$
+so
+\begin{align}
+d\left(\frac{P(t,T)}{B_t}\right) &=d\left(g(t,r_t)B_t^{-1}\right) \\
+  &=B_t^{-1}\left[ d\left(g(t,r_t)\right) -r_tg(t,r_t)dt\right]
+\end{align}
+
+Applying Ito's lemma to this function gives
+\begin{align}
+d\left(\frac{P(t,T)}{B_t}\right)&=
+B_t^{-1}\left(
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\mu(t,r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)-
+r_tg(t,r_t)
+\right) dt \\
+&+B_t^{-1}\frac{\partial g(t,r_t)}{\partial r_t}\sigma(t,r_t)d\widetilde{W}_t
+\end{align}
+For this to be a Q-martingale, we require
+$$
+\frac{\partial g(t,r_t)}{\partial t}+
+\frac{\partial g(t,r_t)}{\partial r_t}\mu(t,r_t)+
+\frac{1}{2}\frac{\partial^2 g(t,r_t)}{\partial r_t^2}\sigma^2(t,r_t)-
+r_tg(t,r_t)
+=0
+$$
